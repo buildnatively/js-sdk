@@ -1,0 +1,32 @@
+{
+  "name": "natively",
+  "version": "1.3.0",
+  "description": "Natively mobile app wrapper SDK",
+  "main": "natively-frontend.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/No-Code-No-Problem/natively-sdk.git"
+  },
+  "keywords": [
+    "Natively",
+    "Mobile",
+    "App",
+    "Wrapper",
+    "Mobile",
+    "Wrapper",
+    "Convert",
+    "Website",
+    "to",
+    "mobile",
+    "app"
+  ],
+  "author": "Roman Furman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/No-Code-No-Problem/natively-sdk/issues"
+  },
+  "homepage": "https://github.com/No-Code-No-Problem/natively-sdk#readme"
+}
