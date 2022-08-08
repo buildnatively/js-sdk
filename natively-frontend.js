@@ -6,7 +6,7 @@ class Natively {
   observers = [];
 
   constructor(isDebug) {
-    this.isDebug = typeof isDebug === undefined ?? false;
+    this.isDebug = typeof isDebug !== "undefined" ? isDebug : false;
     const initialCallback = (resp) => {
       this.min_app_version = resp.minSDKVersion;
       this.app_version = resp.sdkVersion;
@@ -28,7 +28,7 @@ class Natively {
     }
   }
 
-  #addObserver(fn) {
+  addObserver(fn) {
     if (this.injected) {
       fn();
     } else {
@@ -165,8 +165,8 @@ class NativelyMessage {
 
   sendSMS(properties, send_sms_callback) {
     const params = {};
-    params.body = properties.body ? properties.body : "";
-    params.recipient = properties.recipient ? properties.recipient : "";
+    params.body = (typeof properties.body === undefined) ? "" : properties.body;
+    params.recipient = (typeof properties.recipient === undefined) ? "" : properties.recipient;
     window.natively_injector.trigger(
       this.id,
       0,
@@ -178,9 +178,9 @@ class NativelyMessage {
 
   sendEmail(properties, send_email_callback) {
     const params = {};
-    params.subject = properties.subject ? properties.subject : "";
-    params.body = properties.body ? properties.body : "";
-    params.recipient = properties.recipient ? properties.recipient : "";
+    params.subject = typeof properties.subject === undefined ? "" : properties.subject;
+    params.body = typeof properties.body === undefined ? "" : properties.body;
+    params.recipient = typeof properties.recipient === undefined ? "" : properties.recipient;
     window.natively_injector.trigger(
       this.id,
       0,
@@ -307,9 +307,11 @@ class NativelyDatePicker {
   }
 
   showDatePicker(properties, datepicker_callback) {
-    let params = { type: properties.type, style: properties.style };
-    params.title = properties.title || "";
-    params.description = properties.description || "";
+    let params = { };
+    params.type = typeof params.type === undefined ? "DATE" : params.type;
+    params.style = typeof params.style === undefined ? "LIGHT" : params.style;
+    params.title = typeof properties.title === undefined ? "" : properties.title;
+    params.description = typeof properties.description === undefined ? "" : properties.description;
     window.natively_injector.trigger(
       this.id,
       0,
@@ -326,8 +328,9 @@ class NativelyCamera {
   }
 
   showCamera(properties, open_camera_callback) {
-    let params = { type: properties.type };
-    params.quality = properties.quality || "high";
+    let params = {};
+    params.type = typeof params.type === undefined ? "photo" : params.type;
+    params.quality = typeof properties.quality === undefined ? "high" : properties.quality;
     window.natively_injector.trigger(
       this.id,
       2,
