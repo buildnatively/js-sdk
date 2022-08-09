@@ -83,58 +83,58 @@ window.natively = {
   },
 
   shareImage(image_url) {
-    window.natively_injector(undefined, 0, undefined, "share_image", {
+    window.natively.trigger(undefined, 0, undefined, "share_image", {
       url: image_url,
     });
   },
 
   shareText(text) {
-    window.natively_injector(undefined, 0, undefined, "share_text", {
+    window.natively.trigger(undefined, 0, undefined, "share_text", {
       text,
     });
   },
 
   shareTextAndImage(text, image_url) {
-    window.natively_injector(undefined, 0, undefined, "share_text_and_image", {
+    window.natively.trigger(undefined, 0, undefined, "share_text_and_image", {
       url: image_url,
       text,
     });
   },
 
   shareFile(file_url) {
-    window.natively_injector(undefined, 2, undefined, "share_file", {
+    window.natively.trigger(undefined, 2, undefined, "share_file", {
       url: file_url,
     });
   },
 
   openExternalURL(url) {
-    window.natively_injector(undefined, 0, undefined, "open_link", {
+    window.natively.trigger(undefined, 0, undefined, "open_link", {
       url,
     });
   },
 
   openExternalAppIOS(url) {
-    window.natively_injector(undefined, 0, undefined, "open_app", {
+    window.natively.trigger(undefined, 0, undefined, "open_app", {
       url,
     });
   },
 
   openAppSettings() {
-    window.natively_injector(undefined, 0, undefined, "open_appsettings");
+    window.natively.trigger(undefined, 0, undefined, "open_appsettings");
   },
 
   showAppToast(type, text) {
     const params = { type, text };
-    window.natively_injector(undefined, 0, undefined, "show_toast", params);
+    window.natively.trigger(undefined, 0, undefined, "show_toast", params);
   },
 
   showAppBanner(type, title, description) {
     const params = { type, title, description };
-    window.natively_injector(undefined, 0, undefined, "show_banner", params);
+    window.natively.trigger(undefined, 0, undefined, "show_banner", params);
   },
 
   requestAppReview() {
-    window.natively_injector(undefined, 0, undefined, "request_review");
+    window.natively.trigger(undefined, 0, undefined, "request_review");
   },
 
   setAppBackgroundColor(color) {
