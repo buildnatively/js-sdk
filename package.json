@@ -1,6 +1,6 @@
 {
   "name": "natively",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "type": "module",
   "description": "Natively mobile app wrapper SDK",
   "main": "natively-frontend.js",
