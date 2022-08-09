@@ -124,12 +124,17 @@ window.natively = {
   },
 
   showAppToast(type, text) {
-    const params = { type, text };
+    const params = {};
+    params.text = typeof text === "undefined" ? "" : text;
+    params.type = typeof type === "undefined" ? type : "DEFAULT";
     window.natively.trigger(undefined, 0, undefined, "show_toast", params);
   },
 
   showAppBanner(type, title, description) {
-    const params = { type, title, description };
+    const params = {};
+    params.type = typeof type === "undefined" ? "INFO" : type;
+    params.title = typeof title === "undefined" ? "" : title;
+    params.description = typeof description === "undefined" ? "" : description;
     window.natively.trigger(undefined, 0, undefined, "show_banner", params);
   },
 
