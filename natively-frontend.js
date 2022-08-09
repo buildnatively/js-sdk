@@ -1,18 +1,17 @@
-let natively = {
+window.natively = {
   isDebug: false,
   min_app_version: "",
   app_version: "",
   injected: false,
   observers: [],
-  oneSignalAppId: "",
 
   setDebug: function (isDebug) {
-    natively.isDebug = isDebug;
+    window.natively.isDebug = isDebug;
   },
 
   notify: function () {
-    natively.injected = true;
-    const observers = natively.observers;
+    window.natively.injected = true;
+    const observers = window.natively.observers;
     if (natively.isDebug) {
       console.log("[INFO] Notify observers: ", observers.length);
     }
@@ -23,27 +22,27 @@ let natively = {
   },
 
   addObserver: function (fn) {
-    if (natively.injected) {
+    if (window.natively.injected) {
       fn();
     } else {
-      if (natively.isDebug) {
+      if (window.natively.isDebug) {
         console.log(`[DEBUG] addObserver: ${fn}`);
       }
-      natively.observers.push(fn);
+      window.natively.observers.push(fn);
     }
   },
 
   trigger: function (respId, minVersion, callback, method, body) {
-    const isTestVersion = natively.isDebug;
-    if (!natively.injected) {
-      natively.addObserver(() => {
-        natively.trigger(respId, minVersion, callback, method, body);
+    const isTestVersion = window.natively.isDebug;
+    if (!window.natively.injected) {
+      window.natively.addObserver(() => {
+        window.natively.trigger(respId, minVersion, callback, method, body);
       });
       return;
     }
-    if (isTestVersion && minVersion > natively.app_version) {
+    if (isTestVersion && minVersion > window.natively.app_version) {
       alert(
-        `[ERROR] Please rebuild the app to use this functionality. App Version: ${natively.app_version}, feature version: ${minVersion}`
+        `[ERROR] Please rebuild the app to use this functionality. App Version: ${window.natively.app_version}, feature version: ${minVersion}`
       );
       return;
     }
@@ -168,25 +167,68 @@ let natively = {
       params
     );
   },
+
+  async sendPushNotification(appId, payload, player_ids, isPreview) {
+    const filtered = player_ids.filter((id) => id.length > 0);
+    const include_player_ids = [...new Set(filtered)];
+    let notification = {
+      app_id: isPreview
+        ? // Natively Preview App ID
+          "be83022a-1d08-45d0-a07a-0c3655666e17"
+        : appId,
+      include_player_ids,
+    };
+    if (payload.template_id) {
+      notification.template_id = payload.template_id;
+    } else {
+      notification.headings = {};
+      notification.headings.en = payload.title || "Empty Title";
+      notification.contents = {};
+      notification.contents.en = payload.message || "Empty Message";
+      if (payload.subtitle) {
+        notification.subtitle = {};
+        notification.subtitle.en = payload.subtitle;
+      }
+      if (payload.redirect_url) {
+        notification.url = payload.redirect_url;
+      }
+    }
+    const options = {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(notification),
+    };
+    return await fetch("https://onesignal.com/api/v1/notifications", options);
+  },
 };
 
-window.natively = natively;
-window.natively.isDebug = false;
-window.natively.observers = [];
-window.natively.injected = false;
-const initialCallback = (resp) => {
-  window.natively.min_app_version = resp.minSDKVersion;
-  window.natively.app_version = resp.sdkVersion;
-};
-const initial = () =>
-  window.natively.trigger(undefined, 0, initialCallback, "app_info", {});
-window.natively.addObserver(initial);
+// Initial Setup
+window.natively.addObserver(() =>
+  window.natively.trigger(
+    undefined,
+    0,
+    (resp) => {
+      window.natively.min_app_version = resp.minSDKVersion;
+      window.natively.app_version = resp.sdkVersion;
+    },
+    "app_info",
+    {}
+  )
+);
 
 class NativelyInfo {
   constructor() {
     const id = generateID();
     this.getAppInfo = function (app_info_callback) {
       window.natively.trigger(id, 0, app_info_callback, "app_info");
+    };
+    this.connectivity = function (connectivity_callback) {
+      window.natively.trigger(
+        undefined,
+        0,
+        connectivity_callback,
+        "connectivity"
+      );
     };
   }
 }
@@ -288,7 +330,7 @@ class NativelyStorage {
 
 class NativelyBiometrics {
   constructor(allowPass) {
-    //const allowPasscode = allowPasscode;
+    this.allowPass = allowPass;
     const id = generateID();
     this.checkBiometricsSupport = function (biometrics_support_callback) {
       window.natively.trigger(
@@ -297,6 +339,14 @@ class NativelyBiometrics {
         biometrics_support_callback,
         "biometrics_support",
         { allowPass }
+      );
+    };
+    this.checkCredentials = function (biometrics_has_credentials_callback) {
+      window.natively.trigger(
+        id,
+        0,
+        biometrics_has_credentials_callback,
+        "biometrics_has_credentials"
       );
     };
     this.verifyUserIdentify = function (biometrics_verify_callback) {
