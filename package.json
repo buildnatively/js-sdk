@@ -1,0 +1,22 @@
+{
+  "name": "natively",
+  "version": "1.0.0",
+  "description": "",
+  "main": "natively-frontend.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/No-Code-No-Problem/natively-sdk.git"
+  },
+  "keywords": [
+    "natively"
+  ],
+  "author": "Roman Furman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/No-Code-No-Problem/natively-sdk/issues"
+  },
+  "homepage": "https://github.com/No-Code-No-Problem/natively-sdk#readme"
+}

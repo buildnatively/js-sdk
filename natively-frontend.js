@@ -280,8 +280,13 @@ class NativelyGeolocation {
       window.natively.trigger(id, 0, geo_register_callback, "geo_register");
     };
     this.getPermissionStatus = function (geo_permission_callback) {
-      window.natively.trigger(id, 0, geo_permission_callback, "geo_permission");
-    };
+      window.natively.trigger(
+        id,
+        0,
+        geo_permission_callback,
+        "geo_permission"
+      );
+    }
   }
 }
 
