@@ -460,11 +460,11 @@ class NativelyPurchases {
     this.logout = function (logout_callback) {
       window.natively.trigger(id, 3, logout_callback, "purchases_logout", {});
     };
-    this.customerId = function (userId_callback) {
+    this.customerId = function (customer_id_callback) {
       window.natively.trigger(
         id,
         3,
-        userId_callback,
+        customer_id_callback,
         "purchases_customerid",
         {}
       );
