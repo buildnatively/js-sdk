@@ -162,6 +162,11 @@ window.natively = {
     window.natively.trigger(undefined, 1, undefined, "app_pull", params);
   },
 
+  setAppOrientation(orientation) {
+    const params = { orientation };
+    window.natively.trigger(undefined, 3, undefined, "app_orientation", params);
+  },
+
   setAppStatusBarStyleIOS(style) {
     const params = { style };
     window.natively.trigger(
