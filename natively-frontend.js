@@ -290,6 +290,17 @@ class NativelyGeolocation {
   }
 }
 
+class NativelyLocation {
+  constructor() {
+    const id = generateID();
+    this.current = function (distance, geolocation_callback) {
+      window.natively.trigger(id, 3, geolocation_callback, "location_current", {
+        distance,
+      });
+    };
+  }
+}
+
 class NativelyMessage {
   constructor() {
     const id = generateID();
