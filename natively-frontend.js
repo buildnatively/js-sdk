@@ -303,10 +303,8 @@ class NativelyLocation {
         accuracy,
       });
     };
-    this.stop = function (accuracy, location_callback) {
-      window.natively.trigger(id, 3, location_callback, "location_stop", {
-        accuracy,
-      });
+    this.stop = function () {
+      window.natively.trigger(id, 3, undefined, "location_stop", {});
     };
   }
 }
