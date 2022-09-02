@@ -293,9 +293,19 @@ class NativelyGeolocation {
 class NativelyLocation {
   constructor() {
     const id = generateID();
-    this.current = function (distance, geolocation_callback) {
-      window.natively.trigger(id, 3, geolocation_callback, "location_current", {
-        distance,
+    this.current = function (accuracy, location_callback) {
+      window.natively.trigger(id, 3, location_callback, "location_current", {
+        accuracy,
+      });
+    };
+    this.start = function (accuracy, location_callback) {
+      window.natively.trigger(id, 3, location_callback, "location_start", {
+        accuracy,
+      });
+    };
+    this.stop = function (accuracy, location_callback) {
+      window.natively.trigger(id, 3, location_callback, "location_stop", {
+        accuracy,
       });
     };
   }
