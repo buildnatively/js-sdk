@@ -254,7 +254,7 @@ class NativelyNotifications {
         "onesignal_playerid"
       );
     };
-    this.requestPermissionIOS = function (
+    this.requestPermission = function (
       fallbackToSettings,
       push_register_callback
     ) {
@@ -262,7 +262,7 @@ class NativelyNotifications {
         fallbackToSettings,
       });
     };
-    this.getPermissionStatusIOS = function (push_permission_callback) {
+    this.getPermissionStatus = function (push_permission_callback) {
       window.natively.trigger(
         id,
         0,
