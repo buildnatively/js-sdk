@@ -273,6 +273,7 @@ class NativelyNotifications {
   }
 }
 
+// Legacy use Natively Location
 class NativelyGeolocation {
   constructor() {
     const id = generateID();
