@@ -5,7 +5,7 @@
 Add to the website page header:
 
 ```
-<script src="https://cdn.jsdelivr.net/npm/natively@1.0.0/natively-frontend.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/natively@1.3.6/natively-frontend.min.js"></script>
 ```
 
 ### Usage
@@ -22,3 +22,6 @@ notifications.getOneSignalId(playerId_callback);
 // Actions (without callback from the App)
 window.natively.shareText("Hello world!");
 ```
+
+More in [documentation](https://docs.buildnatively.com/guides/integration/how-to-get-started#javascript-sdk)
+
