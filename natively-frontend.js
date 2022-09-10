@@ -247,6 +247,9 @@ class NativelyInfo {
 class NativelyPagesCache {
   constructor() {
     const id = generateID();
+    this.currentPageCached = function (current_page_cached_callback) {
+      window.natively.trigger(id, 4, current_page_cached_callback, "current_page_cached");
+    };
     this.storeCurrentPage = function (store_current_page_callback) {
       window.natively.trigger(id, 4, store_current_page_callback, "store_current_page");
     };
