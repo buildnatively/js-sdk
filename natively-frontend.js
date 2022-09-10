@@ -1,7 +1,7 @@
 window.natively = {
   isDebug: false,
-  min_app_version: "",
-  app_version: "",
+  min_app_version: 0,
+  app_version: 0,
   injected: false,
   observers: [],
 
