@@ -244,17 +244,17 @@ class NativelyInfo {
 }
 
 // WebPage Caching
-class NativelyPageCache {
+class NativelyPagesCache {
   constructor() {
     const id = generateID();
-    this.cacheCurrentPage = function (cache_current_page_callback) {
-      window.natively.trigger(id, 4, cache_current_page_callback, "cache_current_page");
+    this.storeCurrentPage = function (store_current_page_callback) {
+      window.natively.trigger(id, 4, store_current_page_callback, "store_current_page");
     };
-    this.resetPageCache = function (url, reset_page_cache_callback) {
-      window.natively.trigger(id, 4, reset_page_cache_callback, "reset_page_cache", { url });
+    this.resetCurrentPage = function (reset_current_page_callback) {
+      window.natively.trigger(id, 4, reset_current_page_callback, "reset_current_page");
     };
-    this.resetAllCache = function (reset_all_cache_callback) {
-      window.natively.trigger(id, 4, reset_all_cache_callback, "reset_all_cache");
+    this.resetAll = function (reset_all_callback) {
+      window.natively.trigger(id, 4, reset_all_callback, "reset_all");
     };
   }
 }
