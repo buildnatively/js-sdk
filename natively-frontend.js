@@ -9,8 +9,15 @@ window.natively = {
     window.natively.isDebug = isDebug;
   },
 
-  notify: function () {
+  notify: function (min, current) {
     window.natively.injected = true;
+    // Remove legacy min/current support later
+    if (min) {
+      window.natively.min_app_version = min;
+    }
+    if (current) {
+      window.natively.app_version = current;
+    }
     const observers = window.natively.observers;
     if (natively.isDebug) {
       console.log("[INFO] Notify observers: ", observers.length);
@@ -213,6 +220,7 @@ window.natively = {
 };
 
 // Initial Setup
+// Remove legacy min/current support later
 window.natively.addObserver(() =>
   window.natively.trigger(
     undefined,
