@@ -243,6 +243,22 @@ class NativelyInfo {
   }
 }
 
+// WebPage Caching
+class NativelyPageCache {
+  constructor() {
+    const id = generateID();
+    this.cacheCurrentPage = function (cache_current_page_callback) {
+      window.natively.trigger(id, 4, cache_current_page_callback, "cache_current_page");
+    };
+    this.resetPageCache = function (url, reset_page_cache_callback) {
+      window.natively.trigger(id, 4, reset_page_cache_callback, "reset_page_cache", { url });
+    };
+    this.resetAllCache = function (reset_all_cache_callback) {
+      window.natively.trigger(id, 4, reset_all_cache_callback, "reset_all_cache");
+    };
+  }
+}
+
 class NativelyNotifications {
   constructor() {
     const id = generateID();
