@@ -47,10 +47,12 @@ window.natively = {
       });
       return;
     }
-    if (isTestVersion && minVersion > window.natively.app_version) {
-      alert(
-        `[ERROR] Please rebuild the app to use this functionality. App Version: ${window.natively.app_version}, feature version: ${minVersion}`
-      );
+    if (minVersion > window.natively.app_version) {
+      if (isTestVersion) {
+        alert(
+          `[ERROR] Please rebuild the app to use this functionality. App Version: ${window.natively.app_version}, feature version: ${minVersion}`
+        );
+      }
       return;
     }
     if (callback) {
