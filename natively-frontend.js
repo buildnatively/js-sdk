@@ -135,7 +135,7 @@ window.natively = {
   showAppToast(type, text) {
     const params = {};
     params.text = typeof text === "undefined" ? "" : text;
-    params.type = typeof type === "undefined" ? type : "DEFAULT";
+    params.type = typeof type === "undefined" ? "DEFAULT" : type;
     window.natively.trigger(undefined, 0, undefined, "show_toast", params);
   },
 
@@ -344,15 +344,15 @@ class NativelyMessage {
     const id = generateID();
     this.sendSMS = function (body, recipient, send_sms_callback) {
       const params = {};
-      params.body = typeof body === undefined ? "" : body;
-      params.recipient = typeof recipient === undefined ? "" : recipient;
+      params.body = typeof body === "undefined" ? "" : body;
+      params.recipient = typeof recipient === "undefined" ? "" : recipient;
       window.natively.trigger(id, 0, send_sms_callback, "send_sms", params);
     };
     this.sendEmail = function (subject, body, recipient, send_email_callback) {
       const params = {};
-      params.subject = typeof subject === undefined ? "" : subject;
-      params.body = typeof body === undefined ? "" : body;
-      params.recipient = typeof recipient === undefined ? "" : recipient;
+      params.subject = typeof subject === "undefined" ? "" : subject;
+      params.body = typeof body === "undefined" ? "" : body;
+      params.recipient = typeof recipient === "undefined" ? "" : recipient;
       window.natively.trigger(id, 0, send_email_callback, "send_email", params);
     };
   }
@@ -467,10 +467,10 @@ class NativelyDatePicker {
       datepicker_callback
     ) {
       let params = {};
-      params.type = typeof type === undefined ? "DATE" : type;
-      params.style = typeof style === undefined ? "LIGHT" : style;
-      params.title = typeof title === undefined ? "" : title;
-      params.description = typeof description === undefined ? "" : description;
+      params.type = typeof type === "undefined" ? "DATE" : type;
+      params.style = typeof style === "undefined" ? "LIGHT" : style;
+      params.title = typeof title === "undefined" ? "" : title;
+      params.description = typeof description === "undefined" ? "" : description;
       window.natively.trigger(id, 0, datepicker_callback, "datepicker", params);
     };
   }
@@ -481,8 +481,8 @@ class NativelyCamera {
     const id = generateID();
     this.showCamera = function (type, quality, open_camera_callback) {
       let params = {};
-      params.type = typeof type === undefined ? "photo" : type;
-      params.quality = typeof quality === undefined ? "high" : quality;
+      params.type = typeof type === "undefined" ? "photo" : type;
+      params.quality = typeof quality === "undefined" ? "high" : quality;
       window.natively.trigger(
         id,
         2,
@@ -545,9 +545,9 @@ class NativelyContacts {
       contacts_save_callback
     ) {
       let params = { firstName };
-      params.lastName = typeof lastName === undefined ? "" : lastName;
-      params.email = typeof email === undefined ? "" : email;
-      params.phone = typeof phone === undefined ? "" : phone;
+      params.lastName = typeof lastName === "undefined" ? "" : lastName;
+      params.email = typeof email === "undefined" ? "" : email;
+      params.phone = typeof phone === "undefined" ? "" : phone;
       window.natively.trigger(
         id,
         3,
