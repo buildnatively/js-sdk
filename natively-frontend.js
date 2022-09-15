@@ -253,7 +253,7 @@ class NativelyInfo {
   }
 }
 
-// WebPage Caching
+// WebPage Caching Not Available
 class NativelyPagesCache {
   constructor() {
     const id = generateID();
@@ -335,6 +335,19 @@ class NativelyLocation {
     };
     this.stop = function () {
       window.natively.trigger(id, 3, undefined, "location_stop", {});
+    };
+    this.startBackground = function (webhook, identifier, debug, delay, location_bg_callback) {
+      const params = {};
+      if (typeof webhook === "undefined") {
+        return;
+      }
+      params.identifier = typeof identifier === "undefined" ? "-1" : identifier;
+      params.debug = typeof debug === "undefined" ? false : debug;
+      params.delay = typeof delay === "undefined" ? 1000 * 60 : delay;
+      window.natively.trigger(id, 4, location_bg_callback, "location_start_bg", params);
+    };
+    this.stopBackground = function (location_bg_callback) {
+      window.natively.trigger(id, 4, location_bg_callback, "location_stop_bg", {});
     };
   }
 }
