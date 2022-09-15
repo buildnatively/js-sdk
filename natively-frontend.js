@@ -337,10 +337,10 @@ class NativelyLocation {
       window.natively.trigger(id, 3, undefined, "location_stop", {});
     };
     this.startBackground = function (webhook, identifier, debug, delay, location_bg_callback) {
-      const params = {};
       if (typeof webhook === "undefined") {
         return;
       }
+      const params = { webhook };
       params.identifier = typeof identifier === "undefined" ? "-1" : identifier;
       params.debug = typeof debug === "undefined" ? false : debug;
       params.delay = typeof delay === "undefined" ? 1000 * 60 : delay;
