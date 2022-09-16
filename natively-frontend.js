@@ -336,14 +336,11 @@ class NativelyLocation {
     this.stop = function () {
       window.natively.trigger(id, 3, undefined, "location_stop", {});
     };
-    this.startBackground = function (webhook, identifier, debug, delay, location_bg_callback) {
-      if (typeof webhook === "undefined") {
-        return;
-      }
-      const params = { webhook };
-      params.identifier = typeof identifier === "undefined" ? "-1" : identifier;
+    this.startBackground = function (responseIdentifier, interval, debug, location_bg_callback) {
+      const params = {};
+      params.identifier = typeof responseIdentifier === "undefined" ? "-1" : responseIdentifier;
       params.debug = typeof debug === "undefined" ? false : debug;
-      params.delay = typeof delay === "undefined" ? 1000 * 60 : delay;
+      params.interval = typeof interval === "undefined" ? 1000 * 60 : interval;
       window.natively.trigger(id, 4, location_bg_callback, "location_start_bg", params);
     };
     this.stopBackground = function (location_bg_callback) {
