@@ -344,7 +344,6 @@ class NativelyLocation {
     this.startBackground = function (interval, accuracy_ios, priority_android, responseIdentifier, location_bg_callback) {
       const params = {};
       params.identifier = typeof responseIdentifier === "undefined" ? "empty" : responseIdentifier;
-      params.debug = typeof window.natively.isDebug === "undefined" ? false : window.natively.isDebug;
       params.interval = typeof interval === "undefined" ? 1000 * 60 : interval;
       params.accuracy = typeof accuracy_ios === "undefined" ? 50 : accuracy_ios;
       params.priority = typeof priority_android === "undefined" ? "BALANCED" : priority_android;
