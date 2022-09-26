@@ -240,7 +240,7 @@ class NativelyInfo {
   constructor() {
     const id = generateID();
     this.browserInfo = function () {
-      const isNativeApp = typeof $agent !== undefined;
+      const isNativeApp = typeof $agent !== "undefined";
       const isIOSApp = window.navigator.userAgent.includes("Natively/iOS");
       const isAndroidApp = window.navigator.userAgent.includes("Natively/Android");
       return { isNativeApp, isIOSApp, isAndroidApp };
