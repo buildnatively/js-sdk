@@ -337,6 +337,12 @@ class NativelyLocation {
         priority: priority_android
       });
     };
+    // "AWLAYS" - background
+    // "IN_USE" - foreground
+    // "DENIED" - not determined or denied
+    this.permission = function (location_permission_callback) {
+      window.natively.trigger(id, 6, location_permission_callback, "location_permission");
+    };
     this.start = function (interval, accuracy_ios, priority_android, location_callback) {
       window.natively.trigger(id, 3, location_callback, "location_start", {
         accuracy: accuracy_ios,
@@ -501,10 +507,11 @@ class NativelyDatePicker {
 class NativelyCamera {
   constructor() {
     const id = generateID();
-    this.showCamera = function (type, quality, open_camera_callback) {
+    this.showCamera = function (type, quality, camera, open_camera_callback) {
       let params = {};
       params.type = typeof type === "undefined" ? "photo" : type;
       params.quality = typeof quality === "undefined" ? "high" : quality;
+      params.camera = typeof camera === "undefined" ? "BACK" : camera;
       window.natively.trigger(
         id,
         2,
