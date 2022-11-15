@@ -133,7 +133,7 @@ window.natively = {
   },
 
   hapticPatternIOS(pattern, delay) {
-    window.natively.trigger(undefined, 7, undefined, "hapic_pattern", {
+    window.natively.trigger(undefined, 7, undefined, "haptic_pattern", {
       pattern,
       delay
     });
