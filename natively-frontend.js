@@ -132,6 +132,25 @@ window.natively = {
     window.natively.trigger(undefined, 0, undefined, "open_appsettings");
   },
 
+  hapticPatternIOS(pattern, delay) {
+    window.natively.trigger(undefined, 7, undefined, "hapic_pattern", {
+      pattern,
+      delay
+    });
+  },
+
+  hapticImpactIOS(type) {
+    window.natively.trigger(undefined, 7, undefined, "haptic_impact", {
+      type,
+    });
+  },
+
+  hapticNotificationIOS(type) {
+    window.natively.trigger(undefined, 7, undefined, "haptic_notification", {
+      type,
+    });
+  },
+
   showAppToast(type, text) {
     const params = {};
     params.text = typeof text === "undefined" ? "" : text;
