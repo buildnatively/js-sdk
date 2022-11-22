@@ -613,7 +613,7 @@ class NativelyMediaPicker {
     this.showMediaPicker = function (
       mediapicker_callback
     ) {
-      window.natively.trigger(id, 8, mediapicker_callback, "mediapicker", params);
+      window.natively.trigger(id, 8, mediapicker_callback, "mediapicker", {});
     };
   }
 }
