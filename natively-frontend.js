@@ -607,6 +607,17 @@ class NativelyContacts {
   }
 }
 
+class NativelyMediaPicker {
+  constructor() {
+    const id = generateID();
+    this.showMediaPicker = function (
+      mediapicker_callback
+    ) {
+      window.natively.trigger(id, 8, mediapicker_callback, "mediapicker", params);
+    };
+  }
+}
+
 function generateID() {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
