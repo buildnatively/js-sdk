@@ -554,9 +554,11 @@ class NativelyScanner {
 class NativelyPurchases {
   constructor() {
     const id = generateID();
-    this.login = function (login, login_callback) {
+    this.login = function (login, customerEmail, login_callback) {
+      const email = typeof customerEmail === "undefined" ? "" : email;
       window.natively.trigger(id, 3, login_callback, "purchases_login", {
         login,
+        email
       });
     };
     this.logout = function (logout_callback) {
