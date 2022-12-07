@@ -555,7 +555,7 @@ class NativelyPurchases {
   constructor() {
     const id = generateID();
     this.login = function (login, customerEmail, login_callback) {
-      const email = typeof customerEmail === "undefined" ? "" : email;
+      const email = typeof customerEmail === "undefined" ? "" : customerEmail;
       window.natively.trigger(id, 3, login_callback, "purchases_login", {
         login,
         email
