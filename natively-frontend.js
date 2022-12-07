@@ -576,6 +576,11 @@ class NativelyPurchases {
         packageId,
       });
     };
+    this.packagePrice = function (packageId, purchase_callback) {
+      window.natively.trigger(id, 8, purchase_callback, "purchases_price", {
+        packageId,
+      });
+    };
   }
 }
 
