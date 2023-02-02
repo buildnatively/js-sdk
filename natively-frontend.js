@@ -573,6 +573,9 @@ class NativelyPurchases {
         {}
       );
     };
+    this.restore = function (restore_callback) {
+      window.natively.trigger(id, 10, restore_callback, "purchases_restore", {});
+    };
     this.purchasePackage = function (packageId, purchase_callback) {
       window.natively.trigger(id, 3, purchase_callback, "purchases_package", {
         packageId,
