@@ -542,6 +542,26 @@ class NativelyCamera {
   }
 }
 
+class NativelyHealth {
+  constructor() {
+    const id = generateID();
+    this.available = function (available_callback) {
+      window.natively.trigger(id, 10, available_callback, "health_available", {});
+    };
+    this.requestAuthorization = function (write_data_types, read_data_types, request_callback) {
+      window.natively.trigger(id, 10, request_callback, "health_register", {
+        write_data_types,
+        read_data_types
+      });
+    }
+    this.permissionStatus = function (data_type, permission_callback) {
+      window.natively.trigger(id, 10, permission_callback, "health_permission", {
+        data_type
+      });
+    }
+  }
+}
+
 class NativelyScanner {
   constructor() {
     const id = generateID();
