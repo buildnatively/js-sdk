@@ -560,10 +560,8 @@ class NativelyHealth {
         data_type
       });
     }
-    this.getAllCharacteristics = function (data_type, callback) {
-      window.natively.trigger(id, 10, callback, "health_get_all_characteristics", {
-        data_type
-      });
+    this.getAllCharacteristics = function (callback) {
+      window.natively.trigger(id, 10, callback, "health_get_all_characteristics", {});
     }
     this.getStatisticQuantity = function (data_type, interval, start_date, end_date, callback) {
       const obj = {
