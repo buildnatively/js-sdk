@@ -560,8 +560,8 @@ class NativelyHealth {
         data_type
       });
     }
-    this.getCharacteristic = function (data_type, callback) {
-      window.natively.trigger(id, 10, callback, "health_get_characteristic", {
+    this.getAllCharacteristics = function (data_type, callback) {
+      window.natively.trigger(id, 10, callback, "health_get_all_characteristics", {
         data_type
       });
     }
@@ -570,15 +570,13 @@ class NativelyHealth {
         data_type,
         interval
       };
-      // get milliseconds from start date
       if (typeof start_date !== "undefined") {
         obj.start_date = start_date.getTime();
       }
-      // get milliseconds from end date
       if (typeof end_date !== "undefined") {
         obj.end_date = end_date.getTime();
       }
-      window.natively.trigger(id, 10, callback, "health_get_quantity", obj);
+      window.natively.trigger(id, 10, callback, "health_get_statistic_quantity", obj);
     }
   }
 }
