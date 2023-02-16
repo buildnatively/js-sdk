@@ -554,10 +554,31 @@ class NativelyHealth {
         read_data_types
       });
     }
-    this.permissionStatus = function (data_type, permission_callback) {
-      window.natively.trigger(id, 10, permission_callback, "health_permission", {
+    // Write only
+    this.permissionStatus = function (data_type, callback) {
+      window.natively.trigger(id, 10, callback, "health_permission", {
         data_type
       });
+    }
+    this.getCharacteristic = function (data_type, callback) {
+      window.natively.trigger(id, 10, callback, "health_get_characteristic", {
+        data_type
+      });
+    }
+    this.getQuantity = function (data_type, limit, start_date, end_date, callback) {
+      const obj = {
+        data_type,
+        limit
+      };
+      // get milliseconds from start date
+      if (typeof start_date !== "undefined") {
+        obj.start_date = start_date.getTime();
+      }
+      // get milliseconds from end date
+      if (typeof end_date !== "undefined") {
+        obj.end_date = end_date.getTime();
+      }
+      window.natively.trigger(id, 10, callback, "health_get_quantity", obj);
     }
   }
 }
