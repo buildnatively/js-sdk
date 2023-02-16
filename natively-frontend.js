@@ -565,10 +565,10 @@ class NativelyHealth {
         data_type
       });
     }
-    this.getQuantity = function (data_type, limit, start_date, end_date, callback) {
+    this.getStatisticQuantity = function (data_type, interval, start_date, end_date, callback) {
       const obj = {
         data_type,
-        limit
+        interval
       };
       // get milliseconds from start date
       if (typeof start_date !== "undefined") {
