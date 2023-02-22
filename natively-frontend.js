@@ -586,7 +586,7 @@ class NativelyHealth {
       }
       window.natively.trigger(id, 10, callback, "health_get_daily_sleep_analysis", obj);
     }
-    this.getSummaryActivity = function (start_date, end_date, callback) {
+    this.getActivitySummary = function (start_date, end_date, callback) {
       const obj = {};
       if (typeof start_date !== "undefined") {
         obj.start_date = start_date.getTime();
@@ -594,7 +594,7 @@ class NativelyHealth {
       if (typeof end_date !== "undefined") {
         obj.end_date = end_date.getTime();
       }
-      window.natively.trigger(id, 10, callback, "health_get_summary_activity", obj);
+      window.natively.trigger(id, 10, callback, "health_get_activity_summary", obj);
     }
   }
 }
@@ -688,3 +688,4 @@ class NativelyMediaPicker {
 function generateID() {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
+
