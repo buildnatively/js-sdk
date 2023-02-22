@@ -63,7 +63,7 @@ window.natively = {
         fullMethodName = method + "_response";
       }
       window[fullMethodName] = function (resp, err) {
-        //$agent.response();
+        $agent.response();
         if (err.message && isTestVersion) {
           alert(`[ERROR] Error message: ${err.message}`);
           return;
