@@ -286,11 +286,11 @@ class NativelyInfo {
   }
 }
 
-class NativelyAndroidClipboard {
+class NativelyClipboard {
   constructor() {
     const id = generateID();
-    this.copy = function (text, copy_callback) {
-      window.natively.trigger(id, 11, copy_callback, "clipboard_copy", { text });
+    this.copy = function (text) {
+      window.natively.trigger(undefined, 11, undefined, "clipboard_copy", { text });
     }
     this.paste = function (paste_callback) {
       window.natively.trigger(id, 11, paste_callback, "clipboard_paste");
