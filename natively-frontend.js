@@ -91,6 +91,14 @@ window.natively = {
     $agent.trigger(method, body);
   },
 
+  closeApp: function () {
+    window.natively.trigger(undefined, 11, undefined, "app_close");
+  },
+
+  showProgress: function (toggle) {
+    window.natively.trigger(undefined, 11, undefined, "app_show_progress", { toggle });
+  },
+
   shareImage(image_url) {
     window.natively.trigger(undefined, 0, undefined, "share_image", {
       url: image_url,
@@ -275,6 +283,18 @@ class NativelyInfo {
         "connectivity"
       );
     };
+  }
+}
+
+class NativelyAndroidClipboard {
+  constructor() {
+    const id = generateID();
+    this.copy = function (text, copy_callback) {
+      window.natively.trigger(id, 11, copy_callback, "clipboard_copy", { text });
+    }
+    this.paste = function (paste_callback) {
+      window.natively.trigger(id, 11, paste_callback, "clipboard_paste");
+    }
   }
 }
 
