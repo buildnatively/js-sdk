@@ -370,9 +370,10 @@ class NativelyLocation {
     const id = generateID();
     // priority_android = HIGH or BALANCED
     // accuracy_ios = 0 - 5000 m
-    this.current = function (accuracy_ios, priority_android, location_callback) {
+    this.current = function (minAccuracyIOS, accuracyTypeIOS, priority_android, location_callback) {
       window.natively.trigger(id, 3, location_callback, "location_current", {
-        accuracy: accuracy_ios,
+        minAccuracy: minAccuracyIOS,
+        accuracyType: accuracyTypeIOS,
         priority: priority_android
       });
     };
@@ -382,9 +383,10 @@ class NativelyLocation {
     this.permission = function (location_permission_callback) {
       window.natively.trigger(id, 6, location_permission_callback, "location_permission");
     };
-    this.start = function (interval, accuracy_ios, priority_android, location_callback) {
+    this.start = function (interval, minAccuracyIOS, accuracyTypeIOS, priority_android, location_callback) {
       window.natively.trigger(id, 3, location_callback, "location_start", {
-        accuracy: accuracy_ios,
+        minAccuracy: minAccuracyIOS,
+        accuracyType: accuracyTypeIOS,
         priority: priority_android,
         interval
       });
@@ -392,11 +394,12 @@ class NativelyLocation {
     this.stop = function () {
       window.natively.trigger(id, 3, undefined, "location_stop", {});
     };
-    this.startBackground = function (interval, accuracy_ios, priority_android, responseIdentifier, location_bg_callback) {
+    this.startBackground = function (interval, minAccuracyIOS, accuracyTypeIOS, priority_android, responseIdentifier, location_bg_callback) {
       const params = {};
       params.identifier = typeof responseIdentifier === "undefined" ? "empty" : responseIdentifier;
       params.interval = typeof interval === "undefined" ? 1000 * 60 : interval;
-      params.accuracy = typeof accuracy_ios === "undefined" ? 50 : accuracy_ios;
+      params.minAccuracy = typeof minAccuracyIOS === "undefined" ? 50 : minAccuracyIOS;
+      params.accuracyType = typeof accuracyTypeIOS === "undefined" ? "Best" : accuracyTypeIOS;
       params.priority = typeof priority_android === "undefined" ? "BALANCED" : priority_android;
       window.natively.trigger(id, 4, location_bg_callback, "location_start_bg", params);
     };
