@@ -368,10 +368,11 @@ class NativelyGeolocation {
 class NativelyLocation {
   constructor() {
     const id = generateID();
+    // minAccuracyIOS = 0 - 5000 m
+    // accuracyTypeIOS = BestForNavigation,Best,NearestTenMeters,HundredMeters,Kilometer,ThreeKilometers
     // priority_android = HIGH or BALANCED
-    // accuracy_ios = 0 - 5000 m
     this.current = function (minAccuracyIOS, accuracyTypeIOS, priority_android, location_callback) {
-      window.natively.trigger(id, 3, location_callback, "location_current", {
+      window.natively.trigger(id, 12, location_callback, "location_current", {
         minAccuracy: minAccuracyIOS,
         accuracyType: accuracyTypeIOS,
         priority: priority_android
@@ -384,7 +385,7 @@ class NativelyLocation {
       window.natively.trigger(id, 6, location_permission_callback, "location_permission");
     };
     this.start = function (interval, minAccuracyIOS, accuracyTypeIOS, priority_android, location_callback) {
-      window.natively.trigger(id, 3, location_callback, "location_start", {
+      window.natively.trigger(id, 12, location_callback, "location_start", {
         minAccuracy: minAccuracyIOS,
         accuracyType: accuracyTypeIOS,
         priority: priority_android,
@@ -394,6 +395,10 @@ class NativelyLocation {
     this.stop = function () {
       window.natively.trigger(id, 3, undefined, "location_stop", {});
     };
+    // minAccuracyIOS = 0 - 5000 m
+    // accuracyTypeIOS = BestForNavigation,Best,NearestTenMeters,HundredMeters,Kilometer,ThreeKilometers
+    // priority_android = HIGH or BALANCED
+    // interval = in seconds e.g. 60 = 1 minute
     this.startBackground = function (interval, minAccuracyIOS, accuracyTypeIOS, priority_android, responseIdentifier, location_bg_callback) {
       const params = {};
       params.identifier = typeof responseIdentifier === "undefined" ? "empty" : responseIdentifier;
@@ -401,7 +406,7 @@ class NativelyLocation {
       params.minAccuracy = typeof minAccuracyIOS === "undefined" ? 50 : minAccuracyIOS;
       params.accuracyType = typeof accuracyTypeIOS === "undefined" ? "Best" : accuracyTypeIOS;
       params.priority = typeof priority_android === "undefined" ? "BALANCED" : priority_android;
-      window.natively.trigger(id, 4, location_bg_callback, "location_start_bg", params);
+      window.natively.trigger(id, 12, location_bg_callback, "location_start_bg", params);
     };
     this.stopBackground = function (location_bg_callback) {
       window.natively.trigger(id, 4, location_bg_callback, "location_stop_bg", {});
