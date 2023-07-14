@@ -92,7 +92,7 @@ window.natively = {
   },
 
   openLogger: function () {
-    window.$agent.natively_logger();
+    $agent.natively_logger();
   },
 
   closeApp: function () {
