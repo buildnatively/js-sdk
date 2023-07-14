@@ -91,6 +91,10 @@ window.natively = {
     $agent.trigger(method, body);
   },
 
+  openLogger: function () {
+    window.$agent.natively_logger();
+  },
+
   closeApp: function () {
     window.natively.trigger(undefined, 11, undefined, "app_close");
   },
