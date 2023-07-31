@@ -720,15 +720,10 @@ class NativelyMediaPicker {
 class NativelyAudioRecorder {
   constructor() {
     const id = generateID();
-    this.start = function (
+    this.showRecorder = function (
       record_callback
     ) {
       window.natively.trigger(id, 13, record_callback, "record_start", {});
-    };
-    this.stop = function (
-      stop_callback
-    ) {
-      window.natively.trigger(id, 13, stop_callback, "record_stop", {});
     };
   }
 }
