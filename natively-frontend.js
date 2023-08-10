@@ -726,7 +726,7 @@ class NativelyAudioRecorder {
     ) {
       let params = {}
       params.max_duration = typeof max_duration === "undefined" ? 0 : max_duration;
-      window.natively.trigger(id, 14, record_callback, "record_start", params);
+      window.natively.trigger(id, 13, record_callback, "record_start", params);
     };
   }
 }
