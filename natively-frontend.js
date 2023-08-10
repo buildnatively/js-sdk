@@ -721,9 +721,12 @@ class NativelyAudioRecorder {
   constructor() {
     const id = generateID();
     this.showRecorder = function (
+      max_duration,
       record_callback
     ) {
-      window.natively.trigger(id, 13, record_callback, "record_start", {});
+      let params = {}
+      params.max_duration = typeof max_duration === "undefined" ? 0 : max_duration;
+      window.natively.trigger(id, 14, record_callback, "record_start", params);
     };
   }
 }
