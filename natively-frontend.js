@@ -802,9 +802,11 @@ class NativelyAdmobInterstitial {
     };
     this.showInterstitialAd = function (callback) {
       window.natively.trigger(id, 14, function(resp) {
-        callback(resp)
+        callback(resp);
         if (resp.event === "DID_DISMISS_AD" && auto_ad_reload) {
-          this.loadAd(unitId, auto_ad_reload_callback);
+          const params = {};
+          params.unitId = (typeof unitId === "undefined") ? "ca-app-pub-3940256099942544/4411468910" : unitId;
+          window.natively.trigger(id, 14, callback, "interstitialad_setup", params);
         }
       }, "interstitialad_show", {});
     };
