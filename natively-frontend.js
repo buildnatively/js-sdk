@@ -784,6 +784,27 @@ class NativelyAdmobBanner {
   }
 }
 
+// 2.9.0
+// Can be only one instance of NativelyAdmobInterstitial per page
+// Make sure to use this an not reload page a lot 
+class NativelyAdmobInterstitial {
+  constructor(
+    unitId = "ca-app-pub-3940256099942544/4411468910",
+    setup_callback = undefined, // function(resp) { console.log(resp) }
+  ) {
+    const id = generateID();
+    const params = {};
+    params.unitId = (typeof unitId === "undefined") ? "ca-app-pub-3940256099942544/4411468910" : config.unitId;
+    window.natively.trigger(id, 14, setup_callback, "interstitialad_setup", params);
+    this.showInterstitialAd = function (callback) {
+      window.natively.trigger(id, 14, callback, "interstitialad_show", {});
+    };
+    this.interstitialIsReady = function (callback) {
+      window.natively.trigger(id, 14, callback, "interstitialad_ready", {});
+    };
+  }
+}
+
 function generateID() {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
