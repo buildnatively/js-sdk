@@ -774,11 +774,20 @@ class NativelyAdmobBanner {
       params.height = (typeof height === "undefined") ? 50 : height;
       window.natively.trigger(id, 14, callback, "bannerad_setup", params);
     };
+    this.loadAd = function (callback) {
+      window.natively.trigger(id, 14, callback, "bannerad_load", {});
+    };
     this.showBanner = function (callback) {
       window.natively.trigger(id, 14, callback, "bannerad_show", {});
     };
+    this.hideBanner = function (callback) {
+      window.natively.trigger(id, 14, callback, "bannerad_hide", {});
+    };
     this.bannerIsReady = function (callback) {
-      window.natively.trigger(id, 14, callback, "bannerad_isready", {});
+      window.natively.trigger(id, 14, callback, "bannerad_ready", {});
+    };
+    this.bannerIsVisible = function (callback) {
+      window.natively.trigger(id, 14, callback, "bannerad_visible", {});
     };
   }
 }
