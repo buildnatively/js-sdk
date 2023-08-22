@@ -731,6 +731,58 @@ class NativelyAudioRecorder {
   }
 }
 
+// 2.9.0
+class NativelyAdmobBanner {
+  // "bannerad_show": {
+  //   "type": "$ads.showbannerad",
+  //   "options": {
+  //     "responseId": "{{$jason.response_id}}"
+  //   }
+  // },
+  // "bannerad_setup": {
+  //   "type": "$ads.setupbannerad",
+  //   "options": {
+  //     "responseId": "{{$jason.response_id}}",
+  //     "unitId": "{{$jason.unitId}}",
+  //     "position": "{{$jason.position}}",
+  //     "sizeType": "{{$jason.size}}",
+  //     "width": "{{$jason.width}}",
+  //     "height": "{{$jason.height}}"
+  //   }
+  // },
+  // "bannerad_isready": {
+  //   "type": "$ads.banneradready",
+  //   "options": {
+  //     "responseId": "{{$jason.response_id}}"
+  //   }
+  // },
+  constructor() {
+    const id = generateID();
+    this.setupBanner = function (
+      unitId, // "ca-app-pub-3940256099942544/2934735716"
+      position, // "TOP" or "BOTTOM"
+      sizeType, // "AUTO" or "CUSTOM"
+      width, // 320
+      height, // 50
+      callback
+    ) {
+      const params = {};
+      params.unitId = (typeof unitId === "undefined") ? "ca-app-pub-3940256099942544/2934735716" : unitId;
+      params.position = (typeof position === "undefined") ? "BOTTOM" : position;
+      params.sizeType = (typeof sizeType === "undefined") ? "AUTO" : sizeType;
+      params.width = (typeof width === "undefined") ? 320 : width;
+      params.height = (typeof height === "undefined") ? 50 : height;
+      window.natively.trigger(id, 14, callback, "bannerad_setup", params);
+    };
+    this.showBanner = function (callback) {
+      window.natively.trigger(id, 14, callback, "bannerad_show", {});
+    };
+    this.bannerIsReady = function (callback) {
+      window.natively.trigger(id, 14, callback, "bannerad_isready", {});
+    };
+  }
+}
+
 function generateID() {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
