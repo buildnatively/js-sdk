@@ -791,6 +791,8 @@ class NativelyAdmobInterstitial {
   constructor(
     unitId = "ca-app-pub-3940256099942544/4411468910",
     setup_callback = undefined, // function(resp) { console.log(resp) }
+    auto_ad_reload = false, // Reload ad after showing
+    auto_ad_reload_callback = undefined, // function(resp) { console.log(resp) }
   ) {
     const id = generateID();
     this.loadAd = function (unitId, callback) {
@@ -799,7 +801,12 @@ class NativelyAdmobInterstitial {
       window.natively.trigger(id, 14, callback, "interstitialad_setup", params);
     };
     this.showInterstitialAd = function (callback) {
-      window.natively.trigger(id, 14, callback, "interstitialad_show", {});
+      window.natively.trigger(id, 14, function(resp) {
+        callback(resp)
+        if (resp.event === "DID_DISMISS_AD" && auto_ad_reload) {
+          this.loadAd(unitId, auto_ad_reload_callback);
+        }
+      }, "interstitialad_show", {});
     };
     this.interstitialIsReady = function (callback) {
       window.natively.trigger(id, 14, callback, "interstitialad_ready", {});
