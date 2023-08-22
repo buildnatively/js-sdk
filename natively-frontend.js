@@ -796,7 +796,7 @@ class NativelyAdmobInterstitial {
     this.loadAd = function (unitId, callback) {
       const params = {};
       params.unitId = (typeof unitId === "undefined") ? "ca-app-pub-3940256099942544/4411468910" : unitId;
-      window.natively.trigger(id, 14, callback, "interstitialad_setup", { unitId });
+      window.natively.trigger(id, 14, callback, "interstitialad_setup", params);
     };
     this.showInterstitialAd = function (callback) {
       window.natively.trigger(id, 14, callback, "interstitialad_show", {});
