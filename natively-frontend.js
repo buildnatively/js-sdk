@@ -741,7 +741,9 @@ class NativelyAdmobBanner {
     sizeType, // "AUTO" or "CUSTOM"
     width, // 320 (ignored if sizeType is AUTO)
     height, // 50 (ignored if sizeType is AUTO)
-    callback // setup callback function
+    callback, // setup callback function
+    preload_ad, // true or false, will preload ad on init
+    preload_callback // preload callback function
   ) {
     const id = generateID();
     const params = {};
@@ -750,7 +752,12 @@ class NativelyAdmobBanner {
     params.sizeType = (typeof sizeType === "undefined") ? "AUTO" : sizeType;
     params.width = (typeof width === "undefined") ? 320 : width;
     params.height = (typeof height === "undefined") ? 50 : height;
-    window.natively.trigger(id, 14, callback, "bannerad_setup", params);
+    window.natively.trigger(id, 14, function(resp) {
+        if (preload_ad && preload_callback) {
+          window.natively.trigger(id, 14, preload_callback, "bannerad_load", {});
+          callback(resp);
+        }
+    }, "bannerad_setup", params);
 
     this.loadAd = function (callback) {
       window.natively.trigger(id, 14, callback, "bannerad_load", {});
