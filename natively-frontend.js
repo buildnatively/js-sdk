@@ -736,26 +736,33 @@ class NativelyAudioRecorder {
 // Make sure to use this an not reload page a lot 
 class NativelyAdmobBanner {
   constructor(
-    unitId, // "ca-app-pub-3940256099942544/2934735716"
-    position, // "TOP" or "BOTTOM"
-    sizeType, // "AUTO" or "CUSTOM"
-    width, // 320 (ignored if sizeType is AUTO)
-    height, // 50 (ignored if sizeType is AUTO)
-    callback, // setup callback function
-    preload_ad, // true or false, will preload ad on init
-    preload_callback // preload callback function
+    config = { unitId: "ca-app-pub-3940256099942544/2934735716", position: "TOP" / "BOTTOM", sizeType: "AUTO", custom_width: 320, custom_height: 50 },
+    setup_callback = undefined, // function(resp) { console.log(resp) }
+    preload_ad = false, // Load ad on init
+    preload_callback = undefined, // function(resp) { console.log(resp) }
+    show_ad = false, // Show ad on init
+    show_callback = undefined, // function(resp) { console.log(resp) }
   ) {
     const id = generateID();
     const params = {};
-    params.unitId = (typeof unitId === "undefined") ? "ca-app-pub-3940256099942544/2934735716" : unitId;
-    params.position = (typeof position === "undefined") ? "BOTTOM" : position;
-    params.sizeType = (typeof sizeType === "undefined") ? "AUTO" : sizeType;
-    params.width = (typeof width === "undefined") ? 320 : width;
-    params.height = (typeof height === "undefined") ? 50 : height;
+    params.unitId = (typeof config.unitId === "undefined") ? "ca-app-pub-3940256099942544/2934735716" : config.unitId;
+    params.position = (typeof config.position === "undefined") ? "BOTTOM" : config.position;
+    params.sizeType = (typeof config.sizeType === "undefined") ? "AUTO" : config.sizeType;
+    params.width = (typeof config.custom_width === "undefined") ? 320 : config.width;
+    params.height = (typeof config.custom_height === "undefined") ? 50 : config.height;
     window.natively.trigger(id, 14, function(resp) {
-        if (preload_ad && preload_callback) {
-          window.natively.trigger(id, 14, preload_callback, "bannerad_load", {});
-          callback(resp);
+        if (typeof setup_callback !== "undefined") {
+          setup_callback(resp);  
+        }
+        if (preload_ad) { 
+          window.natively.trigger(id, 14, function(resp) {
+            if (typeof preload_callback !== "undefined") {
+              preload_callback(resp);
+            }
+            if (show_ad) {
+              window.natively.trigger(id, 14, show_callback, "bannerad_show", {});
+            }
+          }, "bannerad_load", {});
         }
     }, "bannerad_setup", params);
 
