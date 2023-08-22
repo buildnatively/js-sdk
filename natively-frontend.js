@@ -736,7 +736,7 @@ class NativelyAudioRecorder {
 // Make sure to use this an not reload page a lot 
 class NativelyAdmobBanner {
   constructor(
-    config = { unitId: "ca-app-pub-3940256099942544/2934735716", position: "TOP" / "BOTTOM", sizeType: "AUTO", custom_width: 320, custom_height: 50 },
+    config = { unitId: "ca-app-pub-3940256099942544/2934735716", position: "BOTTOM", sizeType: "AUTO", custom_width: 320, custom_height: 50 },
     setup_callback = undefined, // function(resp) { console.log(resp) }
     preload_ad = false, // Load ad on init
     preload_callback = undefined, // function(resp) { console.log(resp) }
