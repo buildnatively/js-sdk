@@ -4,6 +4,8 @@ window.natively = {
   app_version: 0,
   injected: false,
   observers: [],
+  isIOSApp: window.navigator.userAgent.includes("Natively/iOS"),
+  isAndroidApp: window.navigator.userAgent.includes("Natively/Android"),
 
   setDebug: function (isDebug) {
     window.natively.isDebug = isDebug;
@@ -736,7 +738,14 @@ class NativelyAudioRecorder {
 // Make sure to use this an not reload page a lot 
 class NativelyAdmobBanner {
   constructor(
-    config = { unitId: "ca-app-pub-3940256099942544/2934735716", position: "BOTTOM", sizeType: "AUTO", custom_width: 320, custom_height: 50 },
+    config = { 
+      iOSUnitId: "ca-app-pub-3940256099942544/2934735716",
+      androidUnitId: "ca-app-pub-3940256099942544/6300978111",
+      position: "BOTTOM", 
+      sizeType: "AUTO", 
+      custom_width: 320, 
+      custom_height: 50 
+    },
     setup_callback = undefined, // function(resp) { console.log(resp) }
     preload_ad = false, // Load ad on init
     preload_callback = undefined, // function(resp) { console.log(resp) }
@@ -745,7 +754,12 @@ class NativelyAdmobBanner {
   ) {
     const id = generateID();
     const params = {};
-    params.unitId = (typeof config.unitId === "undefined") ? "ca-app-pub-3940256099942544/2934735716" : config.unitId;
+    if (window.natively.isAndroidApp) {
+      params.unitId = (typeof config.androidUnitId === "undefined") ? "ca-app-pub-3940256099942544/6300978111" : config.androidUnitId;
+    } else if (window.natively.isIOSApp) {
+      params.unitId = (typeof config.iOSUnitId === "undefined") ? "ca-app-pub-3940256099942544/2934735716" : config.iOSUnitId;
+    }
+    
     params.position = (typeof config.position === "undefined") ? "BOTTOM" : config.position;
     params.sizeType = (typeof config.sizeType === "undefined") ? "AUTO" : config.sizeType;
     params.width = (typeof config.custom_width === "undefined") ? 320 : config.width;
@@ -789,12 +803,20 @@ class NativelyAdmobBanner {
 // Make sure to use this an not reload page a lot 
 class NativelyAdmobInterstitial {
   constructor(
-    unitId = "ca-app-pub-3940256099942544/4411468910",
+    iOSUnitId = "ca-app-pub-3940256099942544/4411468910",
+    androidUnitId = "ca-app-pub-3940256099942544/1033173712",
     setup_callback = undefined, // function(resp) { console.log(resp) }
     auto_ad_reload = false, // Reload ad after showing
     auto_ad_reload_callback = undefined, // function(resp) { console.log(resp) }
   ) {
     const id = generateID();
+    let unitId;
+    if (window.natively.isAndroidApp) {
+      unitId = (typeof androidUnitId === "undefined") ? "ca-app-pub-3940256099942544/6300978111" : androidUnitId;
+    } else if (window.natively.isIOSApp) {
+      unitId = (typeof iOSUnitId === "undefined") ? "ca-app-pub-3940256099942544/2934735716" : iOSUnitId;
+    }
+    
     this.loadAd = function (unitId, callback) {
       const params = {};
       params.unitId = (typeof unitId === "undefined") ? "ca-app-pub-3940256099942544/4411468910" : unitId;
@@ -805,8 +827,8 @@ class NativelyAdmobInterstitial {
         callback(resp);
         if (resp.event === "DID_DISMISS_AD" && auto_ad_reload) {
           const params = {};
-          params.unitId = (typeof unitId === "undefined") ? "ca-app-pub-3940256099942544/4411468910" : unitId;
-          window.natively.trigger(id, 14, callback, "interstitialad_setup", params);
+          params.unitId = unitId;
+          window.natively.trigger(id, 14, auto_ad_reload_callback, "interstitialad_setup", params);
         }
       }, "interstitialad_show", {});
     };
