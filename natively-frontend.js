@@ -835,7 +835,7 @@ class NativelyAdmobInterstitial {
     this.interstitialIsReady = function (callback) {
       window.natively.trigger(id, 14, callback, "interstitialad_ready", {});
     };
-    this.loadAd(unitId, setup_callback);
+    this.loadAd(setup_callback);
   }
 }
 
