@@ -828,7 +828,9 @@ class NativelyAdmobInterstitial {
         if (resp.event === "DID_DISMISS_AD" && auto_ad_reload) {
           const params = {};
           params.unitId = unitId;
-          window.natively.trigger(id, 14, auto_ad_reload_callback, "interstitialad_setup", params);
+          setTimeout(() => {
+            window.natively.trigger(id, 14, auto_ad_reload_callback, "interstitialad_setup", params);  
+          }, 500);
         }
       }, "interstitialad_show", {});
     };
