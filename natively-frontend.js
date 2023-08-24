@@ -812,9 +812,9 @@ class NativelyAdmobInterstitial {
     const id = generateID();
     let unitId;
     if (window.natively.isAndroidApp) {
-      unitId = (typeof androidUnitId === "undefined") ? "ca-app-pub-3940256099942544/6300978111" : androidUnitId;
+      unitId = (typeof androidUnitId === "undefined") ? "ca-app-pub-3940256099942544/1033173712" : androidUnitId;
     } else if (window.natively.isIOSApp) {
-      unitId = (typeof iOSUnitId === "undefined") ? "ca-app-pub-3940256099942544/2934735716" : iOSUnitId;
+      unitId = (typeof iOSUnitId === "undefined") ? "ca-app-pub-3940256099942544/4411468910" : iOSUnitId;
     }
     
     this.loadAd = function (callback) {
