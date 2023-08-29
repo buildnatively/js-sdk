@@ -850,16 +850,20 @@ class NativelyNFCService {
     writeDetectedMessage
   ) {
     const id = generateID();
+    this.readAlertMessage = readAlertMessage;
+    this.writeAlertMessage = writeAlertMessage;
+    this.readDetectedMessage = readDetectedMessage;
+    this.writeDetectedMessage = writeDetectedMessage;
     this.read = function (callback) {
       let params = {}
-      params.alertMessage = typeof readAlertMessage === "undefined" ? "" : readAlertMessage;
-      params.detectedMessage = typeof readDetectedMessage === "undefined" ? "" : readDetectedMessage;
+      params.alertMessage = typeof this.readAlertMessage === "undefined" ? "" : this.readAlertMessage;
+      params.detectedMessage = typeof this.readDetectedMessage === "undefined" ? "" : this.readDetectedMessage;
       window.natively.trigger(id, 15, callback, "nfc_read", params);
     };
     this.write = function (textData, callback) {
       let params = {}
-      params.alertMessage = typeof writeAlertMessage === "undefined" ? "" : writeAlertMessage;
-      params.detectedMessage = typeof writeDetectedMessage === "undefined" ? "" : writeDetectedMessage;
+      params.alertMessage = typeof this.writeAlertMessage === "undefined" ? "" : this.writeAlertMessage;
+      params.detectedMessage = typeof this.writeDetectedMessage === "undefined" ? "" : this.writeDetectedMessage;
       params.textData = typeof textData === "undefined" ? "" : textData;
       window.natively.trigger(id, 15, callback, "nfc_write", params);
     };
