@@ -856,15 +856,16 @@ class NativelyNFCService {
     this.writeDetectedMessage = writeDetectedMessage;
     this.read = function (callback) {
       let params = {}
-      params.alertMessage = typeof this.readAlertMessage === "undefined" ? "" : this.readAlertMessage;
-      params.detectedMessage = typeof this.readDetectedMessage === "undefined" ? "" : this.readDetectedMessage;
+      params.alertMessage = typeof this.readAlertMessage === "undefined" ? "please set readAlertMessage" : this.readAlertMessage;
+      params.detectedMessage = typeof this.readDetectedMessage === "undefined" ? "readDetectedMessage" : this.readDetectedMessage;
       window.natively.trigger(id, 15, callback, "nfc_read", params);
     };
-    this.write = function (textData, callback) {
+    this.write = function (recordId, recordData, callback) {
       let params = {}
-      params.alertMessage = typeof this.writeAlertMessage === "undefined" ? "" : this.writeAlertMessage;
-      params.detectedMessage = typeof this.writeDetectedMessage === "undefined" ? "" : this.writeDetectedMessage;
-      params.textData = typeof textData === "undefined" ? "" : textData;
+      params.alertMessage = typeof this.writeAlertMessage === "undefined" ? "please set writeAlertMessage" : this.writeAlertMessage;
+      params.detectedMessage = typeof this.writeDetectedMessage === "undefined" ? "please set writeDetectedMessage" : this.writeDetectedMessage;
+      params.recordData = typeof recordData === "undefined" ? "please set recordData" : recordData;
+      params.recordId = typeof recordId === "undefined" ? "please set recordId" : recordId;
       window.natively.trigger(id, 15, callback, "nfc_write", params);
     };
   }
