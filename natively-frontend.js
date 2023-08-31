@@ -868,6 +868,10 @@ class NativelyNFCService {
       params.recordId = typeof recordId === "undefined" ? "please set recordId" : recordId;
       window.natively.trigger(id, 15, callback, "nfc_write", params);
     };
+    this.available = function (callback) {
+      let params = {}
+      window.natively.trigger(id, 15, callback, "nfc_available", params);
+    };
   }
 }
 
