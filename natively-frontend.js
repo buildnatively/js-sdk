@@ -733,7 +733,7 @@ class NativelyAudioRecorder {
   }
 }
 
-// 2.9.0
+// >=2.9.0
 // Can be only one instance of NativelyAdmobBanner per page
 // Make sure to use this an not reload page a lot 
 class NativelyAdmobBanner {
@@ -798,7 +798,7 @@ class NativelyAdmobBanner {
   }
 }
 
-// 2.9.0
+// >=2.9.0
 // Can be only one instance of NativelyAdmobInterstitial per page
 // Make sure to use this an not reload page a lot 
 class NativelyAdmobInterstitial {
@@ -841,7 +841,7 @@ class NativelyAdmobInterstitial {
   }
 }
 
-// 2.10.0
+// >=2.10.0
 class NativelyNFCService {
   constructor(
     readAlertMessage, 
@@ -874,6 +874,18 @@ class NativelyNFCService {
     };
   }
 }
+
+// >=2.11.0
+class NativelyAppleSignInService {
+  constructor() {
+    this.signin = function (callback) {
+      let params = {}
+      window.natively.trigger(id, 16, callback, "apple_signin", params);
+    };
+  }
+}
+
+
 
 function generateID() {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
