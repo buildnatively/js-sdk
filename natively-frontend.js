@@ -878,6 +878,7 @@ class NativelyNFCService {
 // >=2.11.0
 class NativelyAppleSignInService {
   constructor() {
+    const id = generateID();
     this.signin = function (callback) {
       let params = {}
       window.natively.trigger(id, 16, callback, "apple_signin", params);
