@@ -220,6 +220,32 @@ window.natively = {
     );
   },
 
+  hideLoaderScreen() {
+    const show_loader = false;
+    const auto_hide = true;
+    const params = { show_loader, auto_hide };
+    window.natively.trigger(
+      undefined,
+      17,
+      undefined,
+      "loading_screen",
+      params
+    );
+  },
+
+  showLoaderScreen(autoHide) {
+    const show_loader = true;
+    const auto_hide = typeof autoHide === "undefined" ? false : autoHide;
+    const params = { show_loader, auto_hide };
+    window.natively.trigger(
+      undefined,
+      17,
+      undefined,
+      "loading_screen",
+      params
+    );
+  },
+
   async sendPushNotification(appId, payload, player_ids, isPreview) {
     const filtered = player_ids.filter((id) => id.length > 0);
     const include_player_ids = [...new Set(filtered)];
