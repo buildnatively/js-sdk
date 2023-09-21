@@ -220,7 +220,7 @@ window.natively = {
     );
   },
 
-  hideLoaderScreen() {
+  hideLoadingScreen() {
     const show_loader = false;
     const auto_hide = true;
     const params = { show_loader, auto_hide };
@@ -233,7 +233,7 @@ window.natively = {
     );
   },
 
-  showLoaderScreen(autoHide) {
+  showLoadingScreen(autoHide) {
     const show_loader = true;
     const auto_hide = typeof autoHide === "undefined" ? false : autoHide;
     const params = { show_loader, auto_hide };
