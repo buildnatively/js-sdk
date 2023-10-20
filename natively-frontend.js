@@ -130,10 +130,12 @@ window.natively = {
     });
   },
 
-  openExternalURL(url) {
-    window.natively.trigger(undefined, 0, undefined, "open_link", {
-      url,
-    });
+  openExternalURL(url, external) {
+    const params = {};
+    params.url = typeof url === "undefined" ? "https://buildnatively.com" : url;
+    const external = typeof external === "undefined" ? false : external;
+    params.view = external ? "external" : "web";
+    window.natively.trigger(undefined, 18, undefined, "open_link", params);
   },
 
   openExternalAppIOS(url) {
