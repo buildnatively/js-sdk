@@ -254,7 +254,7 @@ window.natively = {
     let notification = {
       app_id: isPreview
         ? // Natively Preview App ID
-          "be83022a-1d08-45d0-a07a-0c3655666e17"
+        "be83022a-1d08-45d0-a07a-0c3655666e17"
         : appId,
       include_player_ids,
     };
@@ -316,6 +316,11 @@ class NativelyInfo {
         connectivity_callback,
         "connectivity"
       );
+    };
+    // app_state_callback responsible for app state changes. 
+    // e.g. app is in background or foreground (available >= 2.12.2)
+    this.app_state = function (app_state_callback) {
+      window.natively.trigger(undefined, 19, app_state_callback, "app_state");
     };
   }
 }
@@ -766,13 +771,13 @@ class NativelyAudioRecorder {
 // Make sure to use this an not reload page a lot 
 class NativelyAdmobBanner {
   constructor(
-    config = { 
+    config = {
       iOSUnitId: "ca-app-pub-3940256099942544/2934735716",
       androidUnitId: "ca-app-pub-3940256099942544/6300978111",
-      position: "BOTTOM", 
-      sizeType: "AUTO", 
-      custom_width: 320, 
-      custom_height: 50 
+      position: "BOTTOM",
+      sizeType: "AUTO",
+      custom_width: 320,
+      custom_height: 50
     },
     setup_callback = undefined, // function(resp) { console.log(resp) }
     preload_ad = false, // Load ad on init
@@ -787,25 +792,25 @@ class NativelyAdmobBanner {
     } else if (window.natively.isIOSApp) {
       params.unitId = (typeof config.iOSUnitId === "undefined") ? "ca-app-pub-3940256099942544/2934735716" : config.iOSUnitId;
     }
-    
+
     params.position = (typeof config.position === "undefined") ? "BOTTOM" : config.position;
     params.sizeType = (typeof config.sizeType === "undefined") ? "AUTO" : config.sizeType;
     params.width = (typeof config.custom_width === "undefined") ? 320 : config.width;
     params.height = (typeof config.custom_height === "undefined") ? 50 : config.height;
-    window.natively.trigger(id, 14, function(resp) {
-        if (typeof setup_callback !== "undefined") {
-          setup_callback(resp);  
-        }
-        if (preload_ad) { 
-          window.natively.trigger(id, 14, function(resp) {
-            if (typeof preload_callback !== "undefined") {
-              preload_callback(resp);
-            }
-            if (show_ad) {
-              window.natively.trigger(id, 14, show_callback, "bannerad_show", {});
-            }
-          }, "bannerad_load", {});
-        }
+    window.natively.trigger(id, 14, function (resp) {
+      if (typeof setup_callback !== "undefined") {
+        setup_callback(resp);
+      }
+      if (preload_ad) {
+        window.natively.trigger(id, 14, function (resp) {
+          if (typeof preload_callback !== "undefined") {
+            preload_callback(resp);
+          }
+          if (show_ad) {
+            window.natively.trigger(id, 14, show_callback, "bannerad_show", {});
+          }
+        }, "bannerad_load", {});
+      }
     }, "bannerad_setup", params);
 
     this.loadAd = function (callback) {
@@ -844,20 +849,20 @@ class NativelyAdmobInterstitial {
     } else if (window.natively.isIOSApp) {
       unitId = (typeof iOSUnitId === "undefined") ? "ca-app-pub-3940256099942544/4411468910" : iOSUnitId;
     }
-    
+
     this.loadAd = function (callback) {
       const params = {};
       params.unitId = (typeof unitId === "undefined") ? "ca-app-pub-3940256099942544/4411468910" : unitId;
       window.natively.trigger(id, 14, callback, "interstitialad_setup", params);
     };
     this.showInterstitialAd = function (callback) {
-      window.natively.trigger(id, 14, function(resp) {
+      window.natively.trigger(id, 14, function (resp) {
         callback(resp);
         if (resp.event === "DID_DISMISS_AD" && auto_ad_reload) {
           const params = {};
           params.unitId = unitId;
           setTimeout(() => {
-            window.natively.trigger(id, 14, auto_ad_reload_callback, "interstitialad_setup", params);  
+            window.natively.trigger(id, 14, auto_ad_reload_callback, "interstitialad_setup", params);
           }, 500);
         }
       }, "interstitialad_show", {});
@@ -872,9 +877,9 @@ class NativelyAdmobInterstitial {
 // >=2.10.0
 class NativelyNFCService {
   constructor(
-    readAlertMessage, 
-    writeAlertMessage, 
-    readDetectedMessage, 
+    readAlertMessage,
+    writeAlertMessage,
+    readDetectedMessage,
     writeDetectedMessage
   ) {
     const id = generateID();
