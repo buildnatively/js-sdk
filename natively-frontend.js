@@ -133,8 +133,8 @@ window.natively = {
   openExternalURL(url, external) {
     const params = {};
     params.url = typeof url === "undefined" ? "https://buildnatively.com" : url;
-    const external = typeof external === "undefined" ? false : external;
-    params.view = external ? "external" : "web";
+    const isExternal = typeof external === "undefined" ? false : external;
+    params.view = isExternal ? "external" : "web";
     window.natively.trigger(undefined, 18, undefined, "open_link", params);
   },
 
