@@ -447,6 +447,9 @@ class NativelyLocation {
       params.priority = typeof priority_android === "undefined" ? "BALANCED" : priority_android;
       window.natively.trigger(id, 12, location_bg_callback, "location_start_bg", params);
     };
+    this.statusBackground = function (location_bg_status_callback) {
+      window.natively.trigger(id, 20, location_bg_status_callback, "location_status_bg", {});
+    }
     this.stopBackground = function (location_bg_callback) {
       window.natively.trigger(id, 4, location_bg_callback, "location_stop_bg", {});
     };
