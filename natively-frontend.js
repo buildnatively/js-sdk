@@ -664,7 +664,7 @@ class NativelyHealth {
       if (typeof end_date !== "undefined") {
         obj.end_date = end_date.getTime();
       }
-      window.natively.trigger(id, 10, callback, "health_get_workouts_response", obj);
+      window.natively.trigger(id, 21, callback, "health_get_workouts_response", obj);
     }
     this.getActivitySummary = function (start_date, end_date, callback) {
       const obj = {};
