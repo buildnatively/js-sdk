@@ -656,6 +656,16 @@ class NativelyHealth {
       }
       window.natively.trigger(id, 10, callback, "health_get_daily_sleep_analysis", obj);
     }
+    this.getWorkouts = function (start_date, end_date, limit, callback) {
+      const obj = { limit: limit || 100 };
+      if (typeof start_date !== "undefined") {
+        obj.start_date = start_date.getTime();
+      }
+      if (typeof end_date !== "undefined") {
+        obj.end_date = end_date.getTime();
+      }
+      window.natively.trigger(id, 10, callback, "health_get_workouts_response", obj);
+    }
     this.getActivitySummary = function (start_date, end_date, callback) {
       const obj = {};
       if (typeof start_date !== "undefined") {
