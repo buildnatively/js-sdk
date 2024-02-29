@@ -97,6 +97,12 @@ window.natively = {
     $agent.natively_logger();
   },
 
+  // Not available right now
+  openConsole: function () {
+    window.natively.trigger(undefined, 30, undefined, "app_console");
+
+  },
+
   closeApp: function () {
     window.natively.trigger(undefined, 11, undefined, "app_close");
   },
