@@ -100,7 +100,6 @@ window.natively = {
   // Not available right now
   openConsole: function () {
     window.natively.trigger(undefined, 30, undefined, "app_console");
-
   },
 
   closeApp: function () {
@@ -303,7 +302,7 @@ window.natively.addObserver(() =>
   )
 );
 
-class NativelyInfo {
+export class NativelyInfo {
   constructor() {
     const id = generateID();
     this.browserInfo = function () {
