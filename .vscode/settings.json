@@ -7,7 +7,7 @@
     "[html]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "autominify.enableMinFileJs": true,
-    "autominify.enableJsMinification": true,
+    "autominify.enableMinFileJs": false,
+    "autominify.enableJsMinification": false,
   }
   

@@ -943,3 +943,5 @@ class NativelyAppleSignInService {
 function generateID() {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
+
+export { NativelyAdmobBanner, NativelyAdmobInterstitial, NativelyAppleSignInService, NativelyAudioRecorder, NativelyBiometrics, NativelyCamera, NativelyClipboard, NativelyContacts, NativelyDatePicker, NativelyGeolocation, NativelyHealth, NativelyInfo, NativelyLocation, NativelyMediaPicker, NativelyMessage, NativelyNFCService, NativelyNotifications, NativelyPagesCache, NativelyPurchases, NativelyScanner, NativelyStorage };

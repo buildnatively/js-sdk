@@ -2,13 +2,15 @@
   "name": "natively",
   "version": "2.13.1",
   "description": "",
-  "main": "natively-frontend.min.js",
+  "main": "natively-frontend.min.mjs",
+  "type": "module",
   "scripts": {
+    "build": "rollup -c && terser natively-frontend.mjs -o natively-frontend.min.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/No-Code-No-Problem/natively-sdk.git"
+    "url": "git+https://github.com/buildnatively/js-sdk.git"
   },
   "keywords": [
     "natively"
@@ -16,7 +18,7 @@
   "author": "Roman Furman",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/No-Code-No-Problem/natively-sdk/issues"
+    "url": "https://github.com/buildnatively/js-sdk/issues"
   },
-  "homepage": "https://github.com/No-Code-No-Problem/natively-sdk#readme"
+  "homepage": "https://github.com/buildnatively/js-sdk#readme"
 }
