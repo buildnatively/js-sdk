@@ -1,6 +1,6 @@
 {
   "name": "natively",
-  "version": "2.13.2",
+  "version": "2.13.3",
   "description": "",
   "main": "natively-frontend.min.mjs",
   "type": "module",
