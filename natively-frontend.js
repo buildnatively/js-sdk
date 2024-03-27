@@ -790,14 +790,7 @@ class NativelyAudioRecorder {
 // Make sure to use this an not reload page a lot 
 class NativelyAdmobBanner {
   constructor(
-    config = {
-      iOSUnitId: "ca-app-pub-3940256099942544/2934735716",
-      androidUnitId: "ca-app-pub-3940256099942544/6300978111",
-      position: "BOTTOM",
-      sizeType: "AUTO",
-      custom_width: 320,
-      custom_height: 50
-    },
+    config,
     setup_callback = undefined, // function(resp) { console.log(resp) }
     preload_ad = false, // Load ad on init
     preload_callback = undefined, // function(resp) { console.log(resp) }
@@ -805,7 +798,7 @@ class NativelyAdmobBanner {
     show_callback = undefined, // function(resp) { console.log(resp) }
   ) {
     const id = generateID();
-    const params = {};
+    let params = {};
     if (window.natively.isAndroidApp) {
       params.unitId = (typeof config.androidUnitId === "undefined") ? "ca-app-pub-3940256099942544/6300978111" : config.androidUnitId;
     } else if (window.natively.isIOSApp) {
@@ -814,8 +807,8 @@ class NativelyAdmobBanner {
 
     params.position = (typeof config.position === "undefined") ? "BOTTOM" : config.position;
     params.sizeType = (typeof config.sizeType === "undefined") ? "AUTO" : config.sizeType;
-    params.width = (typeof config.custom_width === "undefined") ? 320 : config.width;
-    params.height = (typeof config.custom_height === "undefined") ? 50 : config.height;
+    params.width = (typeof config.custom_width === "undefined") ? 320 : config.custom_width;
+    params.height = (typeof config.custom_height === "undefined") ? 50 : config.custom_height;
     window.natively.trigger(id, 14, function (resp) {
       if (typeof setup_callback !== "undefined") {
         setup_callback(resp);
