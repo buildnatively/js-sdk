@@ -93,14 +93,12 @@ window.natively = {
     $agent.trigger(method, body);
   },
 
-  openLogger: function () {
+  openLogger: function () { // DEPRECATED after 2.14.0
     $agent.natively_logger();
   },
 
-  // Not available right now
   openConsole: function () {
-    window.natively.trigger(undefined, 30, undefined, "app_console");
-
+    window.natively.trigger(undefined, 22, undefined, "app_console");
   },
 
   closeApp: function () {
@@ -144,8 +142,14 @@ window.natively = {
     window.natively.trigger(undefined, 18, undefined, "open_link", params);
   },
 
-  openExternalAppIOS(url) {
+  openExternalAppIOS(url) { // DEPRECATED after 2.14.0
     window.natively.trigger(undefined, 0, undefined, "open_app", {
+      url,
+    });
+  },
+
+  openExternalApp(url) {
+    window.natively.trigger(undefined, 22, undefined, "open_app", {
       url,
     });
   },
@@ -154,21 +158,40 @@ window.natively = {
     window.natively.trigger(undefined, 0, undefined, "open_appsettings");
   },
 
-  hapticPatternIOS(pattern, delay) {
+  hapticPatternIOS(pattern, delay) { // DEPRECATED after 2.14.0
     window.natively.trigger(undefined, 7, undefined, "haptic_pattern", {
       pattern,
       delay
     });
   },
 
-  hapticImpactIOS(type) {
+  hapticImpactIOS(type) { // DEPRECATED after 2.14.0
     window.natively.trigger(undefined, 7, undefined, "haptic_impact", {
       type,
     });
   },
 
-  hapticNotificationIOS(type) {
+  hapticNotificationIOS(type) { // DEPRECATED after 2.14.0
     window.natively.trigger(undefined, 7, undefined, "haptic_notification", {
+      type,
+    });
+  },
+
+  hapticPattern(pattern, delay) {
+    window.natively.trigger(undefined, 22, undefined, "haptic_pattern", {
+      pattern,
+      delay
+    });
+  },
+
+  hapticImpact(type) {
+    window.natively.trigger(undefined, 22, undefined, "haptic_impact", {
+      type,
+    });
+  },
+
+  hapticNotification(type) {
+    window.natively.trigger(undefined, 22, undefined, "haptic_notification", {
       type,
     });
   },
@@ -202,9 +225,14 @@ window.natively = {
     window.natively.trigger(undefined, 1, undefined, "app_progress", params);
   },
 
-  setAppSwipeNavigationIOS(toggle) {
+  setAppSwipeNavigationIOS(toggle) { // DEPRECATED after 2.14.0
     const params = { toggle };
     window.natively.trigger(undefined, 1, undefined, "app_navigation", params);
+  },
+
+  setAppSwipeNavigation(toggle) {
+    const params = { toggle };
+    window.natively.trigger(undefined, 22, undefined, "app_navigation", params);
   },
 
   setAppPullToRefresh(toggle) {
@@ -217,11 +245,22 @@ window.natively = {
     window.natively.trigger(undefined, 3, undefined, "app_orientation", params);
   },
 
-  setAppStatusBarStyleIOS(style) {
+  setAppStatusBarStyleIOS(style) { // DEPRECATED after 2.14.0
     const params = { style };
     window.natively.trigger(
       undefined,
       2,
+      undefined,
+      "status_bar_style",
+      params
+    );
+  },
+
+  setAppStatusBarStyle(style) {
+    const params = { style };
+    window.natively.trigger(
+      undefined,
+      22,
       undefined,
       "status_bar_style",
       params
