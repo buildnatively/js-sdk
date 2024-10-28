@@ -3,13 +3,20 @@
   "version": "2.14.0",
   "description": "Natively SDK for building native-like web applications",
   "main": "natively-frontend.min.js",
-  "module": "natively-frontend.m.js",
-  "types": "index.d.ts",
   "type": "module",
+  "exports": {
+    ".": {
+      "import": "./natively-frontend.m.js",
+      "require": "./natively-frontend.min.js",
+      "types": "./index.d.ts"
+    }
+  },
   "files": [
-    "index.d.ts",
     "natively-frontend.min.js",
-    "natively-frontend.m.js"
+    "natively-frontend.m.js",
+    "index.d.ts",
+    "nextjs.js",
+    "nextjs.d.ts"
   ],
   "package-name": "buildnatively/js-sdk#typescript_module",
   "scripts": {
@@ -18,7 +25,7 @@
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
     "build:iife": "babel src/index.ts --config-file ./babel.config.iife.cjs --out-file ./natively-frontend.min.js --minified",
-    "build:module": "babel src/index.ts --config-file ./babel.config.module.cjs --out-file ./natively-frontend.m.js"
+    "build:module": "babel src --extensions \".ts\" --config-file ./babel.config.module.cjs --out-dir ./"
   },
   "repository": {
     "type": "git",

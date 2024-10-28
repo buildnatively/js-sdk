@@ -2,7 +2,7 @@ module.exports = {
     presets: [
         "@babel/preset-typescript",
         ["@babel/preset-env", {
-            modules: "auto",
+            modules: false,
             targets: {
                 esmodules: true
             }
