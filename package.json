@@ -1,24 +1,45 @@
 {
   "name": "natively",
   "version": "2.14.0",
-  "description": "",
-  "main": "natively-frontend.min.mjs",
+  "description": "Natively SDK for building native-like web applications",
+  "main": "dist/natively-frontend.min.js",
+  "module": "dist/natively-frontend.m.js",
+  "types": "dist/index.d.ts",
   "type": "module",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "rollup -c && terser natively-frontend.mjs -o natively-frontend.min.mjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run build:types && npm run build:iife && npm run build:module",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
+    "build:iife": "babel src/index.ts --config-file ./babel.config.iife.cjs --out-file ./natively-frontend.min.js --minified",
+    "build:module": "babel src/index.ts --config-file ./babel.config.module.cjs --out-file ./natively-frontend.m.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/buildnatively/js-sdk.git"
   },
   "keywords": [
-    "natively"
+    "natively",
+    "mobile",
+    "webview",
+    "sdk",
+    "ios",
+    "android"
   ],
   "author": "Roman Furman",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/buildnatively/js-sdk/issues"
   },
-  "homepage": "https://github.com/buildnatively/js-sdk#readme"
+  "homepage": "https://github.com/buildnatively/js-sdk#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.25.9",
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-typescript": "^7.26.0",
+    "typescript": "^5.6.3"
+  }
 }
