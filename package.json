@@ -9,6 +9,7 @@
   "files": [
     "dist"
   ],
+  "package-name": "buildnatively/js-sdk#typescript_module",
   "scripts": {
     "build": "npm run build:types && npm run build:iife && npm run build:module",
     "test": "echo \"Error: no test specified\" && exit 1",
