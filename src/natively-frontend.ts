@@ -1092,4 +1092,5 @@ export class NativelyAppleSignInService {
   }
 }
 
-export const natively = typeof window === "undefined" ? null : window.natively;
+export const natively =
+  typeof window !== "undefined" ? window.natively : undefined;
