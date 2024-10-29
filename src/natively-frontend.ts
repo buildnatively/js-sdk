@@ -39,187 +39,183 @@ function generateID(): string {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
 
-if (typeof global.window !== "undefined") {
-  global.window.natively = {
-    isDebug: false,
-    min_app_version: 0,
-    app_version: 0,
-    injected: false,
-    observers: [] as Function[],
-    isIOSApp: global.window.navigator.userAgent.includes("Natively/iOS"),
-    isAndroidApp:
-      global.window.navigator.userAgent.includes("Natively/Android"),
+export const natively = {
+  isDebug: false,
+  min_app_version: 0,
+  app_version: 0,
+  injected: false,
+  observers: [] as Function[],
+  isIOSApp: global.window.navigator.userAgent.includes("Natively/iOS"),
+  isAndroidApp: global.window.navigator.userAgent.includes("Natively/Android"),
 
-    setDebug(isDebug: boolean): void {
-      global.window.natively.isDebug = isDebug;
-    },
+  setDebug(isDebug: boolean): void {
+    global.window.natively.isDebug = isDebug;
+  },
 
-    notify(min?: number, current?: number): void {
-      global.window.natively.injected = true;
-      if (min) {
-        global.window.natively.min_app_version = min;
-      }
-      if (current) {
-        global.window.natively.app_version = current;
-      }
-      const observers = global.window.natively.observers;
+  notify(min?: number, current?: number): void {
+    global.window.natively.injected = true;
+    if (min) {
+      global.window.natively.min_app_version = min;
+    }
+    if (current) {
+      global.window.natively.app_version = current;
+    }
+    const observers = global.window.natively.observers;
+    if (global.window.natively.isDebug) {
+      console.log("[INFO] Notify observers: ", observers.length);
+    }
+    while (observers.length > 0) {
+      const observer = observers.shift();
+      observer?.();
+    }
+  },
+
+  addObserver(fn: Function): void {
+    if (global.window.natively.injected) {
+      fn();
+    } else {
       if (global.window.natively.isDebug) {
-        console.log("[INFO] Notify observers: ", observers.length);
+        console.log(`[DEBUG] addObserver: ${fn}`);
       }
-      while (observers.length > 0) {
-        const observer = observers.shift();
-        observer?.();
-      }
-    },
+      global.window.natively.observers.push(fn);
+    }
+  },
 
-    addObserver(fn: Function): void {
-      if (global.window.natively.injected) {
-        fn();
-      } else {
-        if (global.window.natively.isDebug) {
-          console.log(`[DEBUG] addObserver: ${fn}`);
-        }
-        global.window.natively.observers.push(fn);
-      }
-    },
-
-    trigger(
-      respId: string | undefined,
-      minVersion: number,
-      callback: Function | undefined,
-      method: string,
-      body?: any,
-    ): void {
-      const isTestVersion = global.window.natively.isDebug;
-      if (!global.window.natively.injected) {
-        global.window.natively.addObserver(() => {
-          global.window.natively.trigger(
-            respId,
-            minVersion,
-            callback,
-            method,
-            body,
-          );
-        });
-        return;
-      }
-      if (minVersion > global.window.natively.app_version) {
-        if (isTestVersion) {
-          alert(
-            `[ERROR] Please rebuild the app to use this functionality. App Version: ${global.window.natively.app_version}, feature version: ${minVersion}`,
-          );
-        }
-        return;
-      }
-      if (callback) {
-        let fullMethodName: string;
-        if (respId) {
-          fullMethodName = method + "_response" + "_" + respId;
-        } else {
-          fullMethodName = method + "_response";
-        }
-        window[fullMethodName] = function (
-          resp: any,
-          err: { message: string },
-        ) {
-          global.window.$agent.response();
-          if (err.message && isTestVersion) {
-            alert(`[ERROR] Error message: ${err.message}`);
-            return;
-          }
-          if (isTestVersion) {
-            console.log(
-              `[DEBUG] Callback method: ${fullMethodName}, body: ${JSON.stringify(
-                resp,
-              )}, respId: ${respId}`,
-            );
-          }
-          callback(resp);
-        };
-        if (body) {
-          body.response_id = respId;
-        } else {
-          body = { response_id: respId };
-        }
-      }
+  trigger(
+    respId: string | undefined,
+    minVersion: number,
+    callback: Function | undefined,
+    method: string,
+    body?: any,
+  ): void {
+    const isTestVersion = global.window.natively.isDebug;
+    if (!global.window.natively.injected) {
+      global.window.natively.addObserver(() => {
+        global.window.natively.trigger(
+          respId,
+          minVersion,
+          callback,
+          method,
+          body,
+        );
+      });
+      return;
+    }
+    if (minVersion > global.window.natively.app_version) {
       if (isTestVersion) {
-        console.log(
-          `[DEBUG] Trigger method: ${method}, body: ${JSON.stringify(body)}`,
+        alert(
+          `[ERROR] Please rebuild the app to use this functionality. App Version: ${global.window.natively.app_version}, feature version: ${minVersion}`,
         );
       }
-      global.window.$agent.trigger(method, body);
-    },
-
-    openLogger(): void {
-      global.window.$agent.natively_logger();
-    },
-
-    openConsole(): void {
-      global.window.natively.trigger(undefined, 22, undefined, "app_console");
-    },
-
-    closeApp(): void {
-      global.window.natively.trigger(undefined, 11, undefined, "app_close");
-    },
-
-    showProgress(toggle: boolean): void {
-      global.window.natively.trigger(
-        undefined,
-        11,
-        undefined,
-        "app_show_progress",
-        {
-          toggle,
-        },
-      );
-    },
-
-    shareImage(image_url: string): void {
-      global.window.natively.trigger(undefined, 0, undefined, "share_image", {
-        url: image_url,
-      });
-    },
-
-    shareText(text: string): void {
-      global.window.natively.trigger(undefined, 0, undefined, "share_text", {
-        text,
-      });
-    },
-
-    shareTextAndImage(text: string, image_url: string): void {
-      global.window.natively.trigger(
-        undefined,
-        0,
-        undefined,
-        "share_text_and_image",
-        {
-          url: image_url,
-          text,
-        },
-      );
-    },
-
-    shareFile(file_url: string): void {
-      global.window.natively.trigger(undefined, 2, undefined, "share_file", {
-        url: file_url,
-      });
-    },
-
-    openExternalURL(url?: string, external?: boolean): void {
-      const params: { url: string; view: string } = {
-        url: typeof url === "undefined" ? "https://buildnatively.com" : url,
-        view: typeof external !== "undefined" && external ? "external" : "web",
+      return;
+    }
+    if (callback) {
+      let fullMethodName: string;
+      if (respId) {
+        fullMethodName = method + "_response" + "_" + respId;
+      } else {
+        fullMethodName = method + "_response";
+      }
+      window[fullMethodName] = function (resp: any, err: { message: string }) {
+        global.window.$agent.response();
+        if (err.message && isTestVersion) {
+          alert(`[ERROR] Error message: ${err.message}`);
+          return;
+        }
+        if (isTestVersion) {
+          console.log(
+            `[DEBUG] Callback method: ${fullMethodName}, body: ${JSON.stringify(
+              resp,
+            )}, respId: ${respId}`,
+          );
+        }
+        callback(resp);
       };
-      global.window.natively.trigger(
-        undefined,
-        18,
-        undefined,
-        "open_link",
-        params,
+      if (body) {
+        body.response_id = respId;
+      } else {
+        body = { response_id: respId };
+      }
+    }
+    if (isTestVersion) {
+      console.log(
+        `[DEBUG] Trigger method: ${method}, body: ${JSON.stringify(body)}`,
       );
-    },
-  };
-  // Initial Setup
+    }
+    global.window.$agent.trigger(method, body);
+  },
+
+  openLogger(): void {
+    global.window.$agent.natively_logger();
+  },
+
+  openConsole(): void {
+    global.window.natively.trigger(undefined, 22, undefined, "app_console");
+  },
+
+  closeApp(): void {
+    global.window.natively.trigger(undefined, 11, undefined, "app_close");
+  },
+
+  showProgress(toggle: boolean): void {
+    global.window.natively.trigger(
+      undefined,
+      11,
+      undefined,
+      "app_show_progress",
+      {
+        toggle,
+      },
+    );
+  },
+
+  shareImage(image_url: string): void {
+    global.window.natively.trigger(undefined, 0, undefined, "share_image", {
+      url: image_url,
+    });
+  },
+
+  shareText(text: string): void {
+    global.window.natively.trigger(undefined, 0, undefined, "share_text", {
+      text,
+    });
+  },
+
+  shareTextAndImage(text: string, image_url: string): void {
+    global.window.natively.trigger(
+      undefined,
+      0,
+      undefined,
+      "share_text_and_image",
+      {
+        url: image_url,
+        text,
+      },
+    );
+  },
+
+  shareFile(file_url: string): void {
+    global.window.natively.trigger(undefined, 2, undefined, "share_file", {
+      url: file_url,
+    });
+  },
+
+  openExternalURL(url?: string, external?: boolean): void {
+    const params: { url: string; view: string } = {
+      url: typeof url === "undefined" ? "https://buildnatively.com" : url,
+      view: typeof external !== "undefined" && external ? "external" : "web",
+    };
+    global.window.natively.trigger(
+      undefined,
+      18,
+      undefined,
+      "open_link",
+      params,
+    );
+  },
+};
+// Initial Setup
+if (typeof global.window !== "undefined") {
   global.window.natively.addObserver(() =>
     global.window.natively.trigger(
       undefined,
@@ -1185,6 +1181,3 @@ export class NativelyAppleSignInService {
     global.window.natively.trigger(this.id, 16, callback, "apple_signin", {});
   }
 }
-
-export const natively =
-  typeof global.window !== "undefined" ? global.window.natively : undefined;
