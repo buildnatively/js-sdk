@@ -1187,6 +1187,4 @@ export class NativelyAppleSignInService {
 }
 
 export const natively =
-  typeof global.window !== "undefined"
-    ? global.global.window.natively
-    : undefined;
+  typeof global.window !== "undefined" ? global.window.natively : undefined;

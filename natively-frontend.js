@@ -621,4 +621,4 @@ export class NativelyAppleSignInService {
     global.window.natively.trigger(this.id, 16, callback, "apple_signin", {});
   }
 }
-export var natively = typeof global.window !== "undefined" ? global.global.window.natively : undefined;
+export var natively = typeof global.window !== "undefined" ? global.window.natively : undefined;
