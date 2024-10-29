@@ -187,5 +187,5 @@ export declare class NativelyAppleSignInService {
     constructor();
     signin(callback: Function): void;
 }
-export declare const natively: Natively;
+export declare const natively: Natively | null;
 export {};
