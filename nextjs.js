@@ -8,4 +8,4 @@ export function initNatively() {
 // Export classes for direct usage
 export { NativelyInfo, NativelyNotifications, NativelyCamera
 // other class exports
-} from "./index";
+} from "./natively-frontend";

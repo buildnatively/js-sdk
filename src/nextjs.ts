@@ -11,4 +11,4 @@ export {
   NativelyNotifications,
   NativelyCamera,
   // other class exports
-} from "./index";
+} from "./natively-frontend";

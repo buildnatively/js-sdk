@@ -20,4 +20,4 @@ export declare function initNatively(): {
     shareFile(file_url: string): void;
     openExternalURL(url?: string, external?: boolean): void;
 } | null;
-export { NativelyInfo, NativelyNotifications, NativelyCamera, } from "./index";
+export { NativelyInfo, NativelyNotifications, NativelyCamera, } from "./natively-frontend";

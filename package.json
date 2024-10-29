@@ -8,13 +8,13 @@
     ".": {
       "import": "./natively-frontend.m.js",
       "require": "./natively-frontend.min.js",
-      "types": "./index.d.ts"
+      "types": "./natively-frontend.d.ts"
     }
   },
   "files": [
     "natively-frontend.min.js",
     "natively-frontend.m.js",
-    "index.d.ts",
+    "natively-frontend.d.ts",
     "nextjs.js",
     "nextjs.d.ts"
   ],
@@ -24,7 +24,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
-    "build:iife": "babel src/index.ts --config-file ./babel.config.iife.cjs --out-file ./natively-frontend.min.js --minified",
+    "build:iife": "babel src/natively-frontend.ts --config-file ./babel.config.iife.cjs --out-file ./natively-frontend.min.js --minified",
     "build:module": "babel src --extensions \".ts\" --config-file ./babel.config.module.cjs --out-dir ./"
   },
   "repository": {
