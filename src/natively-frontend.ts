@@ -45,23 +45,23 @@ export const natively = {
   app_version: 0,
   injected: false,
   observers: [] as Function[],
-  isIOSApp: global.window.navigator.userAgent.includes("Natively/iOS"),
-  isAndroidApp: global.window.navigator.userAgent.includes("Natively/Android"),
+  isIOSApp: window.navigator.userAgent.includes("Natively/iOS"),
+  isAndroidApp: window.navigator.userAgent.includes("Natively/Android"),
 
   setDebug(isDebug: boolean): void {
-    global.window.natively.isDebug = isDebug;
+    window.natively.isDebug = isDebug;
   },
 
   notify(min?: number, current?: number): void {
-    global.window.natively.injected = true;
+    window.natively.injected = true;
     if (min) {
-      global.window.natively.min_app_version = min;
+      window.natively.min_app_version = min;
     }
     if (current) {
-      global.window.natively.app_version = current;
+      window.natively.app_version = current;
     }
-    const observers = global.window.natively.observers;
-    if (global.window.natively.isDebug) {
+    const observers = window.natively.observers;
+    if (window.natively.isDebug) {
       console.log("[INFO] Notify observers: ", observers.length);
     }
     while (observers.length > 0) {
@@ -71,13 +71,13 @@ export const natively = {
   },
 
   addObserver(fn: Function): void {
-    if (global.window.natively.injected) {
+    if (window.natively.injected) {
       fn();
     } else {
-      if (global.window.natively.isDebug) {
+      if (window.natively.isDebug) {
         console.log(`[DEBUG] addObserver: ${fn}`);
       }
-      global.window.natively.observers.push(fn);
+      window.natively.observers.push(fn);
     }
   },
 
@@ -88,23 +88,17 @@ export const natively = {
     method: string,
     body?: any,
   ): void {
-    const isTestVersion = global.window.natively.isDebug;
-    if (!global.window.natively.injected) {
-      global.window.natively.addObserver(() => {
-        global.window.natively.trigger(
-          respId,
-          minVersion,
-          callback,
-          method,
-          body,
-        );
+    const isTestVersion = window.natively.isDebug;
+    if (!window.natively.injected) {
+      window.natively.addObserver(() => {
+        window.natively.trigger(respId, minVersion, callback, method, body);
       });
       return;
     }
-    if (minVersion > global.window.natively.app_version) {
+    if (minVersion > window.natively.app_version) {
       if (isTestVersion) {
         alert(
-          `[ERROR] Please rebuild the app to use this functionality. App Version: ${global.window.natively.app_version}, feature version: ${minVersion}`,
+          `[ERROR] Please rebuild the app to use this functionality. App Version: ${window.natively.app_version}, feature version: ${minVersion}`,
         );
       }
       return;
@@ -117,7 +111,7 @@ export const natively = {
         fullMethodName = method + "_response";
       }
       window[fullMethodName] = function (resp: any, err: { message: string }) {
-        global.window.$agent.response();
+        window.$agent.response();
         if (err.message && isTestVersion) {
           alert(`[ERROR] Error message: ${err.message}`);
           return;
@@ -142,60 +136,48 @@ export const natively = {
         `[DEBUG] Trigger method: ${method}, body: ${JSON.stringify(body)}`,
       );
     }
-    global.window.$agent.trigger(method, body);
+    window.$agent.trigger(method, body);
   },
 
   openLogger(): void {
-    global.window.$agent.natively_logger();
+    window.$agent.natively_logger();
   },
 
   openConsole(): void {
-    global.window.natively.trigger(undefined, 22, undefined, "app_console");
+    window.natively.trigger(undefined, 22, undefined, "app_console");
   },
 
   closeApp(): void {
-    global.window.natively.trigger(undefined, 11, undefined, "app_close");
+    window.natively.trigger(undefined, 11, undefined, "app_close");
   },
 
   showProgress(toggle: boolean): void {
-    global.window.natively.trigger(
-      undefined,
-      11,
-      undefined,
-      "app_show_progress",
-      {
-        toggle,
-      },
-    );
+    window.natively.trigger(undefined, 11, undefined, "app_show_progress", {
+      toggle,
+    });
   },
 
   shareImage(image_url: string): void {
-    global.window.natively.trigger(undefined, 0, undefined, "share_image", {
+    window.natively.trigger(undefined, 0, undefined, "share_image", {
       url: image_url,
     });
   },
 
   shareText(text: string): void {
-    global.window.natively.trigger(undefined, 0, undefined, "share_text", {
+    window.natively.trigger(undefined, 0, undefined, "share_text", {
       text,
     });
   },
 
   shareTextAndImage(text: string, image_url: string): void {
-    global.window.natively.trigger(
-      undefined,
-      0,
-      undefined,
-      "share_text_and_image",
-      {
-        url: image_url,
-        text,
-      },
-    );
+    window.natively.trigger(undefined, 0, undefined, "share_text_and_image", {
+      url: image_url,
+      text,
+    });
   },
 
   shareFile(file_url: string): void {
-    global.window.natively.trigger(undefined, 2, undefined, "share_file", {
+    window.natively.trigger(undefined, 2, undefined, "share_file", {
       url: file_url,
     });
   },
@@ -205,24 +187,18 @@ export const natively = {
       url: typeof url === "undefined" ? "https://buildnatively.com" : url,
       view: typeof external !== "undefined" && external ? "external" : "web",
     };
-    global.window.natively.trigger(
-      undefined,
-      18,
-      undefined,
-      "open_link",
-      params,
-    );
+    window.natively.trigger(undefined, 18, undefined, "open_link", params);
   },
 };
 // Initial Setup
 if (typeof global.window !== "undefined") {
-  global.window.natively.addObserver(() =>
-    global.window.natively.trigger(
+  window.natively.addObserver(() =>
+    window.natively.trigger(
       undefined,
       0,
       (resp: { minSDKVersion: number; sdkVersion: number }) => {
-        global.window.natively.min_app_version = resp.minSDKVersion;
-        global.window.natively.app_version = resp.sdkVersion;
+        window.natively.min_app_version = resp.minSDKVersion;
+        window.natively.app_version = resp.sdkVersion;
       },
       "app_info",
       {},
@@ -242,19 +218,19 @@ export class NativelyInfo {
     isIOSApp: boolean;
     isAndroidApp: boolean;
   } {
-    const isNativeApp = typeof global.window.$agent !== "undefined";
-    const isIOSApp = global.window.navigator.userAgent.includes("Natively/iOS");
+    const isNativeApp = typeof window.$agent !== "undefined";
+    const isIOSApp = window.navigator.userAgent.includes("Natively/iOS");
     const isAndroidApp =
-      global.window.navigator.userAgent.includes("Natively/Android");
+      window.navigator.userAgent.includes("Natively/Android");
     return { isNativeApp, isIOSApp, isAndroidApp };
   }
 
   getAppInfo(app_info_callback: Function): void {
-    global.window.natively.trigger(this.id, 0, app_info_callback, "app_info");
+    window.natively.trigger(this.id, 0, app_info_callback, "app_info");
   }
 
   connectivity(connectivity_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       undefined,
       0,
       connectivity_callback,
@@ -263,12 +239,7 @@ export class NativelyInfo {
   }
 
   app_state(app_state_callback: Function): void {
-    global.window.natively.trigger(
-      undefined,
-      19,
-      app_state_callback,
-      "app_state",
-    );
+    window.natively.trigger(undefined, 19, app_state_callback, "app_state");
   }
 }
 
@@ -280,18 +251,13 @@ export class NativelyClipboard {
   }
 
   copy(text: string): void {
-    global.window.natively.trigger(undefined, 11, undefined, "clipboard_copy", {
+    window.natively.trigger(undefined, 11, undefined, "clipboard_copy", {
       text,
     });
   }
 
   paste(paste_callback: Function): void {
-    global.window.natively.trigger(
-      this.id,
-      11,
-      paste_callback,
-      "clipboard_paste",
-    );
+    window.natively.trigger(this.id, 11, paste_callback, "clipboard_paste");
   }
 }
 
@@ -303,7 +269,7 @@ export class NativelyNotifications {
   }
 
   getOneSignalId(onesignal_playerid_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       0,
       onesignal_playerid_callback,
@@ -315,7 +281,7 @@ export class NativelyNotifications {
     fallbackToSettings: boolean,
     push_register_callback: Function,
   ): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       0,
       push_register_callback,
@@ -327,7 +293,7 @@ export class NativelyNotifications {
   }
 
   getPermissionStatus(push_permission_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       0,
       push_permission_callback,
@@ -345,28 +311,17 @@ export class NativelyGeolocation {
   }
 
   getUserGeolocation(distance: number, geolocation_callback: Function): void {
-    global.window.natively.trigger(
-      this.id,
-      0,
-      geolocation_callback,
-      "geolocation",
-      {
-        distance,
-      },
-    );
+    window.natively.trigger(this.id, 0, geolocation_callback, "geolocation", {
+      distance,
+    });
   }
 
   requestPermission(geo_register_callback: Function): void {
-    global.window.natively.trigger(
-      this.id,
-      0,
-      geo_register_callback,
-      "geo_register",
-    );
+    window.natively.trigger(this.id, 0, geo_register_callback, "geo_register");
   }
 
   getPermissionStatus(geo_permission_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       0,
       geo_permission_callback,
@@ -388,7 +343,7 @@ export class NativelyLocation {
     priority_android: string,
     location_callback: Function,
   ): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       12,
       location_callback,
@@ -402,7 +357,7 @@ export class NativelyLocation {
   }
 
   permission(location_permission_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       6,
       location_permission_callback,
@@ -417,22 +372,16 @@ export class NativelyLocation {
     priority_android: string,
     location_callback: Function,
   ): void {
-    global.window.natively.trigger(
-      this.id,
-      12,
-      location_callback,
-      "location_start",
-      {
-        minAccuracy: minAccuracyIOS,
-        accuracyType: accuracyTypeIOS,
-        priority: priority_android,
-        interval,
-      },
-    );
+    window.natively.trigger(this.id, 12, location_callback, "location_start", {
+      minAccuracy: minAccuracyIOS,
+      accuracyType: accuracyTypeIOS,
+      priority: priority_android,
+      interval,
+    });
   }
 
   stop(): void {
-    global.window.natively.trigger(this.id, 3, undefined, "location_stop", {});
+    window.natively.trigger(this.id, 3, undefined, "location_stop", {});
   }
 
   startBackground(
@@ -450,7 +399,7 @@ export class NativelyLocation {
       accuracyType: accuracyTypeIOS ?? "Best",
       priority: priority_android ?? "BALANCED",
     };
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       12,
       location_bg_callback,
@@ -460,7 +409,7 @@ export class NativelyLocation {
   }
 
   statusBackground(location_bg_status_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       20,
       location_bg_status_callback,
@@ -470,7 +419,7 @@ export class NativelyLocation {
   }
 
   stopBackground(location_bg_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       4,
       location_bg_callback,
@@ -496,13 +445,7 @@ export class NativelyMessage {
       body: body ?? "",
       recipient: recipient ?? "",
     };
-    global.window.natively.trigger(
-      this.id,
-      0,
-      send_sms_callback,
-      "send_sms",
-      params,
-    );
+    window.natively.trigger(this.id, 0, send_sms_callback, "send_sms", params);
   }
 
   sendEmail(
@@ -516,7 +459,7 @@ export class NativelyMessage {
       body: body ?? "",
       recipient: recipient ?? "",
     };
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       0,
       send_email_callback,
@@ -534,14 +477,14 @@ export class NativelyStorage {
   }
 
   setStorageValue(key: string, value: any): void {
-    global.window.natively.trigger(this.id, 0, undefined, "set_storage_value", {
+    window.natively.trigger(this.id, 0, undefined, "set_storage_value", {
       key,
       value,
     });
   }
 
   getStorageValue(key: string, get_storage_value_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       0,
       get_storage_value_callback,
@@ -553,19 +496,13 @@ export class NativelyStorage {
   }
 
   removeStorageValue(key: string): void {
-    global.window.natively.trigger(
-      this.id,
-      0,
-      undefined,
-      "remove_storage_value",
-      {
-        key,
-      },
-    );
+    window.natively.trigger(this.id, 0, undefined, "remove_storage_value", {
+      key,
+    });
   }
 
   resetStorage(): void {
-    global.window.natively.trigger(this.id, 0, undefined, "reset_storage");
+    window.natively.trigger(this.id, 0, undefined, "reset_storage");
   }
 }
 
@@ -579,7 +516,7 @@ export class NativelyBiometrics {
   }
 
   checkBiometricsSupport(biometrics_support_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       0,
       biometrics_support_callback,
@@ -591,7 +528,7 @@ export class NativelyBiometrics {
   }
 
   checkCredentials(biometrics_has_credentials_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       0,
       biometrics_has_credentials_callback,
@@ -600,7 +537,7 @@ export class NativelyBiometrics {
   }
 
   verifyUserIdentify(biometrics_verify_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       0,
       biometrics_verify_callback,
@@ -612,7 +549,7 @@ export class NativelyBiometrics {
   }
 
   getUserCredentials(biometrics_auth_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       0,
       biometrics_auth_callback,
@@ -626,7 +563,7 @@ export class NativelyBiometrics {
   removeUserCredentials(
     biometrics_remove_credentials_callback: Function,
   ): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       0,
       biometrics_remove_credentials_callback,
@@ -639,7 +576,7 @@ export class NativelyBiometrics {
     password: string,
     biometrics_auth_callback: Function,
   ): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       0,
       biometrics_auth_callback,
@@ -673,7 +610,7 @@ export class NativelyDatePicker {
       title: title ?? "",
       description: description ?? "",
     };
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       0,
       datepicker_callback,
@@ -701,7 +638,7 @@ export class NativelyCamera {
       quality: quality ?? "high",
       camera: camera ?? "BACK",
     };
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       2,
       open_camera_callback,
@@ -719,7 +656,7 @@ export class NativelyHealth {
   }
 
   available(available_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       10,
       available_callback,
@@ -733,26 +670,20 @@ export class NativelyHealth {
     read_data_types: string[],
     request_callback: Function,
   ): void {
-    global.window.natively.trigger(
-      this.id,
-      10,
-      request_callback,
-      "health_register",
-      {
-        write_data_types,
-        read_data_types,
-      },
-    );
+    window.natively.trigger(this.id, 10, request_callback, "health_register", {
+      write_data_types,
+      read_data_types,
+    });
   }
 
   permissionStatus(data_type: string, callback: Function): void {
-    global.window.natively.trigger(this.id, 10, callback, "health_permission", {
+    window.natively.trigger(this.id, 10, callback, "health_permission", {
       data_type,
     });
   }
 
   getAllCharacteristics(callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       10,
       callback,
@@ -778,7 +709,7 @@ export class NativelyHealth {
     if (end_date) {
       obj.end_date = end_date.getTime();
     }
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       10,
       callback,
@@ -796,7 +727,7 @@ export class NativelyScanner {
   }
 
   showScanner(open_scanner_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       2,
       open_scanner_callback,
@@ -819,20 +750,14 @@ export class NativelyPurchases {
     login_callback?: Function,
   ): void {
     const email = customerEmail ?? "";
-    global.window.natively.trigger(
-      this.id,
-      3,
-      login_callback,
-      "purchases_login",
-      {
-        login,
-        email,
-      },
-    );
+    window.natively.trigger(this.id, 3, login_callback, "purchases_login", {
+      login,
+      email,
+    });
   }
 
   logout(logout_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       3,
       logout_callback,
@@ -842,7 +767,7 @@ export class NativelyPurchases {
   }
 
   customerId(customer_id_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       3,
       customer_id_callback,
@@ -852,7 +777,7 @@ export class NativelyPurchases {
   }
 
   restore(restore_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       10,
       restore_callback,
@@ -862,7 +787,7 @@ export class NativelyPurchases {
   }
 
   purchasePackage(packageId: string, purchase_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       3,
       purchase_callback,
@@ -874,15 +799,9 @@ export class NativelyPurchases {
   }
 
   packagePrice(packageId: string, purchase_callback: Function): void {
-    global.window.natively.trigger(
-      this.id,
-      8,
-      purchase_callback,
-      "purchases_price",
-      {
-        packageId,
-      },
-    );
+    window.natively.trigger(this.id, 8, purchase_callback, "purchases_price", {
+      packageId,
+    });
   }
 }
 
@@ -894,7 +813,7 @@ export class NativelyContacts {
   }
 
   getAllContacts(contacts_all_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       3,
       contacts_all_callback,
@@ -916,7 +835,7 @@ export class NativelyContacts {
       email: email ?? "",
       phone: phone ?? "",
     };
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       3,
       contacts_save_callback,
@@ -934,7 +853,7 @@ export class NativelyMediaPicker {
   }
 
   showMediaPicker(mediapicker_callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       8,
       mediapicker_callback,
@@ -955,7 +874,7 @@ export class NativelyAudioRecorder {
     const params = {
       max_duration: max_duration ?? 0,
     };
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       13,
       record_callback,
@@ -986,10 +905,10 @@ export class NativelyAdmobBanner {
     this.id = generateID();
     const params: any = {};
 
-    if (global.window.natively.isAndroidApp) {
+    if (window.natively.isAndroidApp) {
       params.unitId =
         config.androidUnitId ?? "ca-app-pub-3940256099942544/6300978111";
-    } else if (global.window.natively.isIOSApp) {
+    } else if (window.natively.isIOSApp) {
       params.unitId =
         config.iOSUnitId ?? "ca-app-pub-3940256099942544/2934735716";
     }
@@ -999,19 +918,19 @@ export class NativelyAdmobBanner {
     params.width = config.custom_width ?? 320;
     params.height = config.custom_height ?? 50;
 
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       14,
       (resp: any) => {
         setup_callback?.(resp);
         if (preload_ad) {
-          global.window.natively.trigger(
+          window.natively.trigger(
             this.id,
             14,
             (resp: any) => {
               preload_callback?.(resp);
               if (show_ad) {
-                global.window.natively.trigger(
+                window.natively.trigger(
                   this.id,
                   14,
                   show_callback,
@@ -1031,29 +950,23 @@ export class NativelyAdmobBanner {
   }
 
   loadAd(callback?: Function): void {
-    global.window.natively.trigger(this.id, 14, callback, "bannerad_load", {});
+    window.natively.trigger(this.id, 14, callback, "bannerad_load", {});
   }
 
   showBanner(callback?: Function): void {
-    global.window.natively.trigger(this.id, 14, callback, "bannerad_show", {});
+    window.natively.trigger(this.id, 14, callback, "bannerad_show", {});
   }
 
   hideBanner(callback?: Function): void {
-    global.window.natively.trigger(this.id, 14, callback, "bannerad_hide", {});
+    window.natively.trigger(this.id, 14, callback, "bannerad_hide", {});
   }
 
   bannerIsReady(callback: Function): void {
-    global.window.natively.trigger(this.id, 14, callback, "bannerad_ready", {});
+    window.natively.trigger(this.id, 14, callback, "bannerad_ready", {});
   }
 
   bannerIsVisible(callback: Function): void {
-    global.window.natively.trigger(
-      this.id,
-      14,
-      callback,
-      "bannerad_visible",
-      {},
-    );
+    window.natively.trigger(this.id, 14, callback, "bannerad_visible", {});
   }
 }
 
@@ -1075,9 +988,9 @@ export class NativelyAdmobInterstitial {
   ) {
     this.id = generateID();
 
-    if (global.window.natively.isAndroidApp) {
+    if (window.natively.isAndroidApp) {
       this.unitId = androidUnitId;
-    } else if (global.window.natively.isIOSApp) {
+    } else if (window.natively.isIOSApp) {
       this.unitId = iOSUnitId;
     }
     this.auto_ad_reload = auto_ad_reload;
@@ -1089,7 +1002,7 @@ export class NativelyAdmobInterstitial {
     const params = {
       unitId: this.unitId ?? "ca-app-pub-3940256099942544/4411468910",
     };
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       14,
       callback,
@@ -1099,7 +1012,7 @@ export class NativelyAdmobInterstitial {
   }
 
   showInterstitialAd(callback: Function): void {
-    global.window.natively.trigger(
+    window.natively.trigger(
       this.id,
       14,
       (resp: any) => {
@@ -1116,13 +1029,7 @@ export class NativelyAdmobInterstitial {
   }
 
   interstitialIsReady(callback: Function): void {
-    global.window.natively.trigger(
-      this.id,
-      14,
-      callback,
-      "interstitialad_ready",
-      {},
-    );
+    window.natively.trigger(this.id, 14, callback, "interstitialad_ready", {});
   }
 }
 
@@ -1151,7 +1058,7 @@ export class NativelyNFCService {
       alertMessage: this.readAlertMessage ?? "please set readAlertMessage",
       detectedMessage: this.readDetectedMessage ?? "readDetectedMessage",
     };
-    global.window.natively.trigger(this.id, 15, callback, "nfc_read", params);
+    window.natively.trigger(this.id, 15, callback, "nfc_read", params);
   }
 
   write(recordId: string, recordData: string, callback: Function): void {
@@ -1162,11 +1069,11 @@ export class NativelyNFCService {
       recordData: recordData ?? "please set recordData",
       recordId: recordId ?? "please set recordId",
     };
-    global.window.natively.trigger(this.id, 15, callback, "nfc_write", params);
+    window.natively.trigger(this.id, 15, callback, "nfc_write", params);
   }
 
   available(callback: Function): void {
-    global.window.natively.trigger(this.id, 15, callback, "nfc_available", {});
+    window.natively.trigger(this.id, 15, callback, "nfc_available", {});
   }
 }
 
@@ -1178,6 +1085,6 @@ export class NativelyAppleSignInService {
   }
 
   signin(callback: Function): void {
-    global.window.natively.trigger(this.id, 16, callback, "apple_signin", {});
+    window.natively.trigger(this.id, 16, callback, "apple_signin", {});
   }
 }

@@ -10,21 +10,21 @@ export var natively = {
   app_version: 0,
   injected: false,
   observers: [],
-  isIOSApp: global.window.navigator.userAgent.includes("Natively/iOS"),
-  isAndroidApp: global.window.navigator.userAgent.includes("Natively/Android"),
+  isIOSApp: window.navigator.userAgent.includes("Natively/iOS"),
+  isAndroidApp: window.navigator.userAgent.includes("Natively/Android"),
   setDebug(isDebug) {
-    global.window.natively.isDebug = isDebug;
+    window.natively.isDebug = isDebug;
   },
   notify(min, current) {
-    global.window.natively.injected = true;
+    window.natively.injected = true;
     if (min) {
-      global.window.natively.min_app_version = min;
+      window.natively.min_app_version = min;
     }
     if (current) {
-      global.window.natively.app_version = current;
+      window.natively.app_version = current;
     }
-    var observers = global.window.natively.observers;
-    if (global.window.natively.isDebug) {
+    var observers = window.natively.observers;
+    if (window.natively.isDebug) {
       console.log("[INFO] Notify observers: ", observers.length);
     }
     while (observers.length > 0) {
@@ -33,26 +33,26 @@ export var natively = {
     }
   },
   addObserver(fn) {
-    if (global.window.natively.injected) {
+    if (window.natively.injected) {
       fn();
     } else {
-      if (global.window.natively.isDebug) {
+      if (window.natively.isDebug) {
         console.log("[DEBUG] addObserver: ".concat(fn));
       }
-      global.window.natively.observers.push(fn);
+      window.natively.observers.push(fn);
     }
   },
   trigger(respId, minVersion, callback, method, body) {
-    var isTestVersion = global.window.natively.isDebug;
-    if (!global.window.natively.injected) {
-      global.window.natively.addObserver(() => {
-        global.window.natively.trigger(respId, minVersion, callback, method, body);
+    var isTestVersion = window.natively.isDebug;
+    if (!window.natively.injected) {
+      window.natively.addObserver(() => {
+        window.natively.trigger(respId, minVersion, callback, method, body);
       });
       return;
     }
-    if (minVersion > global.window.natively.app_version) {
+    if (minVersion > window.natively.app_version) {
       if (isTestVersion) {
-        alert("[ERROR] Please rebuild the app to use this functionality. App Version: ".concat(global.window.natively.app_version, ", feature version: ").concat(minVersion));
+        alert("[ERROR] Please rebuild the app to use this functionality. App Version: ".concat(window.natively.app_version, ", feature version: ").concat(minVersion));
       }
       return;
     }
@@ -64,7 +64,7 @@ export var natively = {
         fullMethodName = method + "_response";
       }
       window[fullMethodName] = function (resp, err) {
-        global.window.$agent.response();
+        window.$agent.response();
         if (err.message && isTestVersion) {
           alert("[ERROR] Error message: ".concat(err.message));
           return;
@@ -85,40 +85,40 @@ export var natively = {
     if (isTestVersion) {
       console.log("[DEBUG] Trigger method: ".concat(method, ", body: ").concat(JSON.stringify(body)));
     }
-    global.window.$agent.trigger(method, body);
+    window.$agent.trigger(method, body);
   },
   openLogger() {
-    global.window.$agent.natively_logger();
+    window.$agent.natively_logger();
   },
   openConsole() {
-    global.window.natively.trigger(undefined, 22, undefined, "app_console");
+    window.natively.trigger(undefined, 22, undefined, "app_console");
   },
   closeApp() {
-    global.window.natively.trigger(undefined, 11, undefined, "app_close");
+    window.natively.trigger(undefined, 11, undefined, "app_close");
   },
   showProgress(toggle) {
-    global.window.natively.trigger(undefined, 11, undefined, "app_show_progress", {
+    window.natively.trigger(undefined, 11, undefined, "app_show_progress", {
       toggle
     });
   },
   shareImage(image_url) {
-    global.window.natively.trigger(undefined, 0, undefined, "share_image", {
+    window.natively.trigger(undefined, 0, undefined, "share_image", {
       url: image_url
     });
   },
   shareText(text) {
-    global.window.natively.trigger(undefined, 0, undefined, "share_text", {
+    window.natively.trigger(undefined, 0, undefined, "share_text", {
       text
     });
   },
   shareTextAndImage(text, image_url) {
-    global.window.natively.trigger(undefined, 0, undefined, "share_text_and_image", {
+    window.natively.trigger(undefined, 0, undefined, "share_text_and_image", {
       url: image_url,
       text
     });
   },
   shareFile(file_url) {
-    global.window.natively.trigger(undefined, 2, undefined, "share_file", {
+    window.natively.trigger(undefined, 2, undefined, "share_file", {
       url: file_url
     });
   },
@@ -127,14 +127,14 @@ export var natively = {
       url: typeof url === "undefined" ? "https://buildnatively.com" : url,
       view: typeof external !== "undefined" && external ? "external" : "web"
     };
-    global.window.natively.trigger(undefined, 18, undefined, "open_link", params);
+    window.natively.trigger(undefined, 18, undefined, "open_link", params);
   }
 };
 // Initial Setup
 if (typeof global.window !== "undefined") {
-  global.window.natively.addObserver(() => global.window.natively.trigger(undefined, 0, resp => {
-    global.window.natively.min_app_version = resp.minSDKVersion;
-    global.window.natively.app_version = resp.sdkVersion;
+  window.natively.addObserver(() => window.natively.trigger(undefined, 0, resp => {
+    window.natively.min_app_version = resp.minSDKVersion;
+    window.natively.app_version = resp.sdkVersion;
   }, "app_info", {}));
 }
 export class NativelyInfo {
@@ -143,9 +143,9 @@ export class NativelyInfo {
     this.id = generateID();
   }
   browserInfo() {
-    var isNativeApp = typeof global.window.$agent !== "undefined";
-    var isIOSApp = global.window.navigator.userAgent.includes("Natively/iOS");
-    var isAndroidApp = global.window.navigator.userAgent.includes("Natively/Android");
+    var isNativeApp = typeof window.$agent !== "undefined";
+    var isIOSApp = window.navigator.userAgent.includes("Natively/iOS");
+    var isAndroidApp = window.navigator.userAgent.includes("Natively/Android");
     return {
       isNativeApp,
       isIOSApp,
@@ -153,13 +153,13 @@ export class NativelyInfo {
     };
   }
   getAppInfo(app_info_callback) {
-    global.window.natively.trigger(this.id, 0, app_info_callback, "app_info");
+    window.natively.trigger(this.id, 0, app_info_callback, "app_info");
   }
   connectivity(connectivity_callback) {
-    global.window.natively.trigger(undefined, 0, connectivity_callback, "connectivity");
+    window.natively.trigger(undefined, 0, connectivity_callback, "connectivity");
   }
   app_state(app_state_callback) {
-    global.window.natively.trigger(undefined, 19, app_state_callback, "app_state");
+    window.natively.trigger(undefined, 19, app_state_callback, "app_state");
   }
 }
 export class NativelyClipboard {
@@ -168,12 +168,12 @@ export class NativelyClipboard {
     this.id = generateID();
   }
   copy(text) {
-    global.window.natively.trigger(undefined, 11, undefined, "clipboard_copy", {
+    window.natively.trigger(undefined, 11, undefined, "clipboard_copy", {
       text
     });
   }
   paste(paste_callback) {
-    global.window.natively.trigger(this.id, 11, paste_callback, "clipboard_paste");
+    window.natively.trigger(this.id, 11, paste_callback, "clipboard_paste");
   }
 }
 export class NativelyNotifications {
@@ -182,15 +182,15 @@ export class NativelyNotifications {
     this.id = generateID();
   }
   getOneSignalId(onesignal_playerid_callback) {
-    global.window.natively.trigger(this.id, 0, onesignal_playerid_callback, "onesignal_playerid");
+    window.natively.trigger(this.id, 0, onesignal_playerid_callback, "onesignal_playerid");
   }
   requestPermission(fallbackToSettings, push_register_callback) {
-    global.window.natively.trigger(this.id, 0, push_register_callback, "push_register", {
+    window.natively.trigger(this.id, 0, push_register_callback, "push_register", {
       fallbackToSettings
     });
   }
   getPermissionStatus(push_permission_callback) {
-    global.window.natively.trigger(this.id, 0, push_permission_callback, "push_permission");
+    window.natively.trigger(this.id, 0, push_permission_callback, "push_permission");
   }
 }
 
@@ -201,15 +201,15 @@ export class NativelyGeolocation {
     this.id = generateID();
   }
   getUserGeolocation(distance, geolocation_callback) {
-    global.window.natively.trigger(this.id, 0, geolocation_callback, "geolocation", {
+    window.natively.trigger(this.id, 0, geolocation_callback, "geolocation", {
       distance
     });
   }
   requestPermission(geo_register_callback) {
-    global.window.natively.trigger(this.id, 0, geo_register_callback, "geo_register");
+    window.natively.trigger(this.id, 0, geo_register_callback, "geo_register");
   }
   getPermissionStatus(geo_permission_callback) {
-    global.window.natively.trigger(this.id, 0, geo_permission_callback, "geo_permission");
+    window.natively.trigger(this.id, 0, geo_permission_callback, "geo_permission");
   }
 }
 export class NativelyLocation {
@@ -218,17 +218,17 @@ export class NativelyLocation {
     this.id = generateID();
   }
   current(minAccuracyIOS, accuracyTypeIOS, priority_android, location_callback) {
-    global.window.natively.trigger(this.id, 12, location_callback, "location_current", {
+    window.natively.trigger(this.id, 12, location_callback, "location_current", {
       minAccuracy: minAccuracyIOS,
       accuracyType: accuracyTypeIOS,
       priority: priority_android
     });
   }
   permission(location_permission_callback) {
-    global.window.natively.trigger(this.id, 6, location_permission_callback, "location_permission");
+    window.natively.trigger(this.id, 6, location_permission_callback, "location_permission");
   }
   start(interval, minAccuracyIOS, accuracyTypeIOS, priority_android, location_callback) {
-    global.window.natively.trigger(this.id, 12, location_callback, "location_start", {
+    window.natively.trigger(this.id, 12, location_callback, "location_start", {
       minAccuracy: minAccuracyIOS,
       accuracyType: accuracyTypeIOS,
       priority: priority_android,
@@ -236,7 +236,7 @@ export class NativelyLocation {
     });
   }
   stop() {
-    global.window.natively.trigger(this.id, 3, undefined, "location_stop", {});
+    window.natively.trigger(this.id, 3, undefined, "location_stop", {});
   }
   startBackground(interval, minAccuracyIOS, accuracyTypeIOS, priority_android, responseIdentifier, location_bg_callback) {
     var params = {
@@ -246,13 +246,13 @@ export class NativelyLocation {
       accuracyType: accuracyTypeIOS !== null && accuracyTypeIOS !== void 0 ? accuracyTypeIOS : "Best",
       priority: priority_android !== null && priority_android !== void 0 ? priority_android : "BALANCED"
     };
-    global.window.natively.trigger(this.id, 12, location_bg_callback, "location_start_bg", params);
+    window.natively.trigger(this.id, 12, location_bg_callback, "location_start_bg", params);
   }
   statusBackground(location_bg_status_callback) {
-    global.window.natively.trigger(this.id, 20, location_bg_status_callback, "location_status_bg", {});
+    window.natively.trigger(this.id, 20, location_bg_status_callback, "location_status_bg", {});
   }
   stopBackground(location_bg_callback) {
-    global.window.natively.trigger(this.id, 4, location_bg_callback, "location_stop_bg", {});
+    window.natively.trigger(this.id, 4, location_bg_callback, "location_stop_bg", {});
   }
 }
 export class NativelyMessage {
@@ -265,7 +265,7 @@ export class NativelyMessage {
       body: body !== null && body !== void 0 ? body : "",
       recipient: recipient !== null && recipient !== void 0 ? recipient : ""
     };
-    global.window.natively.trigger(this.id, 0, send_sms_callback, "send_sms", params);
+    window.natively.trigger(this.id, 0, send_sms_callback, "send_sms", params);
   }
   sendEmail(subject, body, recipient, send_email_callback) {
     var params = {
@@ -273,7 +273,7 @@ export class NativelyMessage {
       body: body !== null && body !== void 0 ? body : "",
       recipient: recipient !== null && recipient !== void 0 ? recipient : ""
     };
-    global.window.natively.trigger(this.id, 0, send_email_callback, "send_email", params);
+    window.natively.trigger(this.id, 0, send_email_callback, "send_email", params);
   }
 }
 export class NativelyStorage {
@@ -282,23 +282,23 @@ export class NativelyStorage {
     this.id = generateID();
   }
   setStorageValue(key, value) {
-    global.window.natively.trigger(this.id, 0, undefined, "set_storage_value", {
+    window.natively.trigger(this.id, 0, undefined, "set_storage_value", {
       key,
       value
     });
   }
   getStorageValue(key, get_storage_value_callback) {
-    global.window.natively.trigger(this.id, 0, get_storage_value_callback, "get_storage_value", {
+    window.natively.trigger(this.id, 0, get_storage_value_callback, "get_storage_value", {
       key
     });
   }
   removeStorageValue(key) {
-    global.window.natively.trigger(this.id, 0, undefined, "remove_storage_value", {
+    window.natively.trigger(this.id, 0, undefined, "remove_storage_value", {
       key
     });
   }
   resetStorage() {
-    global.window.natively.trigger(this.id, 0, undefined, "reset_storage");
+    window.natively.trigger(this.id, 0, undefined, "reset_storage");
   }
 }
 export class NativelyBiometrics {
@@ -309,28 +309,28 @@ export class NativelyBiometrics {
     this.id = generateID();
   }
   checkBiometricsSupport(biometrics_support_callback) {
-    global.window.natively.trigger(this.id, 0, biometrics_support_callback, "biometrics_support", {
+    window.natively.trigger(this.id, 0, biometrics_support_callback, "biometrics_support", {
       allowPass: this.allowPass
     });
   }
   checkCredentials(biometrics_has_credentials_callback) {
-    global.window.natively.trigger(this.id, 0, biometrics_has_credentials_callback, "biometrics_has_credentials");
+    window.natively.trigger(this.id, 0, biometrics_has_credentials_callback, "biometrics_has_credentials");
   }
   verifyUserIdentify(biometrics_verify_callback) {
-    global.window.natively.trigger(this.id, 0, biometrics_verify_callback, "biometrics_verify", {
+    window.natively.trigger(this.id, 0, biometrics_verify_callback, "biometrics_verify", {
       allowPass: this.allowPass
     });
   }
   getUserCredentials(biometrics_auth_callback) {
-    global.window.natively.trigger(this.id, 0, biometrics_auth_callback, "biometrics_auth", {
+    window.natively.trigger(this.id, 0, biometrics_auth_callback, "biometrics_auth", {
       allowPass: this.allowPass
     });
   }
   removeUserCredentials(biometrics_remove_credentials_callback) {
-    global.window.natively.trigger(this.id, 0, biometrics_remove_credentials_callback, "biometrics_remove_credentials");
+    window.natively.trigger(this.id, 0, biometrics_remove_credentials_callback, "biometrics_remove_credentials");
   }
   saveUserCredentials(login, password, biometrics_auth_callback) {
-    global.window.natively.trigger(this.id, 0, biometrics_auth_callback, "biometrics_auth", {
+    window.natively.trigger(this.id, 0, biometrics_auth_callback, "biometrics_auth", {
       allowPass: this.allowPass,
       login,
       password
@@ -349,7 +349,7 @@ export class NativelyDatePicker {
       title: title !== null && title !== void 0 ? title : "",
       description: description !== null && description !== void 0 ? description : ""
     };
-    global.window.natively.trigger(this.id, 0, datepicker_callback, "datepicker", params);
+    window.natively.trigger(this.id, 0, datepicker_callback, "datepicker", params);
   }
 }
 export class NativelyCamera {
@@ -363,7 +363,7 @@ export class NativelyCamera {
       quality: quality !== null && quality !== void 0 ? quality : "high",
       camera: camera !== null && camera !== void 0 ? camera : "BACK"
     };
-    global.window.natively.trigger(this.id, 2, open_camera_callback, "open_camera", params);
+    window.natively.trigger(this.id, 2, open_camera_callback, "open_camera", params);
   }
 }
 export class NativelyHealth {
@@ -372,21 +372,21 @@ export class NativelyHealth {
     this.id = generateID();
   }
   available(available_callback) {
-    global.window.natively.trigger(this.id, 10, available_callback, "health_available", {});
+    window.natively.trigger(this.id, 10, available_callback, "health_available", {});
   }
   requestAuthorization(write_data_types, read_data_types, request_callback) {
-    global.window.natively.trigger(this.id, 10, request_callback, "health_register", {
+    window.natively.trigger(this.id, 10, request_callback, "health_register", {
       write_data_types,
       read_data_types
     });
   }
   permissionStatus(data_type, callback) {
-    global.window.natively.trigger(this.id, 10, callback, "health_permission", {
+    window.natively.trigger(this.id, 10, callback, "health_permission", {
       data_type
     });
   }
   getAllCharacteristics(callback) {
-    global.window.natively.trigger(this.id, 10, callback, "health_get_all_characteristics", {});
+    window.natively.trigger(this.id, 10, callback, "health_get_all_characteristics", {});
   }
   getStatisticQuantity(data_type, interval, start_date, end_date, callback) {
     var obj = {
@@ -399,7 +399,7 @@ export class NativelyHealth {
     if (end_date) {
       obj.end_date = end_date.getTime();
     }
-    global.window.natively.trigger(this.id, 10, callback, "health_get_statistic_quantity", obj);
+    window.natively.trigger(this.id, 10, callback, "health_get_statistic_quantity", obj);
   }
 }
 export class NativelyScanner {
@@ -408,7 +408,7 @@ export class NativelyScanner {
     this.id = generateID();
   }
   showScanner(open_scanner_callback) {
-    global.window.natively.trigger(this.id, 2, open_scanner_callback, "open_scanner", {});
+    window.natively.trigger(this.id, 2, open_scanner_callback, "open_scanner", {});
   }
 }
 export class NativelyPurchases {
@@ -418,27 +418,27 @@ export class NativelyPurchases {
   }
   login(login, customerEmail, login_callback) {
     var email = customerEmail !== null && customerEmail !== void 0 ? customerEmail : "";
-    global.window.natively.trigger(this.id, 3, login_callback, "purchases_login", {
+    window.natively.trigger(this.id, 3, login_callback, "purchases_login", {
       login,
       email
     });
   }
   logout(logout_callback) {
-    global.window.natively.trigger(this.id, 3, logout_callback, "purchases_logout", {});
+    window.natively.trigger(this.id, 3, logout_callback, "purchases_logout", {});
   }
   customerId(customer_id_callback) {
-    global.window.natively.trigger(this.id, 3, customer_id_callback, "purchases_customerid", {});
+    window.natively.trigger(this.id, 3, customer_id_callback, "purchases_customerid", {});
   }
   restore(restore_callback) {
-    global.window.natively.trigger(this.id, 10, restore_callback, "purchases_restore", {});
+    window.natively.trigger(this.id, 10, restore_callback, "purchases_restore", {});
   }
   purchasePackage(packageId, purchase_callback) {
-    global.window.natively.trigger(this.id, 3, purchase_callback, "purchases_package", {
+    window.natively.trigger(this.id, 3, purchase_callback, "purchases_package", {
       packageId
     });
   }
   packagePrice(packageId, purchase_callback) {
-    global.window.natively.trigger(this.id, 8, purchase_callback, "purchases_price", {
+    window.natively.trigger(this.id, 8, purchase_callback, "purchases_price", {
       packageId
     });
   }
@@ -449,7 +449,7 @@ export class NativelyContacts {
     this.id = generateID();
   }
   getAllContacts(contacts_all_callback) {
-    global.window.natively.trigger(this.id, 3, contacts_all_callback, "contacts_all", {});
+    window.natively.trigger(this.id, 3, contacts_all_callback, "contacts_all", {});
   }
   createContact(firstName, lastName, email, phone, contacts_save_callback) {
     var params = {
@@ -458,7 +458,7 @@ export class NativelyContacts {
       email: email !== null && email !== void 0 ? email : "",
       phone: phone !== null && phone !== void 0 ? phone : ""
     };
-    global.window.natively.trigger(this.id, 3, contacts_save_callback, "contacts_save", params);
+    window.natively.trigger(this.id, 3, contacts_save_callback, "contacts_save", params);
   }
 }
 export class NativelyMediaPicker {
@@ -467,7 +467,7 @@ export class NativelyMediaPicker {
     this.id = generateID();
   }
   showMediaPicker(mediapicker_callback) {
-    global.window.natively.trigger(this.id, 8, mediapicker_callback, "mediapicker", {});
+    window.natively.trigger(this.id, 8, mediapicker_callback, "mediapicker", {});
   }
 }
 export class NativelyAudioRecorder {
@@ -479,7 +479,7 @@ export class NativelyAudioRecorder {
     var params = {
       max_duration: max_duration !== null && max_duration !== void 0 ? max_duration : 0
     };
-    global.window.natively.trigger(this.id, 13, record_callback, "record_start", params);
+    window.natively.trigger(this.id, 13, record_callback, "record_start", params);
   }
 }
 export class NativelyAdmobBanner {
@@ -492,10 +492,10 @@ export class NativelyAdmobBanner {
     _defineProperty(this, "id", void 0);
     this.id = generateID();
     var params = {};
-    if (global.window.natively.isAndroidApp) {
+    if (window.natively.isAndroidApp) {
       var _config$androidUnitId;
       params.unitId = (_config$androidUnitId = config.androidUnitId) !== null && _config$androidUnitId !== void 0 ? _config$androidUnitId : "ca-app-pub-3940256099942544/6300978111";
-    } else if (global.window.natively.isIOSApp) {
+    } else if (window.natively.isIOSApp) {
       var _config$iOSUnitId;
       params.unitId = (_config$iOSUnitId = config.iOSUnitId) !== null && _config$iOSUnitId !== void 0 ? _config$iOSUnitId : "ca-app-pub-3940256099942544/2934735716";
     }
@@ -503,32 +503,32 @@ export class NativelyAdmobBanner {
     params.sizeType = (_config$sizeType = config.sizeType) !== null && _config$sizeType !== void 0 ? _config$sizeType : "AUTO";
     params.width = (_config$custom_width = config.custom_width) !== null && _config$custom_width !== void 0 ? _config$custom_width : 320;
     params.height = (_config$custom_height = config.custom_height) !== null && _config$custom_height !== void 0 ? _config$custom_height : 50;
-    global.window.natively.trigger(this.id, 14, resp => {
+    window.natively.trigger(this.id, 14, resp => {
       setup_callback === null || setup_callback === void 0 || setup_callback(resp);
       if (preload_ad) {
-        global.window.natively.trigger(this.id, 14, resp => {
+        window.natively.trigger(this.id, 14, resp => {
           preload_callback === null || preload_callback === void 0 || preload_callback(resp);
           if (show_ad) {
-            global.window.natively.trigger(this.id, 14, show_callback, "bannerad_show", {});
+            window.natively.trigger(this.id, 14, show_callback, "bannerad_show", {});
           }
         }, "bannerad_load", {});
       }
     }, "bannerad_setup", params);
   }
   loadAd(callback) {
-    global.window.natively.trigger(this.id, 14, callback, "bannerad_load", {});
+    window.natively.trigger(this.id, 14, callback, "bannerad_load", {});
   }
   showBanner(callback) {
-    global.window.natively.trigger(this.id, 14, callback, "bannerad_show", {});
+    window.natively.trigger(this.id, 14, callback, "bannerad_show", {});
   }
   hideBanner(callback) {
-    global.window.natively.trigger(this.id, 14, callback, "bannerad_hide", {});
+    window.natively.trigger(this.id, 14, callback, "bannerad_hide", {});
   }
   bannerIsReady(callback) {
-    global.window.natively.trigger(this.id, 14, callback, "bannerad_ready", {});
+    window.natively.trigger(this.id, 14, callback, "bannerad_ready", {});
   }
   bannerIsVisible(callback) {
-    global.window.natively.trigger(this.id, 14, callback, "bannerad_visible", {});
+    window.natively.trigger(this.id, 14, callback, "bannerad_visible", {});
   }
 }
 
@@ -547,9 +547,9 @@ export class NativelyAdmobInterstitial {
     _defineProperty(this, "auto_ad_reload_callback", void 0);
     _defineProperty(this, "unitId", void 0);
     this.id = generateID();
-    if (global.window.natively.isAndroidApp) {
+    if (window.natively.isAndroidApp) {
       this.unitId = androidUnitId;
-    } else if (global.window.natively.isIOSApp) {
+    } else if (window.natively.isIOSApp) {
       this.unitId = iOSUnitId;
     }
     this.auto_ad_reload = auto_ad_reload;
@@ -561,10 +561,10 @@ export class NativelyAdmobInterstitial {
     var params = {
       unitId: (_this$unitId = this.unitId) !== null && _this$unitId !== void 0 ? _this$unitId : "ca-app-pub-3940256099942544/4411468910"
     };
-    global.window.natively.trigger(this.id, 14, callback, "interstitialad_setup", params);
+    window.natively.trigger(this.id, 14, callback, "interstitialad_setup", params);
   }
   showInterstitialAd(callback) {
-    global.window.natively.trigger(this.id, 14, resp => {
+    window.natively.trigger(this.id, 14, resp => {
       callback(resp);
       if (resp.event === "DID_DISMISS_AD" && this.auto_ad_reload) {
         setTimeout(() => {
@@ -574,7 +574,7 @@ export class NativelyAdmobInterstitial {
     }, "interstitialad_show", {});
   }
   interstitialIsReady(callback) {
-    global.window.natively.trigger(this.id, 14, callback, "interstitialad_ready", {});
+    window.natively.trigger(this.id, 14, callback, "interstitialad_ready", {});
   }
 }
 export class NativelyNFCService {
@@ -596,7 +596,7 @@ export class NativelyNFCService {
       alertMessage: (_this$readAlertMessag = this.readAlertMessage) !== null && _this$readAlertMessag !== void 0 ? _this$readAlertMessag : "please set readAlertMessage",
       detectedMessage: (_this$readDetectedMes = this.readDetectedMessage) !== null && _this$readDetectedMes !== void 0 ? _this$readDetectedMes : "readDetectedMessage"
     };
-    global.window.natively.trigger(this.id, 15, callback, "nfc_read", params);
+    window.natively.trigger(this.id, 15, callback, "nfc_read", params);
   }
   write(recordId, recordData, callback) {
     var _this$writeAlertMessa, _this$writeDetectedMe;
@@ -606,10 +606,10 @@ export class NativelyNFCService {
       recordData: recordData !== null && recordData !== void 0 ? recordData : "please set recordData",
       recordId: recordId !== null && recordId !== void 0 ? recordId : "please set recordId"
     };
-    global.window.natively.trigger(this.id, 15, callback, "nfc_write", params);
+    window.natively.trigger(this.id, 15, callback, "nfc_write", params);
   }
   available(callback) {
-    global.window.natively.trigger(this.id, 15, callback, "nfc_available", {});
+    window.natively.trigger(this.id, 15, callback, "nfc_available", {});
   }
 }
 export class NativelyAppleSignInService {
@@ -618,6 +618,6 @@ export class NativelyAppleSignInService {
     this.id = generateID();
   }
   signin(callback) {
-    global.window.natively.trigger(this.id, 16, callback, "apple_signin", {});
+    window.natively.trigger(this.id, 16, callback, "apple_signin", {});
   }
 }
