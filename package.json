@@ -14,9 +14,7 @@
   "files": [
     "natively-frontend.min.js",
     "natively-frontend.m.js",
-    "natively-frontend.d.ts",
-    "nextjs.js",
-    "nextjs.d.ts"
+    "natively-frontend.d.ts"
   ],
   "package-name": "buildnatively/js-sdk#typescript_module",
   "scripts": {
