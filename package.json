@@ -2,17 +2,13 @@
   "name": "natively",
   "version": "2.14.0",
   "description": "Natively SDK for building native-like web applications",
-  "main": "natively-frontend.js",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./natively-frontend.js",
-      "require": "./natively-frontend.js",
       "types": "./natively-frontend.d.ts"
     }
   },
   "files": [
-    "natively-frontend.js",
     "natively-frontend.d.ts"
   ],
   "package-name": "buildnatively/js-sdk#typescript_module",
