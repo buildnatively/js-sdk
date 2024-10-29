@@ -191,7 +191,7 @@ export const natively = {
   },
 };
 // Initial Setup
-if (typeof global.window !== "undefined") {
+if (typeof window !== "undefined") {
   window.natively.addObserver(() =>
     window.natively.trigger(
       undefined,

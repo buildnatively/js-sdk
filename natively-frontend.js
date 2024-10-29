@@ -131,7 +131,7 @@ export var natively = {
   }
 };
 // Initial Setup
-if (typeof global.window !== "undefined") {
+if (typeof window !== "undefined") {
   window.natively.addObserver(() => window.natively.trigger(undefined, 0, resp => {
     window.natively.min_app_version = resp.minSDKVersion;
     window.natively.app_version = resp.sdkVersion;
