@@ -6,6 +6,7 @@
   "type": "module",
   "exports": {
     ".": {
+      "import": "./natively-frontend.js",
       "require": "./natively-frontend.js",
       "types": "./natively-frontend.d.ts"
     }
