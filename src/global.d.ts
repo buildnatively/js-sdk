@@ -29,6 +29,7 @@ declare global {
   }
 
   interface Window {
+    [key: string]: any;
     natively: Natively;
     $agent: any;
   }

@@ -1,11 +1,3 @@
-declare global {
-  interface Window {
-    [key: string]: any;
-    natively: Natively;
-    $agent: any;
-  }
-}
-
 export interface Natively {
   isDebug: boolean;
   min_app_version: number;
