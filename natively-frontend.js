@@ -1,3 +1,4 @@
+var _window, _window2;
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
@@ -10,8 +11,8 @@ var natively = {
   app_version: 0,
   injected: false,
   observers: [],
-  isIOSApp: window.navigator.userAgent.includes("Natively/iOS"),
-  isAndroidApp: window.navigator.userAgent.includes("Natively/Android"),
+  isIOSApp: ((_window = window) === null || _window === void 0 || (_window = _window.navigator) === null || _window === void 0 || (_window = _window.userAgent) === null || _window === void 0 ? void 0 : _window.includes("Natively/iOS")) || false,
+  isAndroidApp: ((_window2 = window) === null || _window2 === void 0 || (_window2 = _window2.navigator) === null || _window2 === void 0 || (_window2 = _window2.userAgent) === null || _window2 === void 0 ? void 0 : _window2.includes("Natively/Android")) || false,
   setDebug(isDebug) {
     window.natively.isDebug = isDebug;
   },

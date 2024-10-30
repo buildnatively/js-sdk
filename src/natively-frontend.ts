@@ -45,8 +45,9 @@ const natively = {
   app_version: 0,
   injected: false,
   observers: [] as Function[],
-  isIOSApp: window.navigator.userAgent.includes("Natively/iOS"),
-  isAndroidApp: window.navigator.userAgent.includes("Natively/Android"),
+  isIOSApp: window?.navigator?.userAgent?.includes("Natively/iOS") || false,
+  isAndroidApp:
+    window?.navigator?.userAgent?.includes("Natively/Android") || false,
 
   setDebug(isDebug: boolean): void {
     window.natively.isDebug = isDebug;
