@@ -615,6 +615,7 @@ export class NativelyAppleSignInService {
     window.natively.trigger(this.id, 16, callback, "apple_signin", {});
   }
 }
+export * from "./types";
 
 // Use globalThis to ensure compatibility across environments
 var globalObject = typeof globalThis !== "undefined" ? globalThis : window;
