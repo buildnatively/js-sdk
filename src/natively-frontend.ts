@@ -4,7 +4,7 @@ function generateID(): string {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
 
-const natively = {
+const natively: Natively = {
   isDebug: false,
   min_app_version: 0,
   app_version: 0,

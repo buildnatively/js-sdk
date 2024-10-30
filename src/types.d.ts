@@ -6,7 +6,7 @@ declare global {
   }
 }
 
-export interface Natively {
+export class Natively {
   isDebug: boolean;
   min_app_version: number;
   app_version: number;
