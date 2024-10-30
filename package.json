@@ -6,11 +6,11 @@
   "exports": {
     ".": {
       "import": "./natively-frontend.js",
-      "types": "./types.d.ts"
+      "types": "./natively-frontend.d.ts"
     }
   },
   "files": [
-    "types.d.ts",
+    "natively-frontend.d.ts",
     "natively-frontend.js"
   ],
   "package-name": "buildnatively/js-sdk#typescript_module",
