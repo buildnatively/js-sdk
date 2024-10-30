@@ -11,7 +11,8 @@
   },
   "files": [
     "natively-frontend.d.ts",
-    "natively-frontend.js"
+    "natively-frontend.js",
+    "global.d.ts"
   ],
   "package-name": "buildnatively/js-sdk#typescript_module",
   "scripts": {
