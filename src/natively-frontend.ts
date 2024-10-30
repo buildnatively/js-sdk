@@ -33,10 +33,6 @@ declare global {
     natively: Natively;
     $agent: any;
   }
-
-  interface Global {
-    natively: Natively;
-  }
 }
 export interface Natively {
   isDebug: boolean;
