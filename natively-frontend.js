@@ -131,13 +131,6 @@ var natively = {
     window.natively.trigger(undefined, 18, undefined, "open_link", params);
   }
 };
-// Initial Setup
-if (typeof window !== "undefined") {
-  window.natively.addObserver(() => window.natively.trigger(undefined, 0, resp => {
-    window.natively.min_app_version = resp.minSDKVersion;
-    window.natively.app_version = resp.sdkVersion;
-  }, "app_info", {}));
-}
 export class NativelyInfo {
   constructor() {
     _defineProperty(this, "id", void 0);
@@ -622,4 +615,13 @@ export class NativelyAppleSignInService {
     window.natively.trigger(this.id, 16, callback, "apple_signin", {});
   }
 }
-window.natively = natively;
+
+// Use globalThis to ensure compatibility across environments
+var globalObject = typeof globalThis !== "undefined" ? globalThis : window;
+
+// Assign natively to the global object
+globalObject.natively = natively;
+globalObject.natively.addObserver(() => globalObject.natively.trigger(undefined, 0, resp => {
+  globalObject.natively.min_app_version = resp.minSDKVersion;
+  globalObject.natively.app_version = resp.sdkVersion;
+}, "app_info", {}));
