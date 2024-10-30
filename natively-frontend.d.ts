@@ -5,7 +5,7 @@ declare global {
         $agent: any;
     }
 }
-interface Natively {
+export interface Natively {
     isDebug: boolean;
     min_app_version: number;
     app_version: number;
@@ -187,4 +187,3 @@ export declare class NativelyAppleSignInService {
     constructor();
     signin(callback: Function): void;
 }
-export {};
