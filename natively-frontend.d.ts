@@ -1,11 +1,11 @@
-export declare global {
+declare global {
     interface Window {
         [key: string]: any;
         natively: Natively;
         $agent: any;
     }
 }
-export interface Natively {
+interface Natively {
     isDebug: boolean;
     min_app_version: number;
     app_version: number;
@@ -27,8 +27,7 @@ export interface Natively {
     shareFile(file_url: string): void;
     openExternalURL(url?: string, external?: boolean): void;
 }
-
-export interface NativelyInfo {
+export declare class NativelyInfo {
     private id;
     constructor();
     browserInfo(): {
@@ -40,27 +39,27 @@ export interface NativelyInfo {
     connectivity(connectivity_callback: Function): void;
     app_state(app_state_callback: Function): void;
 }
-export interface NativelyClipboard {
+export declare class NativelyClipboard {
     private id;
     constructor();
     copy(text: string): void;
     paste(paste_callback: Function): void;
 }
-export interface NativelyNotifications {
+export declare class NativelyNotifications {
     private id;
     constructor();
     getOneSignalId(onesignal_playerid_callback: Function): void;
     requestPermission(fallbackToSettings: boolean, push_register_callback: Function): void;
     getPermissionStatus(push_permission_callback: Function): void;
 }
-export interface NativelyGeolocation {
+export declare class NativelyGeolocation {
     private id;
     constructor();
     getUserGeolocation(distance: number, geolocation_callback: Function): void;
     requestPermission(geo_register_callback: Function): void;
     getPermissionStatus(geo_permission_callback: Function): void;
 }
-export interface NativelyLocation {
+export declare class NativelyLocation {
     private id;
     constructor();
     current(minAccuracyIOS: number, accuracyTypeIOS: string, priority_android: string, location_callback: Function): void;
@@ -71,13 +70,13 @@ export interface NativelyLocation {
     statusBackground(location_bg_status_callback: Function): void;
     stopBackground(location_bg_callback: Function): void;
 }
-export interface NativelyMessage {
+export declare class NativelyMessage {
     private id;
     constructor();
     sendSMS(body?: string, recipient?: string, send_sms_callback?: Function): void;
     sendEmail(subject?: string, body?: string, recipient?: string, send_email_callback?: Function): void;
 }
-export interface NativelyStorage {
+export declare class NativelyStorage {
     private id;
     constructor();
     setStorageValue(key: string, value: any): void;
@@ -85,7 +84,7 @@ export interface NativelyStorage {
     removeStorageValue(key: string): void;
     resetStorage(): void;
 }
-export interface NativelyBiometrics {
+export declare class NativelyBiometrics {
     private allowPass;
     private id;
     constructor(allowPass: boolean);
@@ -96,17 +95,17 @@ export interface NativelyBiometrics {
     removeUserCredentials(biometrics_remove_credentials_callback: Function): void;
     saveUserCredentials(login: string, password: string, biometrics_auth_callback: Function): void;
 }
-export interface NativelyDatePicker {
+export declare class NativelyDatePicker {
     private id;
     constructor();
     showDatePicker(title?: string, description?: string, type?: string, style?: string, datepicker_callback?: Function): void;
 }
-export interface NativelyCamera {
+export declare class NativelyCamera {
     private id;
     constructor();
     showCamera(type?: string, quality?: string, camera?: string, open_camera_callback?: Function): void;
 }
-export interface NativelyHealth {
+export declare class NativelyHealth {
     private id;
     constructor();
     available(available_callback: Function): void;
@@ -115,12 +114,12 @@ export interface NativelyHealth {
     getAllCharacteristics(callback: Function): void;
     getStatisticQuantity(data_type: string, interval: string, start_date?: Date, end_date?: Date, callback?: Function): void;
 }
-export interface NativelyScanner {
+export declare class NativelyScanner {
     private id;
     constructor();
     showScanner(open_scanner_callback: Function): void;
 }
-export interface NativelyPurchases {
+export declare class NativelyPurchases {
     private id;
     constructor();
     login(login: string, customerEmail?: string, login_callback?: Function): void;
@@ -130,23 +129,23 @@ export interface NativelyPurchases {
     purchasePackage(packageId: string, purchase_callback: Function): void;
     packagePrice(packageId: string, purchase_callback: Function): void;
 }
-export interface NativelyContacts {
+export declare class NativelyContacts {
     private id;
     constructor();
     getAllContacts(contacts_all_callback: Function): void;
     createContact(firstName: string, lastName?: string, email?: string, phone?: string, contacts_save_callback?: Function): void;
 }
-export interface NativelyMediaPicker {
+export declare class NativelyMediaPicker {
     private id;
     constructor();
     showMediaPicker(mediapicker_callback: Function): void;
 }
-export interface NativelyAudioRecorder {
+export declare class NativelyAudioRecorder {
     private id;
     constructor();
     showRecorder(max_duration?: number, record_callback?: Function): void;
 }
-export interface NativelyAdmobBanner {
+export declare class NativelyAdmobBanner {
     private id;
     constructor(config: {
         androidUnitId?: string;
@@ -162,7 +161,7 @@ export interface NativelyAdmobBanner {
     bannerIsReady(callback: Function): void;
     bannerIsVisible(callback: Function): void;
 }
-export interface NativelyAdmobInterstitial {
+export declare class NativelyAdmobInterstitial {
     private id;
     private auto_ad_reload;
     private auto_ad_reload_callback;
@@ -172,7 +171,7 @@ export interface NativelyAdmobInterstitial {
     showInterstitialAd(callback: Function): void;
     interstitialIsReady(callback: Function): void;
 }
-export interface NativelyNFCService {
+export declare class NativelyNFCService {
     private id;
     private readAlertMessage;
     private writeAlertMessage;
@@ -183,7 +182,7 @@ export interface NativelyNFCService {
     write(recordId: string, recordData: string, callback: Function): void;
     available(callback: Function): void;
 }
-export interface NativelyAppleSignInService {
+export declare class NativelyAppleSignInService {
     private id;
     constructor();
     signin(callback: Function): void;

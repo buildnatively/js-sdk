@@ -39,7 +39,7 @@ function generateID(): string {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
 
-export const natively = {
+const natively = {
   isDebug: false,
   min_app_version: 0,
   app_version: 0,
@@ -1088,3 +1088,5 @@ export class NativelyAppleSignInService {
     window.natively.trigger(this.id, 16, callback, "apple_signin", {});
   }
 }
+
+window.natively = natively;

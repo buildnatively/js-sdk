@@ -5,11 +5,13 @@
   "type": "module",
   "exports": {
     ".": {
+      "import": "./natively-frontend.js",
       "types": "./natively-frontend.d.ts"
     }
   },
   "files": [
-    "natively-frontend.d.ts"
+    "natively-frontend.d.ts",
+    "natively-frontend.js"
   ],
   "package-name": "buildnatively/js-sdk#typescript_module",
   "scripts": {
