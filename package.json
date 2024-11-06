@@ -8,9 +8,9 @@
       "import": "./natively-frontend.js",
       "types": "./natively-frontend.d.ts"
     },
-    "./useNatively": {
-      "import": "./useNatively.js",
-      "types": "./useNatively.d.ts"
+    "./modules/*": {
+      "import": "./modules/*.js",
+      "types": "./modules/*.d.ts"
     }
   },
   "files": [
@@ -22,11 +22,10 @@
   "package-name": "buildnatively/js-sdk#typescript_module",
   "scripts": {
     "build": "npm run build:types && npm run build:iife && npm run build:module",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build:types": "tsc --emitDeclarationOnly",
-    "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
     "build:iife": "babel src/natively-frontend.ts --config-file ./babel.config.iife.cjs --out-file ./natively-frontend.min.js --minified",
-    "build:module": "babel src --extensions \".ts\" --config-file ./babel.config.module.cjs --out-dir ./"
+    "build:module": "babel src --extensions \".ts\" --config-file ./babel.config.module.cjs --out-dir ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
