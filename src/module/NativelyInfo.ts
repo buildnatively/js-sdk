@@ -1,10 +1,8 @@
-import { generateID } from "./utils";
-
 export default class NativelyInfo {
   private id: string;
 
   constructor() {
-    this.id = generateID();
+    this.id = Date.now().toString(36) + Math.random().toString(36).substring(2);
   }
 
   browserInfo(): {
