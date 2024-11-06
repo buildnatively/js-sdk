@@ -3,7 +3,7 @@ import NativelyInfo from "./NativelyInfo";
 type NativelyClasses = {
     NativelyInfo: typeof NativelyInfo;
 };
-export declare function useNatively(): {
+export default function useNatively(): {
     natively: Natively;
     features: NativelyClasses;
 } | null;

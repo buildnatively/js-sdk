@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 // Import just the type
 
 import NativelyInfo from "./NativelyInfo";
-export function useNatively() {
+export default function useNatively() {
   var [natively, setNatively] = useState(null);
   useEffect(() => {
     import("../natively-frontend").then(() => {
