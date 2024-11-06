@@ -8,16 +8,16 @@
       "import": "./natively-frontend.js",
       "types": "./natively-frontend.d.ts"
     },
-    "./module/*": {
-      "import": "./module/*.js",
-      "types": "./module/*.d.ts"
+    "./useNatively": {
+      "import": "./useNatively.js",
+      "types": "./useNatively.d.ts"
     }
   },
   "files": [
     "natively-frontend.d.ts",
     "natively-frontend.js",
-    "module/**/*.js",
-    "module/**/*.d.ts"
+    "useNatively.js",
+    "useNatively.d.ts"
   ],
   "package-name": "buildnatively/js-sdk#typescript_module",
   "scripts": {
