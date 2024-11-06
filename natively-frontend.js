@@ -1,21 +1,23 @@
-var _window, _window2;
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function generateID() {
-  return Date.now().toString(36) + Math.random().toString(36).substring(2);
-}
-var natively = {
-  isDebug: false,
-  min_app_version: 0,
-  app_version: 0,
-  injected: false,
-  observers: [],
-  isIOSApp: ((_window = window) === null || _window === void 0 || (_window = _window.navigator) === null || _window === void 0 || (_window = _window.userAgent) === null || _window === void 0 ? void 0 : _window.includes("Natively/iOS")) || false,
-  isAndroidApp: ((_window2 = window) === null || _window2 === void 0 || (_window2 = _window2.navigator) === null || _window2 === void 0 || (_window2 = _window2.userAgent) === null || _window2 === void 0 ? void 0 : _window2.includes("Natively/Android")) || false,
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+export class Natively {
+  constructor() {
+    var _window, _window2;
+    _defineProperty(this, "isDebug", false);
+    _defineProperty(this, "min_app_version", 0);
+    _defineProperty(this, "app_version", 0);
+    _defineProperty(this, "injected", false);
+    _defineProperty(this, "observers", []);
+    _defineProperty(this, "isIOSApp", ((_window = window) === null || _window === void 0 || (_window = _window.navigator) === null || _window === void 0 || (_window = _window.userAgent) === null || _window === void 0 ? void 0 : _window.includes("Natively/iOS")) || false);
+    _defineProperty(this, "isAndroidApp", ((_window2 = window) === null || _window2 === void 0 || (_window2 = _window2.navigator) === null || _window2 === void 0 || (_window2 = _window2.userAgent) === null || _window2 === void 0 ? void 0 : _window2.includes("Natively/Android")) || false);
+  }
   setDebug(isDebug) {
     window.natively.isDebug = isDebug;
-  },
+  }
   notify(min, current) {
     window.natively.injected = true;
     if (min) {
@@ -32,7 +34,7 @@ var natively = {
       var observer = observers.shift();
       observer === null || observer === void 0 || observer();
     }
-  },
+  }
   addObserver(fn) {
     if (window.natively.injected) {
       fn();
@@ -42,7 +44,7 @@ var natively = {
       }
       window.natively.observers.push(fn);
     }
-  },
+  }
   trigger(respId, minVersion, callback, method, body) {
     var isTestVersion = window.natively.isDebug;
     if (!window.natively.injected) {
@@ -87,42 +89,42 @@ var natively = {
       console.log("[DEBUG] Trigger method: ".concat(method, ", body: ").concat(JSON.stringify(body)));
     }
     window.$agent.trigger(method, body);
-  },
+  }
   openLogger() {
     window.$agent.natively_logger();
-  },
+  }
   openConsole() {
     window.natively.trigger(undefined, 22, undefined, "app_console");
-  },
+  }
   closeApp() {
     window.natively.trigger(undefined, 11, undefined, "app_close");
-  },
+  }
   showProgress(toggle) {
     window.natively.trigger(undefined, 11, undefined, "app_show_progress", {
       toggle
     });
-  },
+  }
   shareImage(image_url) {
     window.natively.trigger(undefined, 0, undefined, "share_image", {
       url: image_url
     });
-  },
+  }
   shareText(text) {
     window.natively.trigger(undefined, 0, undefined, "share_text", {
       text
     });
-  },
+  }
   shareTextAndImage(text, image_url) {
     window.natively.trigger(undefined, 0, undefined, "share_text_and_image", {
       url: image_url,
       text
     });
-  },
+  }
   shareFile(file_url) {
     window.natively.trigger(undefined, 2, undefined, "share_file", {
       url: file_url
     });
-  },
+  }
   openExternalURL(url, external) {
     var params = {
       url: typeof url === "undefined" ? "https://buildnatively.com" : url,
@@ -130,7 +132,10 @@ var natively = {
     };
     window.natively.trigger(undefined, 18, undefined, "open_link", params);
   }
-};
+}
+function generateID() {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
+}
 export class NativelyInfo {
   constructor() {
     _defineProperty(this, "id", void 0);
@@ -615,13 +620,12 @@ export class NativelyAppleSignInService {
     window.natively.trigger(this.id, 16, callback, "apple_signin", {});
   }
 }
-export * from "./types";
 
 // Use globalThis to ensure compatibility across environments
 var globalObject = typeof globalThis !== "undefined" ? globalThis : window;
 
 // Assign natively to the global object
-globalObject.natively = natively;
+globalObject.natively = new Natively();
 globalObject.natively.addObserver(() => globalObject.natively.trigger(undefined, 0, resp => {
   globalObject.natively.min_app_version = resp.minSDKVersion;
   globalObject.natively.app_version = resp.sdkVersion;

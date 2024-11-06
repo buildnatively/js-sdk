@@ -1,22 +1,27 @@
-import type { Natively } from "./types";
-
-function generateID(): string {
-  return Date.now().toString(36) + Math.random().toString(36).substring(2);
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+declare global {
+  interface Window {
+    natively: Natively;
+    $agent: any;
+    [key: string]: any;
+  }
 }
 
-const natively: Natively = {
-  isDebug: false,
-  min_app_version: 0,
-  app_version: 0,
-  injected: false,
-  observers: [] as Function[],
-  isIOSApp: window?.navigator?.userAgent?.includes("Natively/iOS") || false,
-  isAndroidApp:
-    window?.navigator?.userAgent?.includes("Natively/Android") || false,
+export class Natively {
+  isDebug: boolean = false;
+  min_app_version: number = 0;
+  app_version: number = 0;
+  injected: boolean = false;
+  observers: Function[] = [];
+  isIOSApp: boolean =
+    window?.navigator?.userAgent?.includes("Natively/iOS") || false;
+  isAndroidApp: boolean =
+    window?.navigator?.userAgent?.includes("Natively/Android") || false;
 
   setDebug(isDebug: boolean): void {
     window.natively.isDebug = isDebug;
-  },
+  }
 
   notify(min?: number, current?: number): void {
     window.natively.injected = true;
@@ -34,7 +39,7 @@ const natively: Natively = {
       const observer = observers.shift();
       observer?.();
     }
-  },
+  }
 
   addObserver(fn: Function): void {
     if (window.natively.injected) {
@@ -45,7 +50,7 @@ const natively: Natively = {
       }
       window.natively.observers.push(fn);
     }
-  },
+  }
 
   trigger(
     respId: string | undefined,
@@ -103,50 +108,50 @@ const natively: Natively = {
       );
     }
     window.$agent.trigger(method, body);
-  },
+  }
 
   openLogger(): void {
     window.$agent.natively_logger();
-  },
+  }
 
   openConsole(): void {
     window.natively.trigger(undefined, 22, undefined, "app_console");
-  },
+  }
 
   closeApp(): void {
     window.natively.trigger(undefined, 11, undefined, "app_close");
-  },
+  }
 
   showProgress(toggle: boolean): void {
     window.natively.trigger(undefined, 11, undefined, "app_show_progress", {
       toggle,
     });
-  },
+  }
 
   shareImage(image_url: string): void {
     window.natively.trigger(undefined, 0, undefined, "share_image", {
       url: image_url,
     });
-  },
+  }
 
   shareText(text: string): void {
     window.natively.trigger(undefined, 0, undefined, "share_text", {
       text,
     });
-  },
+  }
 
   shareTextAndImage(text: string, image_url: string): void {
     window.natively.trigger(undefined, 0, undefined, "share_text_and_image", {
       url: image_url,
       text,
     });
-  },
+  }
 
   shareFile(file_url: string): void {
     window.natively.trigger(undefined, 2, undefined, "share_file", {
       url: file_url,
     });
-  },
+  }
 
   openExternalURL(url?: string, external?: boolean): void {
     const params: { url: string; view: string } = {
@@ -154,9 +159,12 @@ const natively: Natively = {
       view: typeof external !== "undefined" && external ? "external" : "web",
     };
     window.natively.trigger(undefined, 18, undefined, "open_link", params);
-  },
-};
+  }
+}
 
+function generateID(): string {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
+}
 export class NativelyInfo {
   private id: string;
 
@@ -1040,13 +1048,11 @@ export class NativelyAppleSignInService {
   }
 }
 
-export * from "./types";
-
 // Use globalThis to ensure compatibility across environments
 const globalObject = typeof globalThis !== "undefined" ? globalThis : window;
 
 // Assign natively to the global object
-(globalObject as any).natively = natively;
+(globalObject as any).natively = new Natively();
 
 (globalObject as any).natively.addObserver(() =>
   (globalObject as any).natively.trigger(

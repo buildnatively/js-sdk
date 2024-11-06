@@ -12,6 +12,7 @@
   "files": [
     "natively-frontend.d.ts",
     "natively-frontend.js",
+    "useNatively.js",
     "types.d.ts"
   ],
   "package-name": "buildnatively/js-sdk#typescript_module",
@@ -46,6 +47,8 @@
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-typescript": "^7.26.0",
+    "@types/react": "^18.3.12",
+    "react": "^18.3.1",
     "typescript": "^5.6.3"
   }
 }
