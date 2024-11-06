@@ -1,5 +1,6 @@
 export default class NativelyInfo {
     private id;
+    private globalObj;
     constructor();
     browserInfo(): {
         isNativeApp: boolean;
