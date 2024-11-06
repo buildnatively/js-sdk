@@ -1,4 +1,4 @@
-import { generateID } from "../utils";
+import { generateID } from "./utils";
 
 export default class NativelyInfo {
   private id: string;

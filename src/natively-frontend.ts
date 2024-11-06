@@ -155,7 +155,7 @@ export class Natively {
   }
 }
 
-export * from "./modules/NativelyInfo";
+export * from "./module/NativelyInfo";
 
 // export class NativelyClipboard {
 //   private id: string;

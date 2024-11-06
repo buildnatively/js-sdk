@@ -3,11 +3,9 @@
 import { useEffect, useState } from "react";
 
 // Import just the type
-type Natively = import("../natively-frontend").Natively;
 
-export function useNatively() {
-  const [natively, setNatively] = useState<Natively | null>(null);
-
+export default function useNatively() {
+  var [natively, setNatively] = useState(null);
   useEffect(() => {
     // Import the module to initialize window.natively
     import("../natively-frontend").then(() => {
@@ -19,6 +17,5 @@ export function useNatively() {
       }
     });
   }, []);
-
   return natively;
 }

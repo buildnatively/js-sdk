@@ -20,7 +20,7 @@ export declare class Natively {
     shareFile(file_url: string): void;
     openExternalURL(url?: string, external?: boolean): void;
 }
-export * from "./modules/NativelyInfo";
+export * from "./module/NativelyInfo";
 declare global {
     interface Window {
         natively: Natively;

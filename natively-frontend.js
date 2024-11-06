@@ -133,7 +133,7 @@ export class Natively {
     window.natively.trigger(undefined, 18, undefined, "open_link", params);
   }
 }
-export * from "./modules/NativelyInfo";
+export * from "./module/NativelyInfo";
 
 // export class NativelyClipboard {
 //   private id: string;
