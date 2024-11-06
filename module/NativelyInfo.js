@@ -7,13 +7,6 @@ export default class NativelyInfo {
     this.id = Date.now().toString(36) + Math.random().toString(36).substring(2);
   }
   browserInfo() {
-    if (typeof window === "undefined") {
-      return {
-        isNativeApp: false,
-        isIOSApp: false,
-        isAndroidApp: false
-      };
-    }
     var isNativeApp = typeof window.$agent !== "undefined";
     var isIOSApp = window.navigator.userAgent.includes("Natively/iOS");
     var isAndroidApp = window.navigator.userAgent.includes("Natively/Android");
@@ -24,15 +17,12 @@ export default class NativelyInfo {
     };
   }
   getAppInfo(app_info_callback) {
-    if (typeof window === "undefined") return;
     window.natively.trigger(this.id, 0, app_info_callback, "app_info");
   }
   connectivity(connectivity_callback) {
-    if (typeof window === "undefined") return;
     window.natively.trigger(undefined, 0, connectivity_callback, "connectivity");
   }
   app_state(app_state_callback) {
-    if (typeof window === "undefined") return;
     window.natively.trigger(undefined, 19, app_state_callback, "app_state");
   }
 }
