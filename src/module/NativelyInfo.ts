@@ -10,19 +10,24 @@ export default class NativelyInfo {
     isIOSApp: boolean;
     isAndroidApp: boolean;
   } {
-    const isNativeApp = typeof window?.$agent !== "undefined";
-    const isIOSApp = window?.navigator.userAgent.includes("Natively/iOS");
+    if (typeof window === "undefined") {
+      return { isNativeApp: false, isIOSApp: false, isAndroidApp: false };
+    }
+    const isNativeApp = typeof window.$agent !== "undefined";
+    const isIOSApp = window.navigator.userAgent.includes("Natively/iOS");
     const isAndroidApp =
-      window?.navigator.userAgent.includes("Natively/Android");
+      window.navigator.userAgent.includes("Natively/Android");
     return { isNativeApp, isIOSApp, isAndroidApp };
   }
 
   getAppInfo(app_info_callback: Function): void {
-    window?.natively.trigger(this.id, 0, app_info_callback, "app_info");
+    if (typeof window === "undefined") return;
+    window.natively.trigger(this.id, 0, app_info_callback, "app_info");
   }
 
   connectivity(connectivity_callback: Function): void {
-    window?.natively.trigger(
+    if (typeof window === "undefined") return;
+    window.natively.trigger(
       undefined,
       0,
       connectivity_callback,
@@ -31,6 +36,7 @@ export default class NativelyInfo {
   }
 
   app_state(app_state_callback: Function): void {
-    window?.natively.trigger(undefined, 19, app_state_callback, "app_state");
+    if (typeof window === "undefined") return;
+    window.natively.trigger(undefined, 19, app_state_callback, "app_state");
   }
 }
