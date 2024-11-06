@@ -1,5 +1,3 @@
-"use client";
-
 export default class NativelyInfo {
   private id: string;
 
