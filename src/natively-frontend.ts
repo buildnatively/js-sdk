@@ -1049,7 +1049,12 @@ export class NativelyAppleSignInService {
 }
 
 // Use globalThis to ensure compatibility across environments
-const globalObject = typeof globalThis !== "undefined" ? globalThis : window;
+const globalObject =
+  typeof globalThis !== "undefined"
+    ? globalThis
+    : typeof window !== "undefined"
+      ? window
+      : {};
 
 // Assign natively to the global object
 (globalObject as any).natively = new Natively();
