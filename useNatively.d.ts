@@ -1,3 +1,4 @@
 type Natively = import("./natively-frontend").Natively;
-export default function useNatively(): Natively | null;
+import "./natively-frontend";
+export default function useNatively(): Natively;
 export {};
