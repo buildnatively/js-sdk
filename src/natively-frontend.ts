@@ -167,10 +167,11 @@ export class NativelyInfo {
     isIOSApp: boolean;
     isAndroidApp: boolean;
   } {
-    const isNativeApp = typeof self.$agent !== "undefined";
-    const isIOSApp = self.navigator.userAgent.includes("Natively/iOS") ?? false;
+    const isNativeApp = typeof self?.$agent !== "undefined";
+    const isIOSApp =
+      self?.navigator?.userAgent?.includes("Natively/iOS") || false;
     const isAndroidApp =
-      self.navigator.userAgent.includes("Natively/Android") ?? false;
+      self?.navigator?.userAgent?.includes("Natively/Android") || false;
     return { isNativeApp, isIOSApp, isAndroidApp };
   }
 
