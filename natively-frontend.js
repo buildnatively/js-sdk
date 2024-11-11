@@ -139,10 +139,10 @@ export class NativelyInfo {
     this.id = generateID();
   }
   browserInfo() {
-    var _self$navigator$userA, _self$navigator$userA2;
-    var isNativeApp = typeof self.$agent !== "undefined";
-    var isIOSApp = (_self$navigator$userA = self.navigator.userAgent.includes("Natively/iOS")) !== null && _self$navigator$userA !== void 0 ? _self$navigator$userA : false;
-    var isAndroidApp = (_self$navigator$userA2 = self.navigator.userAgent.includes("Natively/Android")) !== null && _self$navigator$userA2 !== void 0 ? _self$navigator$userA2 : false;
+    var _self3, _self4, _self5;
+    var isNativeApp = typeof ((_self3 = self) === null || _self3 === void 0 ? void 0 : _self3.$agent) !== "undefined";
+    var isIOSApp = ((_self4 = self) === null || _self4 === void 0 || (_self4 = _self4.navigator) === null || _self4 === void 0 || (_self4 = _self4.userAgent) === null || _self4 === void 0 ? void 0 : _self4.includes("Natively/iOS")) || false;
+    var isAndroidApp = ((_self5 = self) === null || _self5 === void 0 || (_self5 = _self5.navigator) === null || _self5 === void 0 || (_self5 = _self5.userAgent) === null || _self5 === void 0 ? void 0 : _self5.includes("Natively/Android")) || false;
     return {
       isNativeApp,
       isIOSApp,
