@@ -1,7 +1,6 @@
 "use client";
 
 // Import just the type
-
 import "./natively-frontend";
 export default function useNatively() {
   // const [natively, setNatively] = useState<Natively | null>(null);

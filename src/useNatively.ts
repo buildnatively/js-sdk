@@ -1,7 +1,4 @@
 "use client";
-
-import { useEffect, useState } from "react";
-
 // Import just the type
 type Natively = import("./natively-frontend").Natively;
 import "./natively-frontend";
