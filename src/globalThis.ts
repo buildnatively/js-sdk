@@ -1,4 +1,4 @@
-function getGlobalContext() {
+function getGlobalContext(): any {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     if (typeof globalThis !== 'undefined') { return globalThis; }
