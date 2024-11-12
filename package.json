@@ -17,7 +17,11 @@
     "natively-frontend.d.ts",
     "natively-frontend.js",
     "useNatively.js",
-    "useNatively.d.ts"
+    "useNatively.d.ts",
+    "globalThis.d.ts",
+    "globalThis.js",
+    "types.d.ts",
+    "types.js"
   ],
   "package-name": "buildnatively/js-sdk#typescript_module",
   "scripts": {
