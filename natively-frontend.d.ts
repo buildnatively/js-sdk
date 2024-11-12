@@ -180,10 +180,3 @@ export declare class NativelyAppleSignInService {
     constructor();
     signin(callback: Function): void;
 }
-declare global {
-    interface Window {
-        natively: Natively;
-        $agent: any;
-        [key: string]: any;
-    }
-}

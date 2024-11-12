@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import globalContext from './globalThis';
+
 export class Natively {
   isDebug: boolean = false;
   min_app_version: number = 0;
@@ -8,24 +10,28 @@ export class Natively {
   injected: boolean = false;
   observers: Function[] = [];
   isIOSApp: boolean =
-    self?.navigator?.userAgent?.includes("Natively/iOS") || false;
+      globalContext?.navigator?.userAgent?.includes("Natively/iOS") || false;
   isAndroidApp: boolean =
-    self?.navigator?.userAgent?.includes("Natively/Android") || false;
+      globalContext?.navigator?.userAgent?.includes("Natively/Android") || false;
 
   setDebug(isDebug: boolean): void {
-    self.natively.isDebug = isDebug;
+    if (globalContext) {
+      globalContext.natively.isDebug = isDebug;
+    }
   }
 
   notify(min?: number, current?: number): void {
-    self.natively.injected = true;
-    if (min) {
-      self.natively.min_app_version = min;
+    if (globalContext) {
+      globalContext.natively.injected = true;
+      if (min) {
+        globalContext.natively.min_app_version = min;
+      }
+      if (current) {
+        globalContext.natively.app_version = current;
+      }
     }
-    if (current) {
-      self.natively.app_version = current;
-    }
-    const observers = self.natively.observers;
-    if (self.natively.isDebug) {
+    const observers = globalContext?.natively.observers;
+    if (globalContext?.natively.isDebug) {
       console.log("[INFO] Notify observers: ", observers.length);
     }
     while (observers.length > 0) {
@@ -35,34 +41,34 @@ export class Natively {
   }
 
   addObserver(fn: Function): void {
-    if (self.natively.injected) {
+    if (globalContext?.natively.injected) {
       fn();
     } else {
-      if (self.natively.isDebug) {
+      if (globalContext?.natively.isDebug) {
         console.log(`[DEBUG] addObserver: ${fn}`);
       }
-      self.natively.observers.push(fn);
+      globalContext?.natively.observers.push(fn);
     }
   }
 
   trigger(
-    respId: string | undefined,
-    minVersion: number,
-    callback: Function | undefined,
-    method: string,
-    body?: any,
+      respId: string | undefined,
+      minVersion: number,
+      callback: Function | undefined,
+      method: string,
+      body?: any,
   ): void {
-    const isTestVersion = self.natively.isDebug;
-    if (!self.natively.injected) {
-      self.natively.addObserver(() => {
-        self.natively.trigger(respId, minVersion, callback, method, body);
+    const isTestVersion = globalContext?.natively.isDebug;
+    if (!globalContext?.natively.injected) {
+      globalContext?.natively.addObserver(() => {
+        globalContext?.natively.trigger(respId, minVersion, callback, method, body);
       });
       return;
     }
-    if (minVersion > self.natively.app_version) {
+    if (minVersion > globalContext?.natively.app_version) {
       if (isTestVersion) {
         alert(
-          `[ERROR] Please rebuild the app to use this functionality. App Version: ${self.natively.app_version}, feature version: ${minVersion}`,
+            `[ERROR] Please rebuild the app to use this functionality. App Version: ${globalContext?.natively.app_version}, feature version: ${minVersion}`,
         );
       }
       return;
@@ -74,21 +80,23 @@ export class Natively {
       } else {
         fullMethodName = method + "_response";
       }
-      self[fullMethodName] = function (resp: any, err: { message: string }) {
-        self.$agent.response();
-        if (err.message && isTestVersion) {
-          alert(`[ERROR] Error message: ${err.message}`);
-          return;
-        }
-        if (isTestVersion) {
-          console.log(
-            `[DEBUG] Callback method: ${fullMethodName}, body: ${JSON.stringify(
-              resp,
-            )}, respId: ${respId}`,
-          );
-        }
-        callback(resp);
-      };
+      if (globalContext) {
+        globalContext[fullMethodName] = function (resp: any, err: { message: string }) {
+          globalContext?.$agent.response();
+          if (err.message && isTestVersion) {
+            alert(`[ERROR] Error message: ${err.message}`);
+            return;
+          }
+          if (isTestVersion) {
+            console.log(
+                `[DEBUG] Callback method: ${fullMethodName}, body: ${JSON.stringify(
+                    resp,
+                )}, respId: ${respId}`,
+            );
+          }
+          callback(resp);
+        };
+      }
       if (body) {
         body.response_id = respId;
       } else {
@@ -97,51 +105,51 @@ export class Natively {
     }
     if (isTestVersion) {
       console.log(
-        `[DEBUG] Trigger method: ${method}, body: ${JSON.stringify(body)}`,
+          `[DEBUG] Trigger method: ${method}, body: ${JSON.stringify(body)}`,
       );
     }
-    self.$agent.trigger(method, body);
+    globalContext?.$agent.trigger(method, body);
   }
 
   openLogger(): void {
-    self.$agent.natively_logger();
+    globalContext?.$agent.natively_logger();
   }
 
   openConsole(): void {
-    self.natively.trigger(undefined, 22, undefined, "app_console");
+    globalContext?.natively.trigger(undefined, 22, undefined, "app_console");
   }
 
   closeApp(): void {
-    self.natively.trigger(undefined, 11, undefined, "app_close");
+    globalContext?.natively.trigger(undefined, 11, undefined, "app_close");
   }
 
   showProgress(toggle: boolean): void {
-    self.natively.trigger(undefined, 11, undefined, "app_show_progress", {
+    globalContext?.natively.trigger(undefined, 11, undefined, "app_show_progress", {
       toggle,
     });
   }
 
   shareImage(image_url: string): void {
-    self.natively.trigger(undefined, 0, undefined, "share_image", {
+    globalContext?.natively.trigger(undefined, 0, undefined, "share_image", {
       url: image_url,
     });
   }
 
   shareText(text: string): void {
-    self.natively.trigger(undefined, 0, undefined, "share_text", {
+    globalContext?.natively.trigger(undefined, 0, undefined, "share_text", {
       text,
     });
   }
 
   shareTextAndImage(text: string, image_url: string): void {
-    self.natively.trigger(undefined, 0, undefined, "share_text_and_image", {
+    globalContext?.natively.trigger(undefined, 0, undefined, "share_text_and_image", {
       url: image_url,
       text,
     });
   }
 
   shareFile(file_url: string): void {
-    self.natively.trigger(undefined, 2, undefined, "share_file", {
+    globalContext?.natively.trigger(undefined, 2, undefined, "share_file", {
       url: file_url,
     });
   }
@@ -151,7 +159,7 @@ export class Natively {
       url: typeof url === "undefined" ? "https://buildnatively.com" : url,
       view: typeof external !== "undefined" && external ? "external" : "web",
     };
-    self.natively.trigger(undefined, 18, undefined, "open_link", params);
+    globalContext?.natively.trigger(undefined, 18, undefined, "open_link", params);
   }
 }
 
@@ -167,27 +175,27 @@ export class NativelyInfo {
     isIOSApp: boolean;
     isAndroidApp: boolean;
   } {
-    const isNativeApp = typeof self?.$agent !== "undefined";
+    const isNativeApp = typeof globalContext?.$agent !== "undefined";
     const isIOSApp =
-      self?.navigator?.userAgent?.includes("Natively/iOS") || false;
+        globalContext?.navigator?.userAgent?.includes("Natively/iOS") || false;
     const isAndroidApp =
-      self?.navigator?.userAgent?.includes("Natively/Android") || false;
+        globalContext?.navigator?.userAgent?.includes("Natively/Android") || false;
     return { isNativeApp, isIOSApp, isAndroidApp };
   }
 
   getAppInfo(app_info_callback: Function): void {
-    if (!self.natively) return;
-    self.natively.trigger(this.id, 0, app_info_callback, "app_info");
+    if (!globalContext?.natively) return;
+    globalContext?.natively.trigger(this.id, 0, app_info_callback, "app_info");
   }
 
   connectivity(connectivity_callback: Function): void {
-    if (!self.natively) return;
-    self.natively.trigger(undefined, 0, connectivity_callback, "connectivity");
+    if (!globalContext?.natively) return;
+    globalContext?.natively.trigger(undefined, 0, connectivity_callback, "connectivity");
   }
 
   app_state(app_state_callback: Function): void {
-    if (!self.natively) return;
-    self.natively.trigger(undefined, 19, app_state_callback, "app_state");
+    if (!globalContext?.natively) return;
+    globalContext?.natively.trigger(undefined, 19, app_state_callback, "app_state");
   }
 }
 
@@ -199,13 +207,13 @@ export class NativelyClipboard {
   }
 
   copy(text: string): void {
-    self.natively.trigger(undefined, 11, undefined, "clipboard_copy", {
+    globalContext?.natively.trigger(undefined, 11, undefined, "clipboard_copy", {
       text,
     });
   }
 
   paste(paste_callback: Function): void {
-    self.natively.trigger(this.id, 11, paste_callback, "clipboard_paste");
+    globalContext?.natively.trigger(this.id, 11, paste_callback, "clipboard_paste");
   }
 }
 
@@ -217,29 +225,29 @@ export class NativelyNotifications {
   }
 
   getOneSignalId(onesignal_playerid_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      0,
-      onesignal_playerid_callback,
-      "onesignal_playerid",
+    globalContext?.natively.trigger(
+        this.id,
+        0,
+        onesignal_playerid_callback,
+        "onesignal_playerid",
     );
   }
 
   requestPermission(
-    fallbackToSettings: boolean,
-    push_register_callback: Function,
+      fallbackToSettings: boolean,
+      push_register_callback: Function,
   ): void {
-    self.natively.trigger(this.id, 0, push_register_callback, "push_register", {
+    globalContext?.natively.trigger(this.id, 0, push_register_callback, "push_register", {
       fallbackToSettings,
     });
   }
 
   getPermissionStatus(push_permission_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      0,
-      push_permission_callback,
-      "push_permission",
+    globalContext?.natively.trigger(
+        this.id,
+        0,
+        push_permission_callback,
+        "push_permission",
     );
   }
 }
@@ -253,21 +261,21 @@ export class NativelyGeolocation {
   }
 
   getUserGeolocation(distance: number, geolocation_callback: Function): void {
-    self.natively.trigger(this.id, 0, geolocation_callback, "geolocation", {
+    globalContext?.natively.trigger(this.id, 0, geolocation_callback, "geolocation", {
       distance,
     });
   }
 
   requestPermission(geo_register_callback: Function): void {
-    self.natively.trigger(this.id, 0, geo_register_callback, "geo_register");
+    globalContext?.natively.trigger(this.id, 0, geo_register_callback, "geo_register");
   }
 
   getPermissionStatus(geo_permission_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      0,
-      geo_permission_callback,
-      "geo_permission",
+    globalContext?.natively.trigger(
+        this.id,
+        0,
+        geo_permission_callback,
+        "geo_permission",
     );
   }
 }
@@ -280,12 +288,12 @@ export class NativelyLocation {
   }
 
   current(
-    minAccuracyIOS: number,
-    accuracyTypeIOS: string,
-    priority_android: string,
-    location_callback: Function,
+      minAccuracyIOS: number,
+      accuracyTypeIOS: string,
+      priority_android: string,
+      location_callback: Function,
   ): void {
-    self.natively.trigger(this.id, 12, location_callback, "location_current", {
+    globalContext?.natively.trigger(this.id, 12, location_callback, "location_current", {
       minAccuracy: minAccuracyIOS,
       accuracyType: accuracyTypeIOS,
       priority: priority_android,
@@ -293,22 +301,22 @@ export class NativelyLocation {
   }
 
   permission(location_permission_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      6,
-      location_permission_callback,
-      "location_permission",
+    globalContext?.natively.trigger(
+        this.id,
+        6,
+        location_permission_callback,
+        "location_permission",
     );
   }
 
   start(
-    interval: number,
-    minAccuracyIOS: number,
-    accuracyTypeIOS: string,
-    priority_android: string,
-    location_callback: Function,
+      interval: number,
+      minAccuracyIOS: number,
+      accuracyTypeIOS: string,
+      priority_android: string,
+      location_callback: Function,
   ): void {
-    self.natively.trigger(this.id, 12, location_callback, "location_start", {
+    globalContext?.natively.trigger(this.id, 12, location_callback, "location_start", {
       minAccuracy: minAccuracyIOS,
       accuracyType: accuracyTypeIOS,
       priority: priority_android,
@@ -317,16 +325,16 @@ export class NativelyLocation {
   }
 
   stop(): void {
-    self.natively.trigger(this.id, 3, undefined, "location_stop", {});
+    globalContext?.natively.trigger(this.id, 3, undefined, "location_stop", {});
   }
 
   startBackground(
-    interval?: number,
-    minAccuracyIOS?: number,
-    accuracyTypeIOS?: string,
-    priority_android?: string,
-    responseIdentifier?: string,
-    location_bg_callback?: Function,
+      interval?: number,
+      minAccuracyIOS?: number,
+      accuracyTypeIOS?: string,
+      priority_android?: string,
+      responseIdentifier?: string,
+      location_bg_callback?: Function,
   ): void {
     const params = {
       identifier: responseIdentifier ?? "empty",
@@ -335,32 +343,32 @@ export class NativelyLocation {
       accuracyType: accuracyTypeIOS ?? "Best",
       priority: priority_android ?? "BALANCED",
     };
-    self.natively.trigger(
-      this.id,
-      12,
-      location_bg_callback,
-      "location_start_bg",
-      params,
+    globalContext?.natively.trigger(
+        this.id,
+        12,
+        location_bg_callback,
+        "location_start_bg",
+        params,
     );
   }
 
   statusBackground(location_bg_status_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      20,
-      location_bg_status_callback,
-      "location_status_bg",
-      {},
+    globalContext?.natively.trigger(
+        this.id,
+        20,
+        location_bg_status_callback,
+        "location_status_bg",
+        {},
     );
   }
 
   stopBackground(location_bg_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      4,
-      location_bg_callback,
-      "location_stop_bg",
-      {},
+    globalContext?.natively.trigger(
+        this.id,
+        4,
+        location_bg_callback,
+        "location_stop_bg",
+        {},
     );
   }
 }
@@ -373,34 +381,34 @@ export class NativelyMessage {
   }
 
   sendSMS(
-    body?: string,
-    recipient?: string,
-    send_sms_callback?: Function,
+      body?: string,
+      recipient?: string,
+      send_sms_callback?: Function,
   ): void {
     const params = {
       body: body ?? "",
       recipient: recipient ?? "",
     };
-    self.natively.trigger(this.id, 0, send_sms_callback, "send_sms", params);
+    globalContext?.natively.trigger(this.id, 0, send_sms_callback, "send_sms", params);
   }
 
   sendEmail(
-    subject?: string,
-    body?: string,
-    recipient?: string,
-    send_email_callback?: Function,
+      subject?: string,
+      body?: string,
+      recipient?: string,
+      send_email_callback?: Function,
   ): void {
     const params = {
       subject: subject ?? "",
       body: body ?? "",
       recipient: recipient ?? "",
     };
-    self.natively.trigger(
-      this.id,
-      0,
-      send_email_callback,
-      "send_email",
-      params,
+    globalContext?.natively.trigger(
+        this.id,
+        0,
+        send_email_callback,
+        "send_email",
+        params,
     );
   }
 }
@@ -413,32 +421,32 @@ export class NativelyStorage {
   }
 
   setStorageValue(key: string, value: any): void {
-    self.natively.trigger(this.id, 0, undefined, "set_storage_value", {
+    globalContext?.natively.trigger(this.id, 0, undefined, "set_storage_value", {
       key,
       value,
     });
   }
 
   getStorageValue(key: string, get_storage_value_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      0,
-      get_storage_value_callback,
-      "get_storage_value",
-      {
-        key,
-      },
+    globalContext?.natively.trigger(
+        this.id,
+        0,
+        get_storage_value_callback,
+        "get_storage_value",
+        {
+          key,
+        },
     );
   }
 
   removeStorageValue(key: string): void {
-    self.natively.trigger(this.id, 0, undefined, "remove_storage_value", {
+    globalContext?.natively.trigger(this.id, 0, undefined, "remove_storage_value", {
       key,
     });
   }
 
   resetStorage(): void {
-    self.natively.trigger(this.id, 0, undefined, "reset_storage");
+    globalContext?.natively.trigger(this.id, 0, undefined, "reset_storage");
   }
 }
 
@@ -452,76 +460,76 @@ export class NativelyBiometrics {
   }
 
   checkBiometricsSupport(biometrics_support_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      0,
-      biometrics_support_callback,
-      "biometrics_support",
-      {
-        allowPass: this.allowPass,
-      },
+    globalContext?.natively.trigger(
+        this.id,
+        0,
+        biometrics_support_callback,
+        "biometrics_support",
+        {
+          allowPass: this.allowPass,
+        },
     );
   }
 
   checkCredentials(biometrics_has_credentials_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      0,
-      biometrics_has_credentials_callback,
-      "biometrics_has_credentials",
+    globalContext?.natively.trigger(
+        this.id,
+        0,
+        biometrics_has_credentials_callback,
+        "biometrics_has_credentials",
     );
   }
 
   verifyUserIdentify(biometrics_verify_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      0,
-      biometrics_verify_callback,
-      "biometrics_verify",
-      {
-        allowPass: this.allowPass,
-      },
+    globalContext?.natively.trigger(
+        this.id,
+        0,
+        biometrics_verify_callback,
+        "biometrics_verify",
+        {
+          allowPass: this.allowPass,
+        },
     );
   }
 
   getUserCredentials(biometrics_auth_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      0,
-      biometrics_auth_callback,
-      "biometrics_auth",
-      {
-        allowPass: this.allowPass,
-      },
+    globalContext?.natively.trigger(
+        this.id,
+        0,
+        biometrics_auth_callback,
+        "biometrics_auth",
+        {
+          allowPass: this.allowPass,
+        },
     );
   }
 
   removeUserCredentials(
-    biometrics_remove_credentials_callback: Function,
+      biometrics_remove_credentials_callback: Function,
   ): void {
-    self.natively.trigger(
-      this.id,
-      0,
-      biometrics_remove_credentials_callback,
-      "biometrics_remove_credentials",
+    globalContext?.natively.trigger(
+        this.id,
+        0,
+        biometrics_remove_credentials_callback,
+        "biometrics_remove_credentials",
     );
   }
 
   saveUserCredentials(
-    login: string,
-    password: string,
-    biometrics_auth_callback: Function,
+      login: string,
+      password: string,
+      biometrics_auth_callback: Function,
   ): void {
-    self.natively.trigger(
-      this.id,
-      0,
-      biometrics_auth_callback,
-      "biometrics_auth",
-      {
-        allowPass: this.allowPass,
-        login,
-        password,
-      },
+    globalContext?.natively.trigger(
+        this.id,
+        0,
+        biometrics_auth_callback,
+        "biometrics_auth",
+        {
+          allowPass: this.allowPass,
+          login,
+          password,
+        },
     );
   }
 }
@@ -534,11 +542,11 @@ export class NativelyDatePicker {
   }
 
   showDatePicker(
-    title?: string,
-    description?: string,
-    type?: string,
-    style?: string,
-    datepicker_callback?: Function,
+      title?: string,
+      description?: string,
+      type?: string,
+      style?: string,
+      datepicker_callback?: Function,
   ): void {
     const params = {
       type: type ?? "DATE",
@@ -546,12 +554,12 @@ export class NativelyDatePicker {
       title: title ?? "",
       description: description ?? "",
     };
-    self.natively.trigger(
-      this.id,
-      0,
-      datepicker_callback,
-      "datepicker",
-      params,
+    globalContext?.natively.trigger(
+        this.id,
+        0,
+        datepicker_callback,
+        "datepicker",
+        params,
     );
   }
 }
@@ -564,22 +572,22 @@ export class NativelyCamera {
   }
 
   showCamera(
-    type?: string,
-    quality?: string,
-    camera?: string,
-    open_camera_callback?: Function,
+      type?: string,
+      quality?: string,
+      camera?: string,
+      open_camera_callback?: Function,
   ): void {
     const params = {
       type: type ?? "photo",
       quality: quality ?? "high",
       camera: camera ?? "BACK",
     };
-    self.natively.trigger(
-      this.id,
-      2,
-      open_camera_callback,
-      "open_camera",
-      params,
+    globalContext?.natively.trigger(
+        this.id,
+        2,
+        open_camera_callback,
+        "open_camera",
+        params,
     );
   }
 }
@@ -592,48 +600,48 @@ export class NativelyHealth {
   }
 
   available(available_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      10,
-      available_callback,
-      "health_available",
-      {},
+    globalContext?.natively.trigger(
+        this.id,
+        10,
+        available_callback,
+        "health_available",
+        {},
     );
   }
 
   requestAuthorization(
-    write_data_types: string[],
-    read_data_types: string[],
-    request_callback: Function,
+      write_data_types: string[],
+      read_data_types: string[],
+      request_callback: Function,
   ): void {
-    self.natively.trigger(this.id, 10, request_callback, "health_register", {
+    globalContext?.natively.trigger(this.id, 10, request_callback, "health_register", {
       write_data_types,
       read_data_types,
     });
   }
 
   permissionStatus(data_type: string, callback: Function): void {
-    self.natively.trigger(this.id, 10, callback, "health_permission", {
+    globalContext?.natively.trigger(this.id, 10, callback, "health_permission", {
       data_type,
     });
   }
 
   getAllCharacteristics(callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      10,
-      callback,
-      "health_get_all_characteristics",
-      {},
+    globalContext?.natively.trigger(
+        this.id,
+        10,
+        callback,
+        "health_get_all_characteristics",
+        {},
     );
   }
 
   getStatisticQuantity(
-    data_type: string,
-    interval: string,
-    start_date?: Date,
-    end_date?: Date,
-    callback?: Function,
+      data_type: string,
+      interval: string,
+      start_date?: Date,
+      end_date?: Date,
+      callback?: Function,
   ): void {
     const obj: any = {
       data_type,
@@ -645,12 +653,12 @@ export class NativelyHealth {
     if (end_date) {
       obj.end_date = end_date.getTime();
     }
-    self.natively.trigger(
-      this.id,
-      10,
-      callback,
-      "health_get_statistic_quantity",
-      obj,
+    globalContext?.natively.trigger(
+        this.id,
+        10,
+        callback,
+        "health_get_statistic_quantity",
+        obj,
     );
   }
 }
@@ -663,12 +671,12 @@ export class NativelyScanner {
   }
 
   showScanner(open_scanner_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      2,
-      open_scanner_callback,
-      "open_scanner",
-      {},
+    globalContext?.natively.trigger(
+        this.id,
+        2,
+        open_scanner_callback,
+        "open_scanner",
+        {},
     );
   }
 }
@@ -681,49 +689,49 @@ export class NativelyPurchases {
   }
 
   login(
-    login: string,
-    customerEmail?: string,
-    login_callback?: Function,
+      login: string,
+      customerEmail?: string,
+      login_callback?: Function,
   ): void {
     const email = customerEmail ?? "";
-    self.natively.trigger(this.id, 3, login_callback, "purchases_login", {
+    globalContext?.natively.trigger(this.id, 3, login_callback, "purchases_login", {
       login,
       email,
     });
   }
 
   logout(logout_callback: Function): void {
-    self.natively.trigger(this.id, 3, logout_callback, "purchases_logout", {});
+    globalContext?.natively.trigger(this.id, 3, logout_callback, "purchases_logout", {});
   }
 
   customerId(customer_id_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      3,
-      customer_id_callback,
-      "purchases_customerid",
-      {},
+    globalContext?.natively.trigger(
+        this.id,
+        3,
+        customer_id_callback,
+        "purchases_customerid",
+        {},
     );
   }
 
   restore(restore_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      10,
-      restore_callback,
-      "purchases_restore",
-      {},
+    globalContext?.natively.trigger(
+        this.id,
+        10,
+        restore_callback,
+        "purchases_restore",
+        {},
     );
   }
 
   purchasePackage(packageId: string, purchase_callback: Function): void {
-    self.natively.trigger(this.id, 3, purchase_callback, "purchases_package", {
+    globalContext?.natively.trigger(this.id, 3, purchase_callback, "purchases_package", {
       packageId,
     });
   }
 
   packagePrice(packageId: string, purchase_callback: Function): void {
-    self.natively.trigger(this.id, 8, purchase_callback, "purchases_price", {
+    globalContext?.natively.trigger(this.id, 8, purchase_callback, "purchases_price", {
       packageId,
     });
   }
@@ -737,21 +745,21 @@ export class NativelyContacts {
   }
 
   getAllContacts(contacts_all_callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      3,
-      contacts_all_callback,
-      "contacts_all",
-      {},
+    globalContext?.natively.trigger(
+        this.id,
+        3,
+        contacts_all_callback,
+        "contacts_all",
+        {},
     );
   }
 
   createContact(
-    firstName: string,
-    lastName?: string,
-    email?: string,
-    phone?: string,
-    contacts_save_callback?: Function,
+      firstName: string,
+      lastName?: string,
+      email?: string,
+      phone?: string,
+      contacts_save_callback?: Function,
   ): void {
     const params = {
       firstName,
@@ -759,12 +767,12 @@ export class NativelyContacts {
       email: email ?? "",
       phone: phone ?? "",
     };
-    self.natively.trigger(
-      this.id,
-      3,
-      contacts_save_callback,
-      "contacts_save",
-      params,
+    globalContext?.natively.trigger(
+        this.id,
+        3,
+        contacts_save_callback,
+        "contacts_save",
+        params,
     );
   }
 }
@@ -777,7 +785,7 @@ export class NativelyMediaPicker {
   }
 
   showMediaPicker(mediapicker_callback: Function): void {
-    self.natively.trigger(this.id, 8, mediapicker_callback, "mediapicker", {});
+    globalContext?.natively.trigger(this.id, 8, mediapicker_callback, "mediapicker", {});
   }
 }
 
@@ -792,7 +800,7 @@ export class NativelyAudioRecorder {
     const params = {
       max_duration: max_duration ?? 0,
     };
-    self.natively.trigger(this.id, 13, record_callback, "record_start", params);
+    globalContext?.natively.trigger(this.id, 13, record_callback, "record_start", params);
   }
 }
 
@@ -800,29 +808,29 @@ export class NativelyAdmobBanner {
   private id: string;
 
   constructor(
-    config: {
-      androidUnitId?: string;
-      iOSUnitId?: string;
-      position?: string;
-      sizeType?: string;
-      custom_width?: number;
-      custom_height?: number;
-    },
-    setup_callback?: Function,
-    preload_ad: boolean = false,
-    preload_callback?: Function,
-    show_ad: boolean = false,
-    show_callback?: Function,
+      config: {
+        androidUnitId?: string;
+        iOSUnitId?: string;
+        position?: string;
+        sizeType?: string;
+        custom_width?: number;
+        custom_height?: number;
+      },
+      setup_callback?: Function,
+      preload_ad: boolean = false,
+      preload_callback?: Function,
+      show_ad: boolean = false,
+      show_callback?: Function,
   ) {
     this.id = generateID();
     const params: any = {};
 
-    if (self.natively.isAndroidApp) {
+    if (globalContext?.natively.isAndroidApp) {
       params.unitId =
-        config.androidUnitId ?? "ca-app-pub-3940256099942544/6300978111";
-    } else if (self.natively.isIOSApp) {
+          config.androidUnitId ?? "ca-app-pub-3940256099942544/6300978111";
+    } else if (globalContext?.natively.isIOSApp) {
       params.unitId =
-        config.iOSUnitId ?? "ca-app-pub-3940256099942544/2934735716";
+          config.iOSUnitId ?? "ca-app-pub-3940256099942544/2934735716";
     }
 
     params.position = config.position ?? "BOTTOM";
@@ -830,55 +838,55 @@ export class NativelyAdmobBanner {
     params.width = config.custom_width ?? 320;
     params.height = config.custom_height ?? 50;
 
-    self.natively.trigger(
-      this.id,
-      14,
-      (resp: any) => {
-        setup_callback?.(resp);
-        if (preload_ad) {
-          self.natively.trigger(
-            this.id,
-            14,
-            (resp: any) => {
-              preload_callback?.(resp);
-              if (show_ad) {
-                self.natively.trigger(
-                  this.id,
-                  14,
-                  show_callback,
-                  "bannerad_show",
-                  {},
-                );
-              }
-            },
-            "bannerad_load",
-            {},
-          );
-        }
-      },
-      "bannerad_setup",
-      params,
+    globalContext?.natively.trigger(
+        this.id,
+        14,
+        (resp: any) => {
+          setup_callback?.(resp);
+          if (preload_ad) {
+            globalContext?.natively.trigger(
+                this.id,
+                14,
+                (resp: any) => {
+                  preload_callback?.(resp);
+                  if (show_ad) {
+                    globalContext?.natively.trigger(
+                        this.id,
+                        14,
+                        show_callback,
+                        "bannerad_show",
+                        {},
+                    );
+                  }
+                },
+                "bannerad_load",
+                {},
+            );
+          }
+        },
+        "bannerad_setup",
+        params,
     );
   }
 
   loadAd(callback?: Function): void {
-    self.natively.trigger(this.id, 14, callback, "bannerad_load", {});
+    globalContext?.natively.trigger(this.id, 14, callback, "bannerad_load", {});
   }
 
   showBanner(callback?: Function): void {
-    self.natively.trigger(this.id, 14, callback, "bannerad_show", {});
+    globalContext?.natively.trigger(this.id, 14, callback, "bannerad_show", {});
   }
 
   hideBanner(callback?: Function): void {
-    self.natively.trigger(this.id, 14, callback, "bannerad_hide", {});
+    globalContext?.natively.trigger(this.id, 14, callback, "bannerad_hide", {});
   }
 
   bannerIsReady(callback: Function): void {
-    self.natively.trigger(this.id, 14, callback, "bannerad_ready", {});
+    globalContext?.natively.trigger(this.id, 14, callback, "bannerad_ready", {});
   }
 
   bannerIsVisible(callback: Function): void {
-    self.natively.trigger(this.id, 14, callback, "bannerad_visible", {});
+    globalContext?.natively.trigger(this.id, 14, callback, "bannerad_visible", {});
   }
 }
 
@@ -892,17 +900,17 @@ export class NativelyAdmobInterstitial {
   private unitId: string | undefined;
 
   constructor(
-    iOSUnitId: string = "ca-app-pub-3940256099942544/4411468910",
-    androidUnitId: string = "ca-app-pub-3940256099942544/1033173712",
-    setup_callback?: Function,
-    auto_ad_reload: boolean = false,
-    auto_ad_reload_callback?: Function,
+      iOSUnitId: string = "ca-app-pub-3940256099942544/4411468910",
+      androidUnitId: string = "ca-app-pub-3940256099942544/1033173712",
+      setup_callback?: Function,
+      auto_ad_reload: boolean = false,
+      auto_ad_reload_callback?: Function,
   ) {
     this.id = generateID();
 
-    if (self.natively.isAndroidApp) {
+    if (globalContext?.natively.isAndroidApp) {
       this.unitId = androidUnitId;
-    } else if (self.natively.isIOSApp) {
+    } else if (globalContext?.natively.isIOSApp) {
       this.unitId = iOSUnitId;
     }
     this.auto_ad_reload = auto_ad_reload;
@@ -914,34 +922,34 @@ export class NativelyAdmobInterstitial {
     const params = {
       unitId: this.unitId ?? "ca-app-pub-3940256099942544/4411468910",
     };
-    self.natively.trigger(
-      this.id,
-      14,
-      callback,
-      "interstitialad_setup",
-      params,
+    globalContext?.natively.trigger(
+        this.id,
+        14,
+        callback,
+        "interstitialad_setup",
+        params,
     );
   }
 
   showInterstitialAd(callback: Function): void {
-    self.natively.trigger(
-      this.id,
-      14,
-      (resp: any) => {
-        callback(resp);
-        if (resp.event === "DID_DISMISS_AD" && this.auto_ad_reload) {
-          setTimeout(() => {
-            this.loadAd(this.auto_ad_reload_callback);
-          }, 500);
-        }
-      },
-      "interstitialad_show",
-      {},
+    globalContext?.natively.trigger(
+        this.id,
+        14,
+        (resp: any) => {
+          callback(resp);
+          if (resp.event === "DID_DISMISS_AD" && this.auto_ad_reload) {
+            setTimeout(() => {
+              this.loadAd(this.auto_ad_reload_callback);
+            }, 500);
+          }
+        },
+        "interstitialad_show",
+        {},
     );
   }
 
   interstitialIsReady(callback: Function): void {
-    self.natively.trigger(this.id, 14, callback, "interstitialad_ready", {});
+    globalContext?.natively.trigger(this.id, 14, callback, "interstitialad_ready", {});
   }
 }
 
@@ -953,10 +961,10 @@ export class NativelyNFCService {
   private writeDetectedMessage: string;
 
   constructor(
-    readAlertMessage: string,
-    writeAlertMessage: string,
-    readDetectedMessage: string,
-    writeDetectedMessage: string,
+      readAlertMessage: string,
+      writeAlertMessage: string,
+      readDetectedMessage: string,
+      writeDetectedMessage: string,
   ) {
     this.id = generateID();
     this.readAlertMessage = readAlertMessage;
@@ -970,22 +978,22 @@ export class NativelyNFCService {
       alertMessage: this.readAlertMessage ?? "please set readAlertMessage",
       detectedMessage: this.readDetectedMessage ?? "readDetectedMessage",
     };
-    self.natively.trigger(this.id, 15, callback, "nfc_read", params);
+    globalContext?.natively.trigger(this.id, 15, callback, "nfc_read", params);
   }
 
   write(recordId: string, recordData: string, callback: Function): void {
     const params = {
       alertMessage: this.writeAlertMessage ?? "please set writeAlertMessage",
       detectedMessage:
-        this.writeDetectedMessage ?? "please set writeDetectedMessage",
+          this.writeDetectedMessage ?? "please set writeDetectedMessage",
       recordData: recordData ?? "please set recordData",
       recordId: recordId ?? "please set recordId",
     };
-    self.natively.trigger(this.id, 15, callback, "nfc_write", params);
+    globalContext?.natively.trigger(this.id, 15, callback, "nfc_write", params);
   }
 
   available(callback: Function): void {
-    self.natively.trigger(this.id, 15, callback, "nfc_available", {});
+    globalContext?.natively.trigger(this.id, 15, callback, "nfc_available", {});
   }
 }
 
@@ -997,32 +1005,28 @@ export class NativelyAppleSignInService {
   }
 
   signin(callback: Function): void {
-    self.natively.trigger(this.id, 16, callback, "apple_signin", {});
-  }
-}
-
-declare global {
-  interface Window {
-    natively: Natively;
-    $agent: any;
-    [key: string]: any;
+    globalContext?.natively.trigger(this.id, 16, callback, "apple_signin", {});
   }
 }
 
 // Assign natively to the global object
-self.natively = new Natively();
+if (globalContext) {
+  globalContext.natively = new Natively();
+}
 
-self.natively.addObserver(() =>
-  self.natively.trigger(
-    undefined,
-    0,
-    (resp: { minSDKVersion: number; sdkVersion: number }) => {
-      self.natively.min_app_version = resp.minSDKVersion;
-      self.natively.app_version = resp.sdkVersion;
-    },
-    "app_info",
-    {},
-  ),
+globalContext?.natively.addObserver(() =>
+    globalContext?.natively.trigger(
+        undefined,
+        0,
+        (resp: { minSDKVersion: number; sdkVersion: number }) => {
+          if (globalContext) {
+            globalContext.natively.min_app_version = resp.minSDKVersion;
+            globalContext.natively.app_version = resp.sdkVersion;
+          }
+        },
+        "app_info",
+        {},
+    ),
 );
 
 function generateID() {

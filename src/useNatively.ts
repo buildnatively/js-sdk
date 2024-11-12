@@ -1,21 +1,7 @@
 "use client";
-// Import just the type
+import globalContext from "./globalThis";
+import "./natively-frontend";
 type Natively = import("./natively-frontend").Natively;
-// import "./natively-frontend";
 
-export default function useNatively(): Natively {
-  // const [natively, setNatively] = useState<Natively | null>(null);
-  // useEffect(() => {
-  //   import("./natively-frontend").then(() => {
-  //     if (typeof window !== "undefined" && window.natively) {
-  //       console.log("Natively is available");
-  //       setNatively(window.natively);
-  //     } else {
-  //       console.log("Natively is not available");
-  //     }
-  //   });
-  //   // Initialize the Natively type and classes
-  // }, []);
-
-  return self.natively;
-}
+export const useNatively = (): Natively => globalContext?.natively;
+export default useNatively;

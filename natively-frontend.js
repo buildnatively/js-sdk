@@ -4,30 +4,35 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import globalContext from './globalThis';
 export class Natively {
   constructor() {
-    var _self, _self2;
+    var _globalContext$naviga, _globalContext$naviga2;
     _defineProperty(this, "isDebug", false);
     _defineProperty(this, "min_app_version", 0);
     _defineProperty(this, "app_version", 0);
     _defineProperty(this, "injected", false);
     _defineProperty(this, "observers", []);
-    _defineProperty(this, "isIOSApp", ((_self = self) === null || _self === void 0 || (_self = _self.navigator) === null || _self === void 0 || (_self = _self.userAgent) === null || _self === void 0 ? void 0 : _self.includes("Natively/iOS")) || false);
-    _defineProperty(this, "isAndroidApp", ((_self2 = self) === null || _self2 === void 0 || (_self2 = _self2.navigator) === null || _self2 === void 0 || (_self2 = _self2.userAgent) === null || _self2 === void 0 ? void 0 : _self2.includes("Natively/Android")) || false);
+    _defineProperty(this, "isIOSApp", (globalContext === null || globalContext === void 0 || (_globalContext$naviga = globalContext.navigator) === null || _globalContext$naviga === void 0 || (_globalContext$naviga = _globalContext$naviga.userAgent) === null || _globalContext$naviga === void 0 ? void 0 : _globalContext$naviga.includes("Natively/iOS")) || false);
+    _defineProperty(this, "isAndroidApp", (globalContext === null || globalContext === void 0 || (_globalContext$naviga2 = globalContext.navigator) === null || _globalContext$naviga2 === void 0 || (_globalContext$naviga2 = _globalContext$naviga2.userAgent) === null || _globalContext$naviga2 === void 0 ? void 0 : _globalContext$naviga2.includes("Natively/Android")) || false);
   }
   setDebug(isDebug) {
-    self.natively.isDebug = isDebug;
+    if (globalContext) {
+      globalContext.natively.isDebug = isDebug;
+    }
   }
   notify(min, current) {
-    self.natively.injected = true;
-    if (min) {
-      self.natively.min_app_version = min;
+    if (globalContext) {
+      globalContext.natively.injected = true;
+      if (min) {
+        globalContext.natively.min_app_version = min;
+      }
+      if (current) {
+        globalContext.natively.app_version = current;
+      }
     }
-    if (current) {
-      self.natively.app_version = current;
-    }
-    var observers = self.natively.observers;
-    if (self.natively.isDebug) {
+    var observers = globalContext === null || globalContext === void 0 ? void 0 : globalContext.natively.observers;
+    if (globalContext !== null && globalContext !== void 0 && globalContext.natively.isDebug) {
       console.log("[INFO] Notify observers: ", observers.length);
     }
     while (observers.length > 0) {
@@ -36,26 +41,26 @@ export class Natively {
     }
   }
   addObserver(fn) {
-    if (self.natively.injected) {
+    if (globalContext !== null && globalContext !== void 0 && globalContext.natively.injected) {
       fn();
     } else {
-      if (self.natively.isDebug) {
+      if (globalContext !== null && globalContext !== void 0 && globalContext.natively.isDebug) {
         console.log("[DEBUG] addObserver: ".concat(fn));
       }
-      self.natively.observers.push(fn);
+      globalContext === null || globalContext === void 0 || globalContext.natively.observers.push(fn);
     }
   }
   trigger(respId, minVersion, callback, method, body) {
-    var isTestVersion = self.natively.isDebug;
-    if (!self.natively.injected) {
-      self.natively.addObserver(() => {
-        self.natively.trigger(respId, minVersion, callback, method, body);
+    var isTestVersion = globalContext === null || globalContext === void 0 ? void 0 : globalContext.natively.isDebug;
+    if (!(globalContext !== null && globalContext !== void 0 && globalContext.natively.injected)) {
+      globalContext === null || globalContext === void 0 || globalContext.natively.addObserver(() => {
+        globalContext === null || globalContext === void 0 || globalContext.natively.trigger(respId, minVersion, callback, method, body);
       });
       return;
     }
-    if (minVersion > self.natively.app_version) {
+    if (minVersion > (globalContext === null || globalContext === void 0 ? void 0 : globalContext.natively.app_version)) {
       if (isTestVersion) {
-        alert("[ERROR] Please rebuild the app to use this functionality. App Version: ".concat(self.natively.app_version, ", feature version: ").concat(minVersion));
+        alert("[ERROR] Please rebuild the app to use this functionality. App Version: ".concat(globalContext === null || globalContext === void 0 ? void 0 : globalContext.natively.app_version, ", feature version: ").concat(minVersion));
       }
       return;
     }
@@ -66,17 +71,19 @@ export class Natively {
       } else {
         fullMethodName = method + "_response";
       }
-      self[fullMethodName] = function (resp, err) {
-        self.$agent.response();
-        if (err.message && isTestVersion) {
-          alert("[ERROR] Error message: ".concat(err.message));
-          return;
-        }
-        if (isTestVersion) {
-          console.log("[DEBUG] Callback method: ".concat(fullMethodName, ", body: ").concat(JSON.stringify(resp), ", respId: ").concat(respId));
-        }
-        callback(resp);
-      };
+      if (globalContext) {
+        globalContext[fullMethodName] = function (resp, err) {
+          globalContext === null || globalContext === void 0 || globalContext.$agent.response();
+          if (err.message && isTestVersion) {
+            alert("[ERROR] Error message: ".concat(err.message));
+            return;
+          }
+          if (isTestVersion) {
+            console.log("[DEBUG] Callback method: ".concat(fullMethodName, ", body: ").concat(JSON.stringify(resp), ", respId: ").concat(respId));
+          }
+          callback(resp);
+        };
+      }
       if (body) {
         body.response_id = respId;
       } else {
@@ -88,40 +95,40 @@ export class Natively {
     if (isTestVersion) {
       console.log("[DEBUG] Trigger method: ".concat(method, ", body: ").concat(JSON.stringify(body)));
     }
-    self.$agent.trigger(method, body);
+    globalContext === null || globalContext === void 0 || globalContext.$agent.trigger(method, body);
   }
   openLogger() {
-    self.$agent.natively_logger();
+    globalContext === null || globalContext === void 0 || globalContext.$agent.natively_logger();
   }
   openConsole() {
-    self.natively.trigger(undefined, 22, undefined, "app_console");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 22, undefined, "app_console");
   }
   closeApp() {
-    self.natively.trigger(undefined, 11, undefined, "app_close");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 11, undefined, "app_close");
   }
   showProgress(toggle) {
-    self.natively.trigger(undefined, 11, undefined, "app_show_progress", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 11, undefined, "app_show_progress", {
       toggle
     });
   }
   shareImage(image_url) {
-    self.natively.trigger(undefined, 0, undefined, "share_image", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 0, undefined, "share_image", {
       url: image_url
     });
   }
   shareText(text) {
-    self.natively.trigger(undefined, 0, undefined, "share_text", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 0, undefined, "share_text", {
       text
     });
   }
   shareTextAndImage(text, image_url) {
-    self.natively.trigger(undefined, 0, undefined, "share_text_and_image", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 0, undefined, "share_text_and_image", {
       url: image_url,
       text
     });
   }
   shareFile(file_url) {
-    self.natively.trigger(undefined, 2, undefined, "share_file", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 2, undefined, "share_file", {
       url: file_url
     });
   }
@@ -130,7 +137,7 @@ export class Natively {
       url: typeof url === "undefined" ? "https://buildnatively.com" : url,
       view: typeof external !== "undefined" && external ? "external" : "web"
     };
-    self.natively.trigger(undefined, 18, undefined, "open_link", params);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 18, undefined, "open_link", params);
   }
 }
 export class NativelyInfo {
@@ -139,10 +146,10 @@ export class NativelyInfo {
     this.id = generateID();
   }
   browserInfo() {
-    var _self3, _self4, _self5;
-    var isNativeApp = typeof ((_self3 = self) === null || _self3 === void 0 ? void 0 : _self3.$agent) !== "undefined";
-    var isIOSApp = ((_self4 = self) === null || _self4 === void 0 || (_self4 = _self4.navigator) === null || _self4 === void 0 || (_self4 = _self4.userAgent) === null || _self4 === void 0 ? void 0 : _self4.includes("Natively/iOS")) || false;
-    var isAndroidApp = ((_self5 = self) === null || _self5 === void 0 || (_self5 = _self5.navigator) === null || _self5 === void 0 || (_self5 = _self5.userAgent) === null || _self5 === void 0 ? void 0 : _self5.includes("Natively/Android")) || false;
+    var _globalContext$naviga3, _globalContext$naviga4;
+    var isNativeApp = typeof (globalContext === null || globalContext === void 0 ? void 0 : globalContext.$agent) !== "undefined";
+    var isIOSApp = (globalContext === null || globalContext === void 0 || (_globalContext$naviga3 = globalContext.navigator) === null || _globalContext$naviga3 === void 0 || (_globalContext$naviga3 = _globalContext$naviga3.userAgent) === null || _globalContext$naviga3 === void 0 ? void 0 : _globalContext$naviga3.includes("Natively/iOS")) || false;
+    var isAndroidApp = (globalContext === null || globalContext === void 0 || (_globalContext$naviga4 = globalContext.navigator) === null || _globalContext$naviga4 === void 0 || (_globalContext$naviga4 = _globalContext$naviga4.userAgent) === null || _globalContext$naviga4 === void 0 ? void 0 : _globalContext$naviga4.includes("Natively/Android")) || false;
     return {
       isNativeApp,
       isIOSApp,
@@ -150,16 +157,16 @@ export class NativelyInfo {
     };
   }
   getAppInfo(app_info_callback) {
-    if (!self.natively) return;
-    self.natively.trigger(this.id, 0, app_info_callback, "app_info");
+    if (!(globalContext !== null && globalContext !== void 0 && globalContext.natively)) return;
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, app_info_callback, "app_info");
   }
   connectivity(connectivity_callback) {
-    if (!self.natively) return;
-    self.natively.trigger(undefined, 0, connectivity_callback, "connectivity");
+    if (!(globalContext !== null && globalContext !== void 0 && globalContext.natively)) return;
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 0, connectivity_callback, "connectivity");
   }
   app_state(app_state_callback) {
-    if (!self.natively) return;
-    self.natively.trigger(undefined, 19, app_state_callback, "app_state");
+    if (!(globalContext !== null && globalContext !== void 0 && globalContext.natively)) return;
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 19, app_state_callback, "app_state");
   }
 }
 export class NativelyClipboard {
@@ -168,12 +175,12 @@ export class NativelyClipboard {
     this.id = generateID();
   }
   copy(text) {
-    self.natively.trigger(undefined, 11, undefined, "clipboard_copy", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 11, undefined, "clipboard_copy", {
       text
     });
   }
   paste(paste_callback) {
-    self.natively.trigger(this.id, 11, paste_callback, "clipboard_paste");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 11, paste_callback, "clipboard_paste");
   }
 }
 export class NativelyNotifications {
@@ -182,15 +189,15 @@ export class NativelyNotifications {
     this.id = generateID();
   }
   getOneSignalId(onesignal_playerid_callback) {
-    self.natively.trigger(this.id, 0, onesignal_playerid_callback, "onesignal_playerid");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, onesignal_playerid_callback, "onesignal_playerid");
   }
   requestPermission(fallbackToSettings, push_register_callback) {
-    self.natively.trigger(this.id, 0, push_register_callback, "push_register", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, push_register_callback, "push_register", {
       fallbackToSettings
     });
   }
   getPermissionStatus(push_permission_callback) {
-    self.natively.trigger(this.id, 0, push_permission_callback, "push_permission");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, push_permission_callback, "push_permission");
   }
 }
 
@@ -201,15 +208,15 @@ export class NativelyGeolocation {
     this.id = generateID();
   }
   getUserGeolocation(distance, geolocation_callback) {
-    self.natively.trigger(this.id, 0, geolocation_callback, "geolocation", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, geolocation_callback, "geolocation", {
       distance
     });
   }
   requestPermission(geo_register_callback) {
-    self.natively.trigger(this.id, 0, geo_register_callback, "geo_register");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, geo_register_callback, "geo_register");
   }
   getPermissionStatus(geo_permission_callback) {
-    self.natively.trigger(this.id, 0, geo_permission_callback, "geo_permission");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, geo_permission_callback, "geo_permission");
   }
 }
 export class NativelyLocation {
@@ -218,17 +225,17 @@ export class NativelyLocation {
     this.id = generateID();
   }
   current(minAccuracyIOS, accuracyTypeIOS, priority_android, location_callback) {
-    self.natively.trigger(this.id, 12, location_callback, "location_current", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 12, location_callback, "location_current", {
       minAccuracy: minAccuracyIOS,
       accuracyType: accuracyTypeIOS,
       priority: priority_android
     });
   }
   permission(location_permission_callback) {
-    self.natively.trigger(this.id, 6, location_permission_callback, "location_permission");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 6, location_permission_callback, "location_permission");
   }
   start(interval, minAccuracyIOS, accuracyTypeIOS, priority_android, location_callback) {
-    self.natively.trigger(this.id, 12, location_callback, "location_start", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 12, location_callback, "location_start", {
       minAccuracy: minAccuracyIOS,
       accuracyType: accuracyTypeIOS,
       priority: priority_android,
@@ -236,7 +243,7 @@ export class NativelyLocation {
     });
   }
   stop() {
-    self.natively.trigger(this.id, 3, undefined, "location_stop", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, undefined, "location_stop", {});
   }
   startBackground(interval, minAccuracyIOS, accuracyTypeIOS, priority_android, responseIdentifier, location_bg_callback) {
     var params = {
@@ -246,13 +253,13 @@ export class NativelyLocation {
       accuracyType: accuracyTypeIOS !== null && accuracyTypeIOS !== void 0 ? accuracyTypeIOS : "Best",
       priority: priority_android !== null && priority_android !== void 0 ? priority_android : "BALANCED"
     };
-    self.natively.trigger(this.id, 12, location_bg_callback, "location_start_bg", params);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 12, location_bg_callback, "location_start_bg", params);
   }
   statusBackground(location_bg_status_callback) {
-    self.natively.trigger(this.id, 20, location_bg_status_callback, "location_status_bg", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 20, location_bg_status_callback, "location_status_bg", {});
   }
   stopBackground(location_bg_callback) {
-    self.natively.trigger(this.id, 4, location_bg_callback, "location_stop_bg", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 4, location_bg_callback, "location_stop_bg", {});
   }
 }
 export class NativelyMessage {
@@ -265,7 +272,7 @@ export class NativelyMessage {
       body: body !== null && body !== void 0 ? body : "",
       recipient: recipient !== null && recipient !== void 0 ? recipient : ""
     };
-    self.natively.trigger(this.id, 0, send_sms_callback, "send_sms", params);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, send_sms_callback, "send_sms", params);
   }
   sendEmail(subject, body, recipient, send_email_callback) {
     var params = {
@@ -273,7 +280,7 @@ export class NativelyMessage {
       body: body !== null && body !== void 0 ? body : "",
       recipient: recipient !== null && recipient !== void 0 ? recipient : ""
     };
-    self.natively.trigger(this.id, 0, send_email_callback, "send_email", params);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, send_email_callback, "send_email", params);
   }
 }
 export class NativelyStorage {
@@ -282,23 +289,23 @@ export class NativelyStorage {
     this.id = generateID();
   }
   setStorageValue(key, value) {
-    self.natively.trigger(this.id, 0, undefined, "set_storage_value", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, undefined, "set_storage_value", {
       key,
       value
     });
   }
   getStorageValue(key, get_storage_value_callback) {
-    self.natively.trigger(this.id, 0, get_storage_value_callback, "get_storage_value", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, get_storage_value_callback, "get_storage_value", {
       key
     });
   }
   removeStorageValue(key) {
-    self.natively.trigger(this.id, 0, undefined, "remove_storage_value", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, undefined, "remove_storage_value", {
       key
     });
   }
   resetStorage() {
-    self.natively.trigger(this.id, 0, undefined, "reset_storage");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, undefined, "reset_storage");
   }
 }
 export class NativelyBiometrics {
@@ -309,28 +316,28 @@ export class NativelyBiometrics {
     this.id = generateID();
   }
   checkBiometricsSupport(biometrics_support_callback) {
-    self.natively.trigger(this.id, 0, biometrics_support_callback, "biometrics_support", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, biometrics_support_callback, "biometrics_support", {
       allowPass: this.allowPass
     });
   }
   checkCredentials(biometrics_has_credentials_callback) {
-    self.natively.trigger(this.id, 0, biometrics_has_credentials_callback, "biometrics_has_credentials");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, biometrics_has_credentials_callback, "biometrics_has_credentials");
   }
   verifyUserIdentify(biometrics_verify_callback) {
-    self.natively.trigger(this.id, 0, biometrics_verify_callback, "biometrics_verify", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, biometrics_verify_callback, "biometrics_verify", {
       allowPass: this.allowPass
     });
   }
   getUserCredentials(biometrics_auth_callback) {
-    self.natively.trigger(this.id, 0, biometrics_auth_callback, "biometrics_auth", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, biometrics_auth_callback, "biometrics_auth", {
       allowPass: this.allowPass
     });
   }
   removeUserCredentials(biometrics_remove_credentials_callback) {
-    self.natively.trigger(this.id, 0, biometrics_remove_credentials_callback, "biometrics_remove_credentials");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, biometrics_remove_credentials_callback, "biometrics_remove_credentials");
   }
   saveUserCredentials(login, password, biometrics_auth_callback) {
-    self.natively.trigger(this.id, 0, biometrics_auth_callback, "biometrics_auth", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, biometrics_auth_callback, "biometrics_auth", {
       allowPass: this.allowPass,
       login,
       password
@@ -349,7 +356,7 @@ export class NativelyDatePicker {
       title: title !== null && title !== void 0 ? title : "",
       description: description !== null && description !== void 0 ? description : ""
     };
-    self.natively.trigger(this.id, 0, datepicker_callback, "datepicker", params);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, datepicker_callback, "datepicker", params);
   }
 }
 export class NativelyCamera {
@@ -363,7 +370,7 @@ export class NativelyCamera {
       quality: quality !== null && quality !== void 0 ? quality : "high",
       camera: camera !== null && camera !== void 0 ? camera : "BACK"
     };
-    self.natively.trigger(this.id, 2, open_camera_callback, "open_camera", params);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 2, open_camera_callback, "open_camera", params);
   }
 }
 export class NativelyHealth {
@@ -372,21 +379,21 @@ export class NativelyHealth {
     this.id = generateID();
   }
   available(available_callback) {
-    self.natively.trigger(this.id, 10, available_callback, "health_available", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 10, available_callback, "health_available", {});
   }
   requestAuthorization(write_data_types, read_data_types, request_callback) {
-    self.natively.trigger(this.id, 10, request_callback, "health_register", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 10, request_callback, "health_register", {
       write_data_types,
       read_data_types
     });
   }
   permissionStatus(data_type, callback) {
-    self.natively.trigger(this.id, 10, callback, "health_permission", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 10, callback, "health_permission", {
       data_type
     });
   }
   getAllCharacteristics(callback) {
-    self.natively.trigger(this.id, 10, callback, "health_get_all_characteristics", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 10, callback, "health_get_all_characteristics", {});
   }
   getStatisticQuantity(data_type, interval, start_date, end_date, callback) {
     var obj = {
@@ -399,7 +406,7 @@ export class NativelyHealth {
     if (end_date) {
       obj.end_date = end_date.getTime();
     }
-    self.natively.trigger(this.id, 10, callback, "health_get_statistic_quantity", obj);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 10, callback, "health_get_statistic_quantity", obj);
   }
 }
 export class NativelyScanner {
@@ -408,7 +415,7 @@ export class NativelyScanner {
     this.id = generateID();
   }
   showScanner(open_scanner_callback) {
-    self.natively.trigger(this.id, 2, open_scanner_callback, "open_scanner", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 2, open_scanner_callback, "open_scanner", {});
   }
 }
 export class NativelyPurchases {
@@ -418,27 +425,27 @@ export class NativelyPurchases {
   }
   login(login, customerEmail, login_callback) {
     var email = customerEmail !== null && customerEmail !== void 0 ? customerEmail : "";
-    self.natively.trigger(this.id, 3, login_callback, "purchases_login", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, login_callback, "purchases_login", {
       login,
       email
     });
   }
   logout(logout_callback) {
-    self.natively.trigger(this.id, 3, logout_callback, "purchases_logout", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, logout_callback, "purchases_logout", {});
   }
   customerId(customer_id_callback) {
-    self.natively.trigger(this.id, 3, customer_id_callback, "purchases_customerid", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, customer_id_callback, "purchases_customerid", {});
   }
   restore(restore_callback) {
-    self.natively.trigger(this.id, 10, restore_callback, "purchases_restore", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 10, restore_callback, "purchases_restore", {});
   }
   purchasePackage(packageId, purchase_callback) {
-    self.natively.trigger(this.id, 3, purchase_callback, "purchases_package", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, purchase_callback, "purchases_package", {
       packageId
     });
   }
   packagePrice(packageId, purchase_callback) {
-    self.natively.trigger(this.id, 8, purchase_callback, "purchases_price", {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 8, purchase_callback, "purchases_price", {
       packageId
     });
   }
@@ -449,7 +456,7 @@ export class NativelyContacts {
     this.id = generateID();
   }
   getAllContacts(contacts_all_callback) {
-    self.natively.trigger(this.id, 3, contacts_all_callback, "contacts_all", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, contacts_all_callback, "contacts_all", {});
   }
   createContact(firstName, lastName, email, phone, contacts_save_callback) {
     var params = {
@@ -458,7 +465,7 @@ export class NativelyContacts {
       email: email !== null && email !== void 0 ? email : "",
       phone: phone !== null && phone !== void 0 ? phone : ""
     };
-    self.natively.trigger(this.id, 3, contacts_save_callback, "contacts_save", params);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, contacts_save_callback, "contacts_save", params);
   }
 }
 export class NativelyMediaPicker {
@@ -467,7 +474,7 @@ export class NativelyMediaPicker {
     this.id = generateID();
   }
   showMediaPicker(mediapicker_callback) {
-    self.natively.trigger(this.id, 8, mediapicker_callback, "mediapicker", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 8, mediapicker_callback, "mediapicker", {});
   }
 }
 export class NativelyAudioRecorder {
@@ -479,7 +486,7 @@ export class NativelyAudioRecorder {
     var params = {
       max_duration: max_duration !== null && max_duration !== void 0 ? max_duration : 0
     };
-    self.natively.trigger(this.id, 13, record_callback, "record_start", params);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 13, record_callback, "record_start", params);
   }
 }
 export class NativelyAdmobBanner {
@@ -492,10 +499,10 @@ export class NativelyAdmobBanner {
     _defineProperty(this, "id", void 0);
     this.id = generateID();
     var params = {};
-    if (self.natively.isAndroidApp) {
+    if (globalContext !== null && globalContext !== void 0 && globalContext.natively.isAndroidApp) {
       var _config$androidUnitId;
       params.unitId = (_config$androidUnitId = config.androidUnitId) !== null && _config$androidUnitId !== void 0 ? _config$androidUnitId : "ca-app-pub-3940256099942544/6300978111";
-    } else if (self.natively.isIOSApp) {
+    } else if (globalContext !== null && globalContext !== void 0 && globalContext.natively.isIOSApp) {
       var _config$iOSUnitId;
       params.unitId = (_config$iOSUnitId = config.iOSUnitId) !== null && _config$iOSUnitId !== void 0 ? _config$iOSUnitId : "ca-app-pub-3940256099942544/2934735716";
     }
@@ -503,32 +510,32 @@ export class NativelyAdmobBanner {
     params.sizeType = (_config$sizeType = config.sizeType) !== null && _config$sizeType !== void 0 ? _config$sizeType : "AUTO";
     params.width = (_config$custom_width = config.custom_width) !== null && _config$custom_width !== void 0 ? _config$custom_width : 320;
     params.height = (_config$custom_height = config.custom_height) !== null && _config$custom_height !== void 0 ? _config$custom_height : 50;
-    self.natively.trigger(this.id, 14, resp => {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 14, resp => {
       setup_callback === null || setup_callback === void 0 || setup_callback(resp);
       if (preload_ad) {
-        self.natively.trigger(this.id, 14, resp => {
+        globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 14, resp => {
           preload_callback === null || preload_callback === void 0 || preload_callback(resp);
           if (show_ad) {
-            self.natively.trigger(this.id, 14, show_callback, "bannerad_show", {});
+            globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 14, show_callback, "bannerad_show", {});
           }
         }, "bannerad_load", {});
       }
     }, "bannerad_setup", params);
   }
   loadAd(callback) {
-    self.natively.trigger(this.id, 14, callback, "bannerad_load", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 14, callback, "bannerad_load", {});
   }
   showBanner(callback) {
-    self.natively.trigger(this.id, 14, callback, "bannerad_show", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 14, callback, "bannerad_show", {});
   }
   hideBanner(callback) {
-    self.natively.trigger(this.id, 14, callback, "bannerad_hide", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 14, callback, "bannerad_hide", {});
   }
   bannerIsReady(callback) {
-    self.natively.trigger(this.id, 14, callback, "bannerad_ready", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 14, callback, "bannerad_ready", {});
   }
   bannerIsVisible(callback) {
-    self.natively.trigger(this.id, 14, callback, "bannerad_visible", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 14, callback, "bannerad_visible", {});
   }
 }
 
@@ -547,9 +554,9 @@ export class NativelyAdmobInterstitial {
     _defineProperty(this, "auto_ad_reload_callback", void 0);
     _defineProperty(this, "unitId", void 0);
     this.id = generateID();
-    if (self.natively.isAndroidApp) {
+    if (globalContext !== null && globalContext !== void 0 && globalContext.natively.isAndroidApp) {
       this.unitId = androidUnitId;
-    } else if (self.natively.isIOSApp) {
+    } else if (globalContext !== null && globalContext !== void 0 && globalContext.natively.isIOSApp) {
       this.unitId = iOSUnitId;
     }
     this.auto_ad_reload = auto_ad_reload;
@@ -561,10 +568,10 @@ export class NativelyAdmobInterstitial {
     var params = {
       unitId: (_this$unitId = this.unitId) !== null && _this$unitId !== void 0 ? _this$unitId : "ca-app-pub-3940256099942544/4411468910"
     };
-    self.natively.trigger(this.id, 14, callback, "interstitialad_setup", params);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 14, callback, "interstitialad_setup", params);
   }
   showInterstitialAd(callback) {
-    self.natively.trigger(this.id, 14, resp => {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 14, resp => {
       callback(resp);
       if (resp.event === "DID_DISMISS_AD" && this.auto_ad_reload) {
         setTimeout(() => {
@@ -574,7 +581,7 @@ export class NativelyAdmobInterstitial {
     }, "interstitialad_show", {});
   }
   interstitialIsReady(callback) {
-    self.natively.trigger(this.id, 14, callback, "interstitialad_ready", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 14, callback, "interstitialad_ready", {});
   }
 }
 export class NativelyNFCService {
@@ -596,7 +603,7 @@ export class NativelyNFCService {
       alertMessage: (_this$readAlertMessag = this.readAlertMessage) !== null && _this$readAlertMessag !== void 0 ? _this$readAlertMessag : "please set readAlertMessage",
       detectedMessage: (_this$readDetectedMes = this.readDetectedMessage) !== null && _this$readDetectedMes !== void 0 ? _this$readDetectedMes : "readDetectedMessage"
     };
-    self.natively.trigger(this.id, 15, callback, "nfc_read", params);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 15, callback, "nfc_read", params);
   }
   write(recordId, recordData, callback) {
     var _this$writeAlertMessa, _this$writeDetectedMe;
@@ -606,10 +613,10 @@ export class NativelyNFCService {
       recordData: recordData !== null && recordData !== void 0 ? recordData : "please set recordData",
       recordId: recordId !== null && recordId !== void 0 ? recordId : "please set recordId"
     };
-    self.natively.trigger(this.id, 15, callback, "nfc_write", params);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 15, callback, "nfc_write", params);
   }
   available(callback) {
-    self.natively.trigger(this.id, 15, callback, "nfc_available", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 15, callback, "nfc_available", {});
   }
 }
 export class NativelyAppleSignInService {
@@ -618,14 +625,19 @@ export class NativelyAppleSignInService {
     this.id = generateID();
   }
   signin(callback) {
-    self.natively.trigger(this.id, 16, callback, "apple_signin", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 16, callback, "apple_signin", {});
   }
 }
+
 // Assign natively to the global object
-self.natively = new Natively();
-self.natively.addObserver(() => self.natively.trigger(undefined, 0, resp => {
-  self.natively.min_app_version = resp.minSDKVersion;
-  self.natively.app_version = resp.sdkVersion;
+if (globalContext) {
+  globalContext.natively = new Natively();
+}
+globalContext === null || globalContext === void 0 || globalContext.natively.addObserver(() => globalContext === null || globalContext === void 0 ? void 0 : globalContext.natively.trigger(undefined, 0, resp => {
+  if (globalContext) {
+    globalContext.natively.min_app_version = resp.minSDKVersion;
+    globalContext.natively.app_version = resp.sdkVersion;
+  }
 }, "app_info", {}));
 function generateID() {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
