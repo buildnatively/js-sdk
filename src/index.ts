@@ -28,5 +28,6 @@ export {useNatively} from './hooks/useNatively';
 export {generateID} from "./utils/generateID";
 
 // Global stuff
+import "./types";
 import "./inject";
 import "./events";

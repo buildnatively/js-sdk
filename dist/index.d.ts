@@ -21,5 +21,6 @@ export { NativelyAdmobInterstitial } from "./classes/NativelyAdmobInterstitial";
 export { NativelyNFCService } from "./classes/NativelyNFCService";
 export { useNatively } from './hooks/useNatively';
 export { generateID } from "./utils/generateID";
+import "./types";
 import "./inject";
 import "./events";
