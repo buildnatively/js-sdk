@@ -1,4 +1,4 @@
-import {Natively} from "./natively-frontend";
+import {Natively} from "./classes/Natively";
 
 interface NativelyProps {
     natively: Natively;

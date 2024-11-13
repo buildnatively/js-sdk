@@ -5,31 +5,20 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./natively-frontend.js",
-      "types": "./natively-frontend.d.ts"
-    },
-    "./useNatively": {
-      "import": "./useNatively.js",
-      "types": "./useNatively.d.ts"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "files": [
-    "natively-frontend.d.ts",
-    "natively-frontend.js",
-    "useNatively.js",
-    "useNatively.d.ts",
-    "globalThis.d.ts",
-    "globalThis.js",
-    "types.d.ts",
-    "types.js"
+    "natively-frontend.min.js",
+    "dist"
   ],
   "package-name": "buildnatively/js-sdk#typescript_module",
   "scripts": {
-    "build": "npm run build:types && npm run build:iife && npm run build:module",
+    "build": "npm run build:types && npm run build:webpack && npm run build:module",
     "build:types": "tsc --emitDeclarationOnly",
-    "build:iife": "babel src/natively-frontend.ts --config-file ./babel.config.iife.cjs --out-file ./natively-frontend.min.js --minified",
-    "build:module": "babel src --extensions \".ts\" --config-file ./babel.config.module.cjs --out-dir ./",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:webpack": "webpack build",
+    "build:module": "babel src --extensions \".ts\" --config-file ./babel.config.module.cjs --out-dir ./dist/"
   },
   "repository": {
     "type": "git",
@@ -54,8 +43,11 @@
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-typescript": "^7.26.0",
-    "@types/react": "^18.3.12",
-    "react": "^18.3.1",
-    "typescript": "^5.6.3"
+    "babel-loader": "^9.2.1",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
   }
 }
