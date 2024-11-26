@@ -19,7 +19,9 @@ export {NativelyMediaPicker} from "./classes/NativelyMediaPicker";
 export {NativelyAudioRecorder} from "./classes/NativelyAudioRecorder";
 export {NativelyAdmobBanner} from "./classes/NativelyAdmobBanner";
 export {NativelyAdmobInterstitial} from "./classes/NativelyAdmobInterstitial";
-export {NativelyNFCService} from "./classes/NativelyNFCService";
+
+import {NativelyNFCService} from "./classes/NativelyNFCService";
+export {NativelyNFCService};
 
 // Hooks
 export {useNatively} from './hooks/useNatively';

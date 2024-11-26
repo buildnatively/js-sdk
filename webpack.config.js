@@ -6,6 +6,9 @@ const config = {
     output: {
         path: process.cwd(),
     },
+    optimization: {
+        usedExports: false
+    },
     resolve: {
         extensions: [".ts", ".tsx", ".js"],
         extensionAlias: {
