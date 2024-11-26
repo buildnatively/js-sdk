@@ -20,6 +20,7 @@ export { NativelyAudioRecorder } from "./classes/NativelyAudioRecorder";
 export { NativelyAdmobBanner } from "./classes/NativelyAdmobBanner";
 export { NativelyAdmobInterstitial } from "./classes/NativelyAdmobInterstitial";
 export { NativelyNFCService } from "./classes/NativelyNFCService";
+export { NativelyFirebaseNotifications } from './classes/NativelyFirebaseNotifications';
 
 // Hooks
 export { useNatively } from './hooks/useNatively';

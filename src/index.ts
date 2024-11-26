@@ -19,9 +19,8 @@ export {NativelyMediaPicker} from "./classes/NativelyMediaPicker";
 export {NativelyAudioRecorder} from "./classes/NativelyAudioRecorder";
 export {NativelyAdmobBanner} from "./classes/NativelyAdmobBanner";
 export {NativelyAdmobInterstitial} from "./classes/NativelyAdmobInterstitial";
-
-import {NativelyNFCService} from "./classes/NativelyNFCService";
-export {NativelyNFCService};
+export {NativelyNFCService} from "./classes/NativelyNFCService";
+export {NativelyFirebaseNotifications} from './classes/NativelyFirebaseNotifications';
 
 // Hooks
 export {useNatively} from './hooks/useNatively';
@@ -33,3 +32,4 @@ export {generateID} from "./utils/generateID";
 import "./types";
 import "./inject";
 import "./events";
+import { NativelyFirebaseNotifications } from './classes/NativelyFirebaseNotifications';
