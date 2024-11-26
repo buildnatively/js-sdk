@@ -1,4 +1,4 @@
-# natively-sdk
+## Plain HTML Header Injection
 
 ### Installation
 
@@ -34,7 +34,7 @@ notifications.getOneSignalId(playerId_callback);
 window.natively.shareText("Hello world!");
 ```
 
-🛠 React/NextJS (min version 2.15.0)
+## 🛠 React/NextJS (min version 2.15.0)
 
 ### Installation:
 
