@@ -1,5 +1,5 @@
 function buttonClick() {
-    const notification = new NativelyFirebaseNotification();
+    const notification = new NativelyFirebaseNotifications();
     console.log(notification);
     alert("Button clicked");
 }
