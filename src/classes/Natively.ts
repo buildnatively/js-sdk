@@ -97,7 +97,7 @@ export class Natively {
             if (body) {
                 body.response_id = respId;
             } else {
-                body = {response_id: respId};
+                body = { response_id: respId };
             }
         }
         if (isTestVersion) {
@@ -157,5 +157,121 @@ export class Natively {
             view: typeof external !== "undefined" && external ? "external" : "web",
         };
         globalContext?.natively.trigger(undefined, 18, undefined, "open_link", params);
+    }
+    openExternalApp(url: string): void {
+        globalContext?.natively.trigger(undefined, 22, undefined, "open_app", { url });
+    }
+
+    showAppToast(type: string, text?: string): void {
+        globalContext?.natively.trigger(undefined, 0, undefined, "show_toast", {
+            text: text || "",
+            type: type || "DEFAULT",
+        });
+    }
+
+    showAppBanner(type: string, title?: string, description?: string): void {
+        globalContext?.natively.trigger(undefined, 0, undefined, "show_banner", {
+            type: type || "INFO",
+            title: title || "",
+            description: description || "",
+        });
+    }
+
+    requestAppReview(): void {
+        globalContext?.natively.trigger(undefined, 0, undefined, "request_review");
+    }
+
+    setAppBackgroundColor(color: string): void {
+        globalContext?.natively.trigger(undefined, 1, undefined, "app_background", { color });
+    }
+
+    setAppProgressColor(color: string): void {
+        globalContext?.natively.trigger(undefined, 1, undefined, "app_progress", { color });
+    }
+
+    setAppSwipeNavigation(toggle: boolean): void {
+        globalContext?.natively.trigger(undefined, 22, undefined, "app_navigation", { toggle });
+    }
+
+    setAppPullToRefresh(toggle: boolean): void {
+        globalContext?.natively.trigger(undefined, 1, undefined, "app_pull", { toggle });
+    }
+
+    setAppOrientation(orientation: string): void {
+        globalContext?.natively.trigger(undefined, 3, undefined, "app_orientation", { orientation });
+    }
+
+    setAppStatusBarStyle(style: string): void {
+        globalContext?.natively.trigger(undefined, 22, undefined, "status_bar_style", { style });
+    }
+
+    hideLoadingScreen(): void {
+        globalContext?.natively.trigger(undefined, 17, undefined, "loading_screen", {
+            show_loader: false,
+            auto_hide: true,
+        });
+    }
+
+    showLoadingScreen(autoHide?: boolean): void {
+        globalContext?.natively.trigger(undefined, 17, undefined, "loading_screen", {
+            show_loader: true,
+            auto_hide: autoHide || false,
+        });
+    }
+
+    openAppSettings(): void {
+        globalContext?.natively.trigger(undefined, 0, undefined, "open_appsettings");
+    }
+
+    hapticPattern(pattern: string, delay: number): void {
+        globalContext?.natively.trigger(undefined, 22, undefined, "haptic_pattern", {
+            pattern,
+            delay,
+        });
+    }
+
+    hapticImpact(type: string): void {
+        globalContext?.natively.trigger(undefined, 22, undefined, "haptic_impact", { type });
+    }
+
+    hapticNotification(type: string): void {
+        globalContext?.natively.trigger(undefined, 22, undefined, "haptic_notification", { type });
+    }
+
+    async sendPushNotification(
+        appId: string,
+        payload: any,
+        player_ids: string[],
+        isPreview: boolean,
+    ): Promise<Response> {
+        const filtered = player_ids.filter((id) => id.length > 0);
+        const include_player_ids = [...new Set(filtered)];
+        const notification: any = {
+            app_id: isPreview
+                ? "be83022a-1d08-45d0-a07a-0c3655666e17" // Preview App ID
+                : appId,
+            include_player_ids,
+        };
+
+        if (payload.template_id) {
+            notification.template_id = payload.template_id;
+        } else {
+            notification.headings = { en: payload.title || "Empty Title" };
+            notification.contents = { en: payload.message || "Empty Message" };
+            if (payload.subtitle) {
+                notification.subtitle = { en: payload.subtitle };
+            }
+            if (payload.redirect_url) {
+                notification.url = payload.redirect_url;
+            }
+        }
+
+        const options = {
+            method: "POST",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(notification),
+        };
+
+        return await fetch("https://onesignal.com/api/v1/notifications", options);
     }
 }
