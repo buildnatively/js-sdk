@@ -32,4 +32,3 @@ export {generateID} from "./utils/generateID";
 import "./types";
 import "./inject";
 import "./events";
-import { NativelyFirebaseNotifications } from './classes/NativelyFirebaseNotifications';

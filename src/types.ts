@@ -19,6 +19,7 @@ import {NativelyNotifications} from "./classes/NativelyNotifications";
 import {NativelyPurchases} from "./classes/NativelyPurchases";
 import {NativelyScanner} from "./classes/NativelyScanner";
 import {NativelyStorage} from "./classes/NativelyStorage";
+import {NativelyFirebaseNotifications} from "./classes/NativelyFirebaseNotifications";
 
 interface NativelyProps {
     natively: Natively;
@@ -42,12 +43,14 @@ interface NativelyProps {
     NativelyPurchases: NativelyPurchases;
     NativelyScanner: NativelyScanner;
     NativelyStorage: NativelyStorage;
+    NativelyFirebaseNotifications: NativelyFirebaseNotifications;
     $agent: never;
 }
 
 declare global {
     const natively: Natively;
     const $agent: never;
+    // Global classes are optional here as soon as we use them by importing from 'natively' module
 
     interface Window extends NativelyProps {}
 }
