@@ -1,7 +1,7 @@
 import {generateID} from "../utils/generateID";
 import globalContext from "../utils/globalThis";
 
-export class NativelyFirebaseNotifications {
+export default class NativelyFirebaseNotifications {
     private readonly id: string = generateID();
 
     firebase_get_token(token_callback: Function): void {
