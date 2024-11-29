@@ -15,10 +15,11 @@
   ],
   "package-name": "buildnatively/js-sdk#typescript_module",
   "scripts": {
-    "build": "npm run build:types && npm run build:webpack && npm run build:module",
+    "build": "npm run build:webpack && npm run build:types && npm run build:module && npm run build:post",
     "build:types": "tsc --emitDeclarationOnly",
     "build:webpack": "webpack build",
-    "build:module": "babel src --extensions \".ts\" --config-file ./babel.config.module.cjs --out-dir ./dist/"
+    "build:module": "babel src --extensions \".ts\" --config-file ./babel.config.module.cjs --out-dir ./dist/",
+    "build:post": "node postbuild.cjs"
   },
   "repository": {
     "type": "git",
