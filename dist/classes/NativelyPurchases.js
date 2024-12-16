@@ -23,9 +23,10 @@ export class NativelyPurchases {
   restore(restore_callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 10, restore_callback, "purchases_restore", {});
   }
-  purchasePackage(packageId, purchase_callback) {
+  purchasePackage(packageId, purchase_callback, oldProductId) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, purchase_callback, "purchases_package", {
-      packageId
+      packageId,
+      oldProductId: oldProductId !== null && oldProductId !== void 0 ? oldProductId : null
     });
   }
   packagePrice(packageId, purchase_callback) {

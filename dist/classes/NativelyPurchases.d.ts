@@ -4,6 +4,6 @@ export declare class NativelyPurchases {
     logout(logout_callback: Function): void;
     customerId(customer_id_callback: Function): void;
     restore(restore_callback: Function): void;
-    purchasePackage(packageId: string, purchase_callback: Function): void;
+    purchasePackage(packageId: string, purchase_callback: Function, oldProductId?: string | null): void;
     packagePrice(packageId: string, purchase_callback: Function): void;
 }
