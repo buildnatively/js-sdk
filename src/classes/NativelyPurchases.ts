@@ -40,9 +40,10 @@ export class NativelyPurchases {
         );
     }
 
-    purchasePackage(packageId: string, purchase_callback: Function): void {
+    purchasePackage(packageId: string, purchase_callback: Function, oldProductId?: string | null): void {
         globalContext?.natively.trigger(this.id, 3, purchase_callback, "purchases_package", {
             packageId,
+            oldProductId: oldProductId ?? null,
         });
     }
 
