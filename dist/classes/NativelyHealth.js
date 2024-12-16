@@ -37,4 +37,38 @@ export class NativelyHealth {
     }
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 10, callback, "health_get_statistic_quantity", obj);
   }
+  getDailySleepAnalysis(start_date, end_date, limit, callback) {
+    var obj = {
+      limit: limit || 100
+    };
+    if (start_date) {
+      obj.start_date = start_date.getTime();
+    }
+    if (end_date) {
+      obj.end_date = end_date.getTime();
+    }
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 10, callback, "health_get_daily_sleep_analysis", obj);
+  }
+  getWorkouts(start_date, end_date, limit, callback) {
+    var obj = {
+      limit: limit || 100
+    };
+    if (start_date) {
+      obj.start_date = start_date.getTime();
+    }
+    if (end_date) {
+      obj.end_date = end_date.getTime();
+    }
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 21, callback, "health_get_workouts", obj);
+  }
+  getActivitySummary(start_date, end_date, callback) {
+    var obj = {};
+    if (start_date) {
+      obj.start_date = start_date.getTime();
+    }
+    if (end_date) {
+      obj.end_date = end_date.getTime();
+    }
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 10, callback, "health_get_activity_summary", obj);
+  }
 }

@@ -66,4 +66,70 @@ export class NativelyHealth {
             obj,
         );
     }
+
+
+    getDailySleepAnalysis(
+        start_date?: Date,
+        end_date?: Date,
+        limit?: number,
+        callback?: Function
+    ): void {
+        const obj: any = { limit: limit || 100 };
+        if (start_date) {
+            obj.start_date = start_date.getTime();
+        }
+        if (end_date) {
+            obj.end_date = end_date.getTime();
+        }
+        globalContext?.natively.trigger(
+            this.id,
+            10,
+            callback,
+            "health_get_daily_sleep_analysis",
+            obj
+        );
+    }
+    
+    getWorkouts(
+        start_date?: Date,
+        end_date?: Date,
+        limit?: number,
+        callback?: Function
+    ): void {
+        const obj: any = { limit: limit || 100 };
+        if (start_date) {
+            obj.start_date = start_date.getTime();
+        }
+        if (end_date) {
+            obj.end_date = end_date.getTime();
+        }
+        globalContext?.natively.trigger(
+            this.id,
+            21,
+            callback,
+            "health_get_workouts",
+            obj
+        );
+    }
+    
+    getActivitySummary(
+        start_date?: Date,
+        end_date?: Date,
+        callback?: Function
+    ): void {
+        const obj: any = {};
+        if (start_date) {
+            obj.start_date = start_date.getTime();
+        }
+        if (end_date) {
+            obj.end_date = end_date.getTime();
+        }
+        globalContext?.natively.trigger(
+            this.id,
+            10,
+            callback,
+            "health_get_activity_summary",
+            obj
+        );
+    }
 }

@@ -5,4 +5,7 @@ export declare class NativelyHealth {
     permissionStatus(data_type: string, callback: Function): void;
     getAllCharacteristics(callback: Function): void;
     getStatisticQuantity(data_type: string, interval: string, start_date?: Date, end_date?: Date, callback?: Function): void;
+    getDailySleepAnalysis(start_date?: Date, end_date?: Date, limit?: number, callback?: Function): void;
+    getWorkouts(start_date?: Date, end_date?: Date, limit?: number, callback?: Function): void;
+    getActivitySummary(start_date?: Date, end_date?: Date, callback?: Function): void;
 }
