@@ -81,5 +81,14 @@ const natively = useNatively();
 natively.openConsole();
 ```
 
+### Release new version (for developers)
+0. login to npm registry
+1. npm run build
+2. git commit... 
+3. npm version patch/minor/major
+4. npm publish
+5. git push...
+6. Create a new release in GitHub
+
 More in [documentation](https://docs.buildnatively.com/guides/integration/how-to-get-started#javascript-sdk)
 
