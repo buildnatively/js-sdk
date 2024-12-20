@@ -21,6 +21,7 @@ export { NativelyAdmobBanner } from "./classes/NativelyAdmobBanner.js";
 export { NativelyAdmobInterstitial } from "./classes/NativelyAdmobInterstitial.js";
 export { NativelyNFCService } from "./classes/NativelyNFCService.js";
 export { NativelyFirebaseNotifications } from './classes/NativelyFirebaseNotifications.js';
+export { NativelyKlaviyoNotifications } from './classes/NativelyKlaviyoNotifications.js';
 
 // Hooks
 export { useNatively } from './hooks/useNatively.js';

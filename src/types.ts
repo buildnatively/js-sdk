@@ -20,6 +20,7 @@ import {NativelyPurchases} from "./classes/NativelyPurchases";
 import {NativelyScanner} from "./classes/NativelyScanner";
 import {NativelyStorage} from "./classes/NativelyStorage";
 import {NativelyFirebaseNotifications} from "./classes/NativelyFirebaseNotifications";
+import {NativelyKlaviyoNotifications} from "./classes/NativelyKlaviyoNotifications";
 
 interface NativelyProps {
     natively: Natively;
@@ -44,6 +45,7 @@ interface NativelyProps {
     NativelyScanner: NativelyScanner;
     NativelyStorage: NativelyStorage;
     NativelyFirebaseNotifications: NativelyFirebaseNotifications;
+    NativelyKlaviyoNotifications: NativelyKlaviyoNotifications;
     $agent: never;
 }
 
