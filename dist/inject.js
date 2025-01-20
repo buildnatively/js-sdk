@@ -21,6 +21,7 @@ import { NativelyPurchases } from "./classes/NativelyPurchases.js";
 import { NativelyScanner } from "./classes/NativelyScanner.js";
 import { NativelyStorage } from "./classes/NativelyStorage.js";
 import { NativelyFirebaseNotifications } from "./classes/NativelyFirebaseNotifications.js";
+import { NativelyKlaviyoNotifications } from './classes/NativelyKlaviyoNotifications.js';
 
 // Assign natively to the global object
 if (globalContext) {
@@ -47,4 +48,5 @@ if (globalContext) {
   globalContext.NativelyScanner = NativelyScanner;
   globalContext.NativelyStorage = NativelyStorage;
   globalContext.NativelyFirebaseNotifications = NativelyFirebaseNotifications;
+  globalContext.NativelyKlaviyoNotifications = NativelyKlaviyoNotifications;
 }
