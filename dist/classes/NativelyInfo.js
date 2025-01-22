@@ -30,4 +30,8 @@ export class NativelyInfo {
     if (!(globalContext !== null && globalContext !== void 0 && globalContext.natively)) return;
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 19, app_state_callback, "app_state");
   }
+  keyboard_visibility(keyboard_visibility_callback) {
+    if (!(globalContext !== null && globalContext !== void 0 && globalContext.natively)) return;
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 0, keyboard_visibility_callback, "keyboard_visibility");
+  }
 }

@@ -23,6 +23,7 @@ import {NativelyStorage} from "./classes/NativelyStorage";
 import {NativelyFirebaseNotifications} from "./classes/NativelyFirebaseNotifications";
 import {NativelyKlaviyoNotifications} from './classes/NativelyKlaviyoNotifications';
 import {NativelyTabBar} from './classes/NativelyTabBar';
+import {NativelyWakelock} from './classes/NativelyWakelock';
 
 // Assign natively to the global object
 if (globalContext) {
@@ -51,4 +52,5 @@ if (globalContext) {
     globalContext.NativelyFirebaseNotifications = NativelyFirebaseNotifications;
     globalContext.NativelyKlaviyoNotifications = NativelyKlaviyoNotifications;
     globalContext.NativelyTabBar = NativelyTabBar;
+    globalContext.NativelyWakelock = NativelyWakelock;
 }

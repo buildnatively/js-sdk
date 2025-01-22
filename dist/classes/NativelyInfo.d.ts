@@ -8,4 +8,5 @@ export declare class NativelyInfo {
     getAppInfo(app_info_callback: Function): void;
     connectivity(connectivity_callback: Function): void;
     app_state(app_state_callback: Function): void;
+    keyboard_visibility(keyboard_visibility_callback: Function): void;
 }

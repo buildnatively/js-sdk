@@ -31,4 +31,9 @@ export class NativelyInfo {
         if (!globalContext?.natively) return;
         globalContext?.natively.trigger(undefined, 19, app_state_callback, "app_state");
     }
+
+    keyboard_visibility(keyboard_visibility_callback: Function): void {
+        if (!globalContext?.natively) return;
+        globalContext?.natively.trigger(undefined, 0, keyboard_visibility_callback, "keyboard_visibility");
+    }
 }

@@ -22,6 +22,7 @@ import { NativelyStorage } from "./classes/NativelyStorage";
 import { NativelyFirebaseNotifications } from "./classes/NativelyFirebaseNotifications";
 import { NativelyKlaviyoNotifications } from "./classes/NativelyKlaviyoNotifications";
 import { NativelyTabBar } from "./classes/NativelyTabBar";
+import { NativelyWakelock } from "./classes/NativelyWakelock";
 interface NativelyProps {
     natively: Natively;
     NativelyAdmobBanner: NativelyAdmobBanner;
@@ -47,6 +48,7 @@ interface NativelyProps {
     NativelyFirebaseNotifications: NativelyFirebaseNotifications;
     NativelyKlaviyoNotifications: NativelyKlaviyoNotifications;
     NativelyTabBar: NativelyTabBar;
+    NativelyWakelock: NativelyWakelock;
     $agent: never;
 }
 declare global {
