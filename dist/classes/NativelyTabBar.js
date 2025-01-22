@@ -8,9 +8,9 @@ export class NativelyTabBar {
     _defineProperty(this, "id", generateID());
   }
   showTabBar() {
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 33, "show_tab_bar");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 33, undefined, "show_tab_bar");
   }
   hideTabBar() {
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 33, "hide_tab_bar");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 33, undefined, "hide_tab_bar");
   }
 }

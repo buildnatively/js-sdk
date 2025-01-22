@@ -8,6 +8,7 @@ export class NativelyTabBar {
         globalContext?.natively.trigger(
             this.id,
             33,
+            undefined,
             "show_tab_bar",
         );
     }
@@ -16,6 +17,7 @@ export class NativelyTabBar {
         globalContext?.natively.trigger(
             this.id,
             33,
+            undefined,
             "hide_tab_bar",
         );
     }
