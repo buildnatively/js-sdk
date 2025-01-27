@@ -1,4 +1,5 @@
 export declare class NativelyWakelock {
     private readonly id;
-    getAppInfo(wakelock_callback: Function): void;
+    enable_wakelock(wakelock_callback: Function): void;
+    disable_wakelock(wakelock_callback: Function): void;
 }

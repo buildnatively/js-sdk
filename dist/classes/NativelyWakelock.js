@@ -7,8 +7,12 @@ export class NativelyWakelock {
   constructor() {
     _defineProperty(this, "id", generateID());
   }
-  getAppInfo(wakelock_callback) {
+  enable_wakelock(wakelock_callback) {
     if (!(globalContext !== null && globalContext !== void 0 && globalContext.natively)) return;
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, wakelock_callback, "app_info");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 34, wakelock_callback, "wakelock_enable");
+  }
+  disable_wakelock(wakelock_callback) {
+    if (!(globalContext !== null && globalContext !== void 0 && globalContext.natively)) return;
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 34, wakelock_callback, "wakelock_disable");
   }
 }

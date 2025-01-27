@@ -32,6 +32,6 @@ export class NativelyInfo {
   }
   keyboard_visibility(keyboard_visibility_callback) {
     if (!(globalContext !== null && globalContext !== void 0 && globalContext.natively)) return;
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 0, keyboard_visibility_callback, "keyboard_visibility");
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 34, keyboard_visibility_callback, "keyboard_visibility");
   }
 }
