@@ -1,6 +1,6 @@
 {
   "name": "natively",
-  "version": "2.15.12",
+  "version": "2.15.13",
   "description": "Natively SDK for building native-like web applications",
   "type": "module",
   "exports": {
