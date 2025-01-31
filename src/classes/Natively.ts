@@ -223,6 +223,32 @@ export class Natively {
         globalContext?.natively.trigger(undefined, 0, undefined, "open_appsettings");
     }
 
+    showTabBar(): void {
+        globalContext?.natively.trigger(
+          undefined,
+          33,
+          undefined,
+          "show_tab_bar"
+        );
+    }
+
+    enableWakelock(): void {
+        globalContext?.natively.trigger(undefined, 34, undefined, "wakelock_enable");
+    }
+
+    disableWakelock(): void {
+        globalContext?.natively.trigger(undefined, 34, undefined, "wakelock_disable");
+    }
+
+    hideTabBar(): void {
+        globalContext?.natively.trigger(
+          undefined,
+          33,
+          undefined,
+          "hide_tab_bar"
+        );
+    }
+
     hapticPattern(pattern: string, delay: number): void {
         globalContext?.natively.trigger(undefined, 22, undefined, "haptic_pattern", {
             pattern,

@@ -204,6 +204,18 @@ export class Natively {
   openAppSettings() {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 0, undefined, "open_appsettings");
   }
+  showTabBar() {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 33, undefined, "show_tab_bar");
+  }
+  enableWakelock() {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 34, undefined, "wakelock_enable");
+  }
+  disableWakelock() {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 34, undefined, "wakelock_disable");
+  }
+  hideTabBar() {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 33, undefined, "hide_tab_bar");
+  }
   hapticPattern(pattern, delay) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 22, undefined, "haptic_pattern", {
       pattern,

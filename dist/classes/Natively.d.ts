@@ -32,6 +32,10 @@ export declare class Natively {
     hideLoadingScreen(): void;
     showLoadingScreen(autoHide?: boolean): void;
     openAppSettings(): void;
+    showTabBar(): void;
+    enableWakelock(): void;
+    disableWakelock(): void;
+    hideTabBar(): void;
     hapticPattern(pattern: string, delay: number): void;
     hapticImpact(type: string): void;
     hapticNotification(type: string): void;

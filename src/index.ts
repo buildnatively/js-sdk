@@ -22,8 +22,6 @@ export {NativelyAdmobInterstitial} from "./classes/NativelyAdmobInterstitial";
 export {NativelyNFCService} from "./classes/NativelyNFCService";
 export {NativelyFirebaseNotifications} from './classes/NativelyFirebaseNotifications';
 export {NativelyKlaviyoNotifications} from './classes/NativelyKlaviyoNotifications';
-export {NativelyTabBar} from './classes/NativelyTabBar';
-export {NativelyWakelock} from './classes/NativelyWakelock';
 
 // Hooks
 export {useNatively} from './hooks/useNatively';
