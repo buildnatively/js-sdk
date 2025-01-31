@@ -48,13 +48,16 @@ export class NativelyBluetoothPrinter {
   /**
    * Discovers available Bluetooth devices.
    * @param callback Function to handle the response containing list of devices
+   * @param uuids Array of service UUIDs to filter devices by
    * @callback {Object} response
    * @callback {Array<{name: string, id: string}>} [response.devices] - List of discovered devices
    * @callback {string} [response.status] - Status of the operation if failed
    * @callback {string} [response.message] - Error message if failed
    */
-  discoverDevices(callback) {
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, callback, "discover_devices");
+  discoverDevices(callback, uuids) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, callback, "discover_devices", {
+      uuid: uuids || []
+    });
   }
 
   /**
