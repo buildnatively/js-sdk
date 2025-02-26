@@ -36,6 +36,7 @@ export declare class Natively {
     enableWakelock(): void;
     disableWakelock(): void;
     hideTabBar(): void;
+    reloadWebview(): void;
     hapticPattern(pattern: string, delay: number): void;
     hapticImpact(type: string): void;
     hapticNotification(type: string): void;

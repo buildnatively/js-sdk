@@ -216,6 +216,9 @@ export class Natively {
   hideTabBar() {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 33, undefined, "hide_tab_bar");
   }
+  reloadWebview() {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 35, undefined, "reset_webview");
+  }
   hapticPattern(pattern, delay) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 22, undefined, "haptic_pattern", {
       pattern,

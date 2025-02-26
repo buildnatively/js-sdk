@@ -249,6 +249,10 @@ export class Natively {
         );
     }
 
+    reloadWebview(): void {
+        globalContext?.natively.trigger(undefined, 35, undefined, "reset_webview");
+    }
+
     hapticPattern(pattern: string, delay: number): void {
         globalContext?.natively.trigger(undefined, 22, undefined, "haptic_pattern", {
             pattern,

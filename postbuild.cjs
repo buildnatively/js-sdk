@@ -18,11 +18,11 @@ const readDirectory = (dir) => {
             console.log('Replacing file:', file);
             let content = fs.readFileSync(filePath, 'utf-8');
             content = content.replace(
-                /(import .*?from\s+['"])([^'"]+)(['"])/g,
+                /(import .*?from\s+['"])([^'"]+?)(?:\.js)*(['"])/g,
                 (match, p1, p2, p3) => `${p1}${p2}.js${p3}`
             );
             content = content.replace(
-                /(export .*?from\s+['"])([^'"]+)(['"])/g,
+                /(export .*?from\s+['"])([^'"]+?)(?:\.js)*(['"])/g,
                 (match, p1, p2, p3) => `${p1}${p2}.js${p3}`
             );
             fs.writeFileSync(filePath, content, 'utf-8');
