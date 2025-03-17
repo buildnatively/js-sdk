@@ -106,12 +106,15 @@ export class NativelyBluetoothPrinter {
      * @callback {Array<{service_id: string, characteristics: string[]}>} [response.services] - List of services and characteristics
      * @callback {string} [response.message] - Additional information or error message
      */
-    discoverService(callback: Function): void {
+    discoverService(callback: Function, deviceId: string): void {
         globalContext?.natively.trigger(
             this.id,
             0,
             callback,
-            "discover_service"
+            "discover_service",
+            {
+                device_id: deviceId
+            }
         );
     }
 

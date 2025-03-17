@@ -72,7 +72,7 @@ export declare class NativelyBluetoothPrinter {
      * @callback {Array<{service_id: string, characteristics: string[]}>} [response.services] - List of services and characteristics
      * @callback {string} [response.message] - Additional information or error message
      */
-    discoverService(callback: Function): void;
+    discoverService(callback: Function, deviceId: string): void;
     /**
      * Sends data to the connected printer.
      * @param payload Comma-separated byte values to print
