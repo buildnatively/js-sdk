@@ -8,20 +8,24 @@ export class NativelyLocation {
     _defineProperty(this, "id", generateID());
   }
   current(minAccuracyIOS, accuracyTypeIOS, priority_android, location_callback) {
+    var fallback_to_settings = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 12, location_callback, "location_current", {
       minAccuracy: minAccuracyIOS,
       accuracyType: accuracyTypeIOS,
-      priority: priority_android
+      priority: priority_android,
+      fallbackToSettings: fallback_to_settings
     });
   }
   permission(location_permission_callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 6, location_permission_callback, "location_permission");
   }
   start(interval, minAccuracyIOS, accuracyTypeIOS, priority_android, location_callback) {
+    var fallback_to_settings = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : true;
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 12, location_callback, "location_start", {
       minAccuracy: minAccuracyIOS,
       accuracyType: accuracyTypeIOS,
       priority: priority_android,
+      fallbackToSettings: fallback_to_settings,
       interval
     });
   }
@@ -29,12 +33,14 @@ export class NativelyLocation {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, undefined, "location_stop", {});
   }
   startBackground(interval, minAccuracyIOS, accuracyTypeIOS, priority_android, responseIdentifier, location_bg_callback) {
+    var fallback_to_settings = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : true;
     var params = {
       identifier: responseIdentifier !== null && responseIdentifier !== void 0 ? responseIdentifier : "empty",
       interval: interval !== null && interval !== void 0 ? interval : 1000 * 60,
       minAccuracy: minAccuracyIOS !== null && minAccuracyIOS !== void 0 ? minAccuracyIOS : 50,
       accuracyType: accuracyTypeIOS !== null && accuracyTypeIOS !== void 0 ? accuracyTypeIOS : "Best",
-      priority: priority_android !== null && priority_android !== void 0 ? priority_android : "BALANCED"
+      priority: priority_android !== null && priority_android !== void 0 ? priority_android : "BALANCED",
+      fallbackToSettings: fallback_to_settings
     };
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 12, location_bg_callback, "location_start_bg", params);
   }

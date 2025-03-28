@@ -9,11 +9,13 @@ export class NativelyLocation {
         accuracyTypeIOS: string,
         priority_android: string,
         location_callback: Function,
+        fallback_to_settings: boolean = true,
     ): void {
         globalContext?.natively.trigger(this.id, 12, location_callback, "location_current", {
             minAccuracy: minAccuracyIOS,
             accuracyType: accuracyTypeIOS,
             priority: priority_android,
+            fallbackToSettings: fallback_to_settings,
         });
     }
 
@@ -32,11 +34,13 @@ export class NativelyLocation {
         accuracyTypeIOS: string,
         priority_android: string,
         location_callback: Function,
+        fallback_to_settings: boolean = true,
     ): void {
         globalContext?.natively.trigger(this.id, 12, location_callback, "location_start", {
             minAccuracy: minAccuracyIOS,
             accuracyType: accuracyTypeIOS,
             priority: priority_android,
+            fallbackToSettings: fallback_to_settings,
             interval,
         });
     }
@@ -52,6 +56,7 @@ export class NativelyLocation {
         priority_android?: string,
         responseIdentifier?: string,
         location_bg_callback?: Function,
+        fallback_to_settings: boolean = true,
     ): void {
         const params = {
             identifier: responseIdentifier ?? "empty",
@@ -59,6 +64,7 @@ export class NativelyLocation {
             minAccuracy: minAccuracyIOS ?? 50,
             accuracyType: accuracyTypeIOS ?? "Best",
             priority: priority_android ?? "BALANCED",
+            fallbackToSettings: fallback_to_settings,
         };
         globalContext?.natively.trigger(
             this.id,
