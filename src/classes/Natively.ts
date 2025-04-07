@@ -181,6 +181,10 @@ export class Natively {
         globalContext?.natively.trigger(undefined, 0, undefined, "request_review");
     }
 
+    getInsets(): void {
+        globalContext?.natively.trigger(undefined, 36, undefined, "get_insets");
+    }
+
     setAppBackgroundColor(color: string): void {
         globalContext?.natively.trigger(undefined, 1, undefined, "app_background", { color });
     }

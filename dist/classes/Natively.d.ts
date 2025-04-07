@@ -23,6 +23,7 @@ export declare class Natively {
     showAppToast(type: string, text?: string): void;
     showAppBanner(type: string, title?: string, description?: string): void;
     requestAppReview(): void;
+    getInsets(): void;
     setAppBackgroundColor(color: string): void;
     setAppProgressColor(color: string): void;
     setAppSwipeNavigation(toggle: boolean): void;
