@@ -181,8 +181,8 @@ export class Natively {
         globalContext?.natively.trigger(undefined, 0, undefined, "request_review");
     }
 
-    getInsets(): void {
-        globalContext?.natively.trigger(undefined, 36, undefined, "get_insets");
+    getInsets(callback: Function): void {
+        globalContext?.natively.trigger(undefined, 36, callback, "get_insets");
     }
 
     setAppBackgroundColor(color: string): void {

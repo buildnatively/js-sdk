@@ -159,8 +159,8 @@ export class Natively {
   requestAppReview() {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 0, undefined, "request_review");
   }
-  getInsets() {
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 36, undefined, "get_insets");
+  getInsets(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 36, callback, "get_insets");
   }
   setAppBackgroundColor(color) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 1, undefined, "app_background", {
