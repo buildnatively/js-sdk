@@ -9,6 +9,7 @@ export declare class NativelyKlaviyoNotifications {
     }, callback: Function): void;
     getExternalId(callback: Function): void;
     resetProfile(callback: Function): void;
+    registerToken(callback: Function, token: string): void;
     pushPermission(callback: Function): void;
     pushRegister(callback: Function): void;
 }

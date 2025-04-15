@@ -16,6 +16,11 @@ export class NativelyKlaviyoNotifications {
   resetProfile(callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 32, callback, "klaviyo_reset_profile");
   }
+  registerToken(callback, token) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 32, callback, "klaviyo_register_token", {
+      token: token
+    });
+  }
   pushPermission(callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 32, callback, "klaviyo_push_permission");
   }

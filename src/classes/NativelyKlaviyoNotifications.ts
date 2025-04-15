@@ -32,6 +32,18 @@ export class NativelyKlaviyoNotifications {
         );
     }
 
+    registerToken(callback: Function, token: string): void {
+        globalContext?.natively.trigger(
+            this.id,
+            32,
+            callback,
+            "klaviyo_register_token",
+            {
+                token: token,
+            }
+        );
+    }
+
     pushPermission(callback: Function): void {
         globalContext?.natively.trigger(
             this.id,
