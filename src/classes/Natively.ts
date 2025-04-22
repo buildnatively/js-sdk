@@ -177,6 +177,16 @@ export class Natively {
         });
     }
 
+    analyticsTrackEvent(name: string, data?: Map<string, any>): void {
+        const params: { name: string; data?: Map<string, any> } = {
+            name,
+        };
+        if (data) {
+            params.data = data;
+        }
+        globalContext?.natively.trigger(undefined, 37, undefined, "analytics_log_event", params);
+    }
+
     requestAppReview(): void {
         globalContext?.natively.trigger(undefined, 0, undefined, "request_review");
     }

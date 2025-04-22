@@ -22,6 +22,7 @@ export declare class Natively {
     openExternalApp(url: string): void;
     showAppToast(type: string, text?: string): void;
     showAppBanner(type: string, title?: string, description?: string): void;
+    analyticsTrackEvent(name: string, data?: Map<string, any>): void;
     requestAppReview(): void;
     getInsets(callback: Function): void;
     setAppBackgroundColor(color: string): void;

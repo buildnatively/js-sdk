@@ -156,6 +156,15 @@ export class Natively {
       description: description || ""
     });
   }
+  analyticsTrackEvent(name, data) {
+    var params = {
+      name
+    };
+    if (data) {
+      params.data = data;
+    }
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 37, undefined, "analytics_log_event", params);
+  }
   requestAppReview() {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 0, undefined, "request_review");
   }
