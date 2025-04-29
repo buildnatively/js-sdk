@@ -23,13 +23,14 @@ export class NativelyNFCService {
     };
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 15, callback, "nfc_read", params);
   }
-  write(recordId, recordData, callback) {
+  write(recordId, recordData, recordDataType, callback) {
     var _this$writeAlertMessa, _this$writeDetectedMe;
     var params = {
       alertMessage: (_this$writeAlertMessa = this.writeAlertMessage) !== null && _this$writeAlertMessa !== void 0 ? _this$writeAlertMessa : "please set writeAlertMessage",
       detectedMessage: (_this$writeDetectedMe = this.writeDetectedMessage) !== null && _this$writeDetectedMe !== void 0 ? _this$writeDetectedMe : "please set writeDetectedMessage",
       recordData: recordData !== null && recordData !== void 0 ? recordData : "please set recordData",
-      recordId: recordId !== null && recordId !== void 0 ? recordId : "please set recordId"
+      recordId: recordId !== null && recordId !== void 0 ? recordId : "please set recordId",
+      recordDataType: recordDataType !== null && recordDataType !== void 0 ? recordDataType : "please set recordDataType"
     };
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 15, callback, "nfc_write", params);
   }

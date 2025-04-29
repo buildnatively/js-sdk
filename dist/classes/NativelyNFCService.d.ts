@@ -6,6 +6,6 @@ export declare class NativelyNFCService {
     private writeDetectedMessage;
     constructor(readAlertMessage: string, writeAlertMessage: string, readDetectedMessage: string, writeDetectedMessage: string);
     read(callback: Function): void;
-    write(recordId: string, recordData: string, callback: Function): void;
+    write(recordId: string, recordData: string, recordDataType: string, callback: Function): void;
     available(callback: Function): void;
 }
