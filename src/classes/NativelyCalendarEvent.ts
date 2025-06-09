@@ -19,6 +19,6 @@ export class NativelyCalendarEvent {
             endDate: endDate?.toISOString(),
             startDate: startDate.toISOString(),
         };
-        globalContext?.natively.trigger(this.id, 0, create_calendar_event_callback, "calendar_event", params);
+        globalContext?.natively.trigger(this.id, 37, create_calendar_event_callback, "calendar_event", params);
     }
 }
