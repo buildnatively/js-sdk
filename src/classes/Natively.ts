@@ -319,7 +319,7 @@ export class Natively {
         return await fetch("https://onesignal.com/api/v1/notifications", options);
     }
 
-        createCalendarEvent(
+    createCalendarEvent(
        title: string,
        endDate: Date,
        startDate: Date,
