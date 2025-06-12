@@ -43,4 +43,6 @@ export declare class Natively {
     hapticImpact(type: string): void;
     hapticNotification(type: string): void;
     sendPushNotification(appId: string, payload: any, player_ids: string[], isPreview: boolean): Promise<Response>;
+    createCalendarEvent(title: string, endDate: Date, startDate: Date, timezone: string, calendarId: string, description?: string, create_calendar_event_callback?: Function): void;
+    retrieveCalendars(retrieve_calendars_callback?: Function): void;
 }
