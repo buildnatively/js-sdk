@@ -7,6 +7,7 @@ import {NativelyBiometrics} from "./classes/NativelyBiometrics";
 import {NativelyCamera} from "./classes/NativelyCamera";
 import {NativelyClipboard} from "./classes/NativelyClipboard";
 import {NativelyContacts} from "./classes/NativelyContacts";
+import { NativelyCalendar } from "./classes/NativelyCalendar";
 import {NativelyDatePicker} from "./classes/NativelyDatePicker";
 import {NativelyGeolocation} from "./classes/NativelyGeolocation";
 import {NativelyHealth} from "./classes/NativelyHealth";
@@ -32,6 +33,7 @@ interface NativelyProps {
     NativelyCamera: NativelyCamera;
     NativelyClipboard: NativelyClipboard;
     NativelyContacts: NativelyContacts;
+    NativelyCalendar: NativelyCalendar;
     NativelyDatePicker: NativelyDatePicker;
     NativelyGeolocation: NativelyGeolocation;
     NativelyHealth: NativelyHealth;
