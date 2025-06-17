@@ -284,18 +284,4 @@ export class Natively {
       return yield fetch("https://onesignal.com/api/v1/notifications", options);
     })();
   }
-  createCalendarEvent(title, endDate, startDate, timezone, calendarId, description, create_calendar_event_callback) {
-    var params = {
-      title: title,
-      timezone: timezone,
-      calendarId: calendarId,
-      description: description,
-      endDate: endDate === null || endDate === void 0 ? void 0 : endDate.toISOString(),
-      startDate: startDate.toISOString()
-    };
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 37, create_calendar_event_callback, "calendar_event", params);
-  }
-  retrieveCalendars(retrieve_calendars_callback) {
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 37, retrieve_calendars_callback, "retrieve_calendars", {});
-  }
 }
