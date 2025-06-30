@@ -10,10 +10,11 @@ export class NativelyScanner {
   showScanner(open_scanner_callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 2, open_scanner_callback, "open_scanner", {});
   }
-  showDocumentScanner(jpegQuality, foregroundColor, backgroundColor, highlightColor, menuColor, defaultFlashMode, defaultScanOrientation, source, ocrLanguage, resultCallback) {
+  showDocumentScanner(jpegQuality, foregroundColor, backgroundColor, highlightColor, menuColor, defaultFlashMode, defaultScanOrientation, source, ocrLanguage, pageMode, resultCallback) {
     var params = {};
     if (source) params.source = source;
     if (menuColor) params.menuColor = menuColor;
+    if (pageMode) params.pageMode = pageMode;
     if (jpegQuality != null && !isNaN(jpegQuality)) params.jpegQuality = jpegQuality;
     if (highlightColor) params.highlightColor = highlightColor;
     if (foregroundColor) params.foregroundColor = foregroundColor;

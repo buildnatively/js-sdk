@@ -24,12 +24,14 @@ export class NativelyScanner {
         defaultScanOrientation: string | null,
         source: string | null,
         ocrLanguage: string | null,
+        pageMode: string | null,
         resultCallback: Function,
       ): void {
         const params: Record<string, any> = {};
 
         if (source) params.source = source;
         if (menuColor) params.menuColor = menuColor;
+        if (pageMode) params.pageMode = pageMode;
         if (jpegQuality != null && !isNaN(jpegQuality)) params.jpegQuality = jpegQuality;
         if (highlightColor) params.highlightColor = highlightColor;
         if (foregroundColor) params.foregroundColor = foregroundColor;
