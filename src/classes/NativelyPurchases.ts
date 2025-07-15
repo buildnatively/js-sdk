@@ -40,13 +40,34 @@ export class NativelyPurchases {
         );
     }
 
-    showPaywall(show_paywall_callback: Function): void {
+    showPaywall(show_paywall_callback: Function, shouldShowCloseButton?: boolean, offeringId?: string): void {
+            const params = {
+                offeringId: offeringId,
+                shouldShowCloseButton: shouldShowCloseButton,
+            };
+
             globalContext?.natively.trigger(
             this.id,
             38,
             show_paywall_callback,
-            "show_paywall",
-            {},
+            "purchases_show_paywall",
+            params
+        );
+    }
+
+        showPaywallIfNeeded(show_paywall_callback: Function, entitlementId: string, shouldShowCloseButton?: boolean, offeringId?: string): void {
+            const params = {
+                offeringName: offeringId,
+                entitlementId: entitlementId,
+                shouldShowCloseButton: shouldShowCloseButton,
+            };
+
+            globalContext?.natively.trigger(
+            this.id,
+            38,
+            show_paywall_callback,
+            "purchases_show_paywall_if_needed",
+            params,
         );
     }
 
