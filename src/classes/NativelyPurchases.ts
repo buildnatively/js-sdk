@@ -40,6 +40,37 @@ export class NativelyPurchases {
         );
     }
 
+    showPaywall(shouldShowCloseButton?: boolean, offeringId?: string, show_paywall_callback?: Function): void {
+            const params = {
+                offeringId: offeringId,
+                shouldShowCloseButton: shouldShowCloseButton,
+            };
+
+            globalContext?.natively.trigger(
+            this.id,
+            38,
+            show_paywall_callback,
+            "purchases_show_paywall",
+            params
+        );
+    }
+
+        showPaywallIfNeeded(entitlementId: string, shouldShowCloseButton?: boolean, offeringId?: string, show_paywall_if_needed_callback?: Function): void {
+            const params = {
+                offeringName: offeringId,
+                entitlementId: entitlementId,
+                shouldShowCloseButton: shouldShowCloseButton,
+            };
+
+            globalContext?.natively.trigger(
+            this.id,
+            38,
+            show_paywall_if_needed_callback,
+            "purchases_show_paywall_if_needed",
+            params,
+        );
+    }
+
     purchasePackage(packageId: string, purchase_callback: Function, oldProductId?: string | null): void {
         globalContext?.natively.trigger(this.id, 3, purchase_callback, "purchases_package", {
             packageId,
