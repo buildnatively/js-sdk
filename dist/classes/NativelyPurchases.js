@@ -23,6 +23,21 @@ export class NativelyPurchases {
   restore(restore_callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 10, restore_callback, "purchases_restore", {});
   }
+  showPaywall(shouldShowCloseButton, offeringId, show_paywall_callback) {
+    var params = {
+      offeringId: offeringId,
+      shouldShowCloseButton: shouldShowCloseButton
+    };
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 38, show_paywall_callback, "purchases_show_paywall", params);
+  }
+  showPaywallIfNeeded(entitlementId, shouldShowCloseButton, offeringId, show_paywall_if_needed_callback) {
+    var params = {
+      offeringName: offeringId,
+      entitlementId: entitlementId,
+      shouldShowCloseButton: shouldShowCloseButton
+    };
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 38, show_paywall_if_needed_callback, "purchases_show_paywall_if_needed", params);
+  }
   purchasePackage(packageId, purchase_callback, oldProductId) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, purchase_callback, "purchases_package", {
       packageId,
