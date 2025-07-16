@@ -40,7 +40,7 @@ export class NativelyPurchases {
         );
     }
 
-    showPaywall(show_paywall_callback: Function, shouldShowCloseButton?: boolean, offeringId?: string): void {
+    showPaywall(shouldShowCloseButton?: boolean, offeringId?: string, show_paywall_callback?: Function): void {
             const params = {
                 offeringId: offeringId,
                 shouldShowCloseButton: shouldShowCloseButton,
@@ -55,7 +55,7 @@ export class NativelyPurchases {
         );
     }
 
-        showPaywallIfNeeded(show_paywall_callback: Function, entitlementId: string, shouldShowCloseButton?: boolean, offeringId?: string): void {
+        showPaywallIfNeeded(entitlementId: string, shouldShowCloseButton?: boolean, offeringId?: string, show_paywall_if_needed_callback?: Function): void {
             const params = {
                 offeringName: offeringId,
                 entitlementId: entitlementId,
@@ -65,7 +65,7 @@ export class NativelyPurchases {
             globalContext?.natively.trigger(
             this.id,
             38,
-            show_paywall_callback,
+            show_paywall_if_needed_callback,
             "purchases_show_paywall_if_needed",
             params,
         );
