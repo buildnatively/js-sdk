@@ -30,4 +30,32 @@ export class NativelyNotifications {
             "push_permission",
         );
     }
+
+    getExternalId(callback: Function): void {
+        globalContext?.natively.trigger(
+            this.id,
+            0,
+            callback,
+            "onesignal_externalid"
+        );
+    }
+
+    setExternalId(data: { externalId?: string }, callback: Function): void {
+        globalContext?.natively.trigger(
+            this.id,
+            0,
+            callback,
+            "onesignal_setexternalid",
+            data
+        );
+    }
+
+    removeExternalId(callback: Function): void {
+        globalContext?.natively.trigger(
+            this.id,
+            0,
+            callback,
+            "onesignal_removeexternalid"
+        );
+    }
 }

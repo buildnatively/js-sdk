@@ -18,4 +18,13 @@ export class NativelyNotifications {
   getPermissionStatus(push_permission_callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, push_permission_callback, "push_permission");
   }
+  getExternalId(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, callback, "onesignal_externalid");
+  }
+  setExternalId(data, callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, callback, "onesignal_setexternalid", data);
+  }
+  removeExternalId(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, callback, "onesignal_removeexternalid");
+  }
 }
