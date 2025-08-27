@@ -237,6 +237,15 @@ export class Natively {
       delay
     });
   }
+  openPDF(options, callback) {
+    var params = {
+      url: options.url || '',
+      base64: options.base64 || '',
+      fileName: options.fileName || "pdf-".concat(new Date().getTime(), ".pdf"),
+      download: options.download === true
+    };
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 38, callback, "open_pdf", params);
+  }
   hapticImpact(type) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 22, undefined, "haptic_impact", {
       type

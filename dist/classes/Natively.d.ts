@@ -40,6 +40,12 @@ export declare class Natively {
     hideTabBar(): void;
     reloadWebview(): void;
     hapticPattern(pattern: string, delay: number): void;
+    openPDF(options: {
+        url?: string;
+        base64?: string;
+        fileName?: string;
+        download?: boolean;
+    }, callback?: Function): void;
     hapticImpact(type: string): void;
     hapticNotification(type: string): void;
     sendPushNotification(appId: string, payload: any, player_ids: string[], isPreview: boolean): Promise<Response>;

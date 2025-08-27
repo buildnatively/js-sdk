@@ -274,6 +274,17 @@ export class Natively {
         });
     }
 
+     openPDF(options: { url?: string; base64?: string; fileName?: string; download?: boolean }, callback?: Function): void {
+        const params = {
+            url: options.url || '',
+            base64: options.base64 || '',
+            fileName: options.fileName || `pdf-${new Date().getTime()}.pdf`,
+            download: options.download === true
+        };
+
+        globalContext?.natively.trigger(undefined, 38, callback, "open_pdf", params);
+    }
+
     hapticImpact(type: string): void {
         globalContext?.natively.trigger(undefined, 22, undefined, "haptic_impact", { type });
     }
