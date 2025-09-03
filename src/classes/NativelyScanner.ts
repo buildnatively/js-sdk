@@ -22,6 +22,8 @@ export class NativelyScanner {
         menuColor: string | null,
         defaultFlashMode: string | null,
         defaultScanOrientation: string | null,
+        defaultFilter: string | null,
+        availableFilters: string[] | null,
         source: string | null,
         ocrLanguage: string | null,
         pageMode: string | null,
@@ -38,7 +40,9 @@ export class NativelyScanner {
         if (backgroundColor) params.backgroundColor = backgroundColor;
         if (defaultFlashMode) params.defaultFlashMode = defaultFlashMode;
         if (defaultScanOrientation) params.defaultScanOrientation = defaultScanOrientation;
-      
+        if (defaultFilter) params.defaultFilter = defaultFilter;
+        if (availableFilters) params.availableFilters = availableFilters;
+
         if (ocrLanguage) {
           params.ocrConfiguration = {
             languages: [ocrLanguage],
