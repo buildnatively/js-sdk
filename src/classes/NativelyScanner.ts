@@ -22,11 +22,11 @@ export class NativelyScanner {
         menuColor: string | null,
         defaultFlashMode: string | null,
         defaultScanOrientation: string | null,
-        defaultFilter: string | null,
-        availableFilters: string[] | null,
         source: string | null,
         ocrLanguage: string | null,
         pageMode: string | null,
+        defaultFilter: string | null,
+        availableFilters: string[] | null,
         resultCallback: Function,
       ): void {
         const params: Record<string, any> = {};
