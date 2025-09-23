@@ -4,12 +4,16 @@ export declare class Natively {
     app_version: number;
     injected: boolean;
     observers: Function[];
+    onNativeError?: Function | null;
     isIOSApp: boolean;
     isAndroidApp: boolean;
     setDebug(isDebug: boolean): void;
     notify(min?: number, current?: number): void;
     addObserver(fn: Function): void;
     trigger(respId: string | undefined, minVersion: number, callback: Function | undefined, method: string, body?: any): void;
+    setErrorHandler(callback: Function): void;
+    removeErrorHandler(): void;
+    setErrorScreen(showError: boolean): void;
     openLogger(): void;
     openConsole(): void;
     closeApp(): void;

@@ -6,6 +6,8 @@ export class Natively {
     app_version: number = 0;
     injected: boolean = false;
     observers: Function[] = [];
+    onNativeError?: Function | null = null;
+
     isIOSApp: boolean =
         globalContext?.navigator?.userAgent?.includes("Natively/iOS") || false;
     isAndroidApp: boolean =
@@ -106,6 +108,25 @@ export class Natively {
             );
         }
         globalContext?.$agent.trigger(method, body);
+    }
+
+    setErrorHandler(callback: Function): void {
+        if (typeof callback !== 'function') {
+        console.warn('[Natively] Error handler must be a function');
+        return;
+        }
+        
+        this.onNativeError = callback;
+        console.log('[Natively] Error handler registered');
+    }
+
+    removeErrorHandler(): void {
+      this.onNativeError = null;
+      console.log('[Natively] Error handler removed');
+    }
+
+    setErrorScreen(showError: boolean): void { 
+        globalContext?.natively.trigger(undefined, 0, undefined, "error_screen", { show_error: showError });
     }
 
     openLogger(): void {

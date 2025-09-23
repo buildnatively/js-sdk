@@ -12,6 +12,7 @@ export class Natively {
     _defineProperty(this, "app_version", 0);
     _defineProperty(this, "injected", false);
     _defineProperty(this, "observers", []);
+    _defineProperty(this, "onNativeError", null);
     _defineProperty(this, "isIOSApp", (globalContext === null || globalContext === void 0 || (_globalContext$naviga = globalContext.navigator) === null || _globalContext$naviga === void 0 || (_globalContext$naviga = _globalContext$naviga.userAgent) === null || _globalContext$naviga === void 0 ? void 0 : _globalContext$naviga.includes("Natively/iOS")) || false);
     _defineProperty(this, "isAndroidApp", (globalContext === null || globalContext === void 0 || (_globalContext$naviga2 = globalContext.navigator) === null || _globalContext$naviga2 === void 0 || (_globalContext$naviga2 = _globalContext$naviga2.userAgent) === null || _globalContext$naviga2 === void 0 ? void 0 : _globalContext$naviga2.includes("Natively/Android")) || false);
   }
@@ -95,6 +96,23 @@ export class Natively {
       console.log("[DEBUG] Trigger method: ".concat(method, ", body: ").concat(JSON.stringify(body)));
     }
     globalContext === null || globalContext === void 0 || globalContext.$agent.trigger(method, body);
+  }
+  setErrorHandler(callback) {
+    if (typeof callback !== 'function') {
+      console.warn('[Natively] Error handler must be a function');
+      return;
+    }
+    this.onNativeError = callback;
+    console.log('[Natively] Error handler registered');
+  }
+  removeErrorHandler() {
+    this.onNativeError = null;
+    console.log('[Natively] Error handler removed');
+  }
+  setErrorScreen(showError) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 0, undefined, "error_screen", {
+      show_error: showError
+    });
   }
   openLogger() {
     globalContext === null || globalContext === void 0 || globalContext.$agent.natively_logger();
