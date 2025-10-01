@@ -7,6 +7,7 @@ export class Natively {
     injected: boolean = false;
     observers: Function[] = [];
     onNativeError?: Function | null = null;
+    onTabChanged?: Function | null = null;
 
     isIOSApp: boolean =
         globalContext?.navigator?.userAgent?.includes("Natively/iOS") || false;
@@ -110,19 +111,29 @@ export class Natively {
         globalContext?.$agent.trigger(method, body);
     }
 
+    setTabChangedHandler(callback: Function): void {
+        if (typeof callback !== 'function') {
+            console.warn('[Natively] Tab changed handler must be a function');
+            return;
+        }
+        this.onTabChanged = callback;
+    }
+
+    removeTabChangedHandler(): void {
+        this.onTabChanged = null;
+    }
+
+
     setErrorHandler(callback: Function): void {
         if (typeof callback !== 'function') {
-        console.warn('[Natively] Error handler must be a function');
         return;
         }
         
         this.onNativeError = callback;
-        console.log('[Natively] Error handler registered');
     }
 
     removeErrorHandler(): void {
       this.onNativeError = null;
-      console.log('[Natively] Error handler removed');
     }
 
     setErrorScreen(showError: boolean): void { 
