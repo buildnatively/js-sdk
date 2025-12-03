@@ -112,6 +112,26 @@ export class NativelyHealth {
         );
     }
 
+    getHealthConnectStatus(callback?: Function): void {
+        globalContext?.natively.trigger(
+            this.id,
+            40,
+            callback,
+            "health_connect_status",
+            {},
+        );
+    }
+
+    installHealthConnect(callback?: Function): void {
+        globalContext?.natively.trigger(
+            this.id,
+            40,
+            callback,
+            "health_connect_install",
+            {},
+        );
+    }
+
     writeWorkout(
         workout: {
             start_date?: Date;
