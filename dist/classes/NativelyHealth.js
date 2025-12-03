@@ -63,6 +63,12 @@ export class NativelyHealth {
     }
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 21, callback, "health_get_workouts", obj);
   }
+  getHealthConnectStatus(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 40, callback, "health_connect_status", {});
+  }
+  installHealthConnect(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 40, callback, "health_connect_install", {});
+  }
   writeWorkout(workout, callback) {
     var obj = _objectSpread({}, workout);
     if ((workout === null || workout === void 0 ? void 0 : workout.start_date) instanceof Date) {
