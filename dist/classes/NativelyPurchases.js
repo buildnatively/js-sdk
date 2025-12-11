@@ -38,10 +38,11 @@ export class NativelyPurchases {
     };
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 38, show_paywall_if_needed_callback, "purchases_show_paywall_if_needed", params);
   }
-  purchasePackage(packageId, purchase_callback, oldProductId) {
+  purchasePackage(packageId, purchase_callback, oldProductId, prorationMode) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, purchase_callback, "purchases_package", {
       packageId,
-      oldProductId: oldProductId !== null && oldProductId !== void 0 ? oldProductId : null
+      oldProductId: oldProductId !== null && oldProductId !== void 0 ? oldProductId : null,
+      prorationMode: prorationMode !== null && prorationMode !== void 0 ? prorationMode : null
     });
   }
   packagePrice(packageId, purchase_callback) {
