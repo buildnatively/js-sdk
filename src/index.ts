@@ -17,6 +17,7 @@ export {NativelyPurchases} from "./classes/NativelyPurchases";
 export {NativelyContacts} from "./classes/NativelyContacts";
 export {NativelyMediaPicker} from "./classes/NativelyMediaPicker";
 export {NativelyAudioRecorder} from "./classes/NativelyAudioRecorder";
+export {NativelyAudioPlayer} from "./classes/NativelyAudioPlayer";
 export {NativelyAdmobBanner} from "./classes/NativelyAdmobBanner";
 export {NativelyAdmobInterstitial} from "./classes/NativelyAdmobInterstitial";
 export {NativelyNFCService} from "./classes/NativelyNFCService";

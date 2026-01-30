@@ -91,4 +91,3 @@ natively.openConsole();
 6. Create a new release in GitHub
 
 More in [documentation](https://docs.buildnatively.com/guides/integration/how-to-get-started#javascript-sdk)
-

@@ -4,6 +4,7 @@ import { NativelyAdmobBanner } from "./classes/NativelyAdmobBanner.js";
 import { NativelyAdmobInterstitial } from "./classes/NativelyAdmobInterstitial.js";
 import { NativelyAppleSignInService } from "./classes/NativelyAppleSignInService.js";
 import { NativelyAudioRecorder } from "./classes/NativelyAudioRecorder.js";
+import { NativelyAudioPlayer } from "./classes/NativelyAudioPlayer.js";
 import { NativelyBiometrics } from "./classes/NativelyBiometrics.js";
 import { NativelyCamera } from "./classes/NativelyCamera.js";
 import { NativelyClipboard } from "./classes/NativelyClipboard.js";
@@ -32,6 +33,7 @@ if (globalContext) {
   globalContext.NativelyAdmobInterstitial = NativelyAdmobInterstitial;
   globalContext.NativelyAppleSignInService = NativelyAppleSignInService;
   globalContext.NativelyAudioRecorder = NativelyAudioRecorder;
+  globalContext.NativelyAudioPlayer = NativelyAudioPlayer;
   globalContext.NativelyBiometrics = NativelyBiometrics;
   globalContext.NativelyCamera = NativelyCamera;
   globalContext.NativelyClipboard = NativelyClipboard;

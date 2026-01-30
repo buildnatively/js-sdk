@@ -3,6 +3,7 @@ import { NativelyAdmobBanner } from "./classes/NativelyAdmobBanner";
 import { NativelyAdmobInterstitial } from "./classes/NativelyAdmobInterstitial";
 import { NativelyAppleSignInService } from "./classes/NativelyAppleSignInService";
 import { NativelyAudioRecorder } from "./classes/NativelyAudioRecorder";
+import { NativelyAudioPlayer } from "./classes/NativelyAudioPlayer";
 import { NativelyBiometrics } from "./classes/NativelyBiometrics";
 import { NativelyCamera } from "./classes/NativelyCamera";
 import { NativelyClipboard } from "./classes/NativelyClipboard";
@@ -28,6 +29,7 @@ interface NativelyProps {
     NativelyAdmobInterstitial: NativelyAdmobInterstitial;
     NativelyAppleSignInService: NativelyAppleSignInService;
     NativelyAudioRecorder: NativelyAudioRecorder;
+    NativelyAudioPlayer: NativelyAudioPlayer;
     NativelyBiometrics: NativelyBiometrics;
     NativelyCamera: NativelyCamera;
     NativelyClipboard: NativelyClipboard;
