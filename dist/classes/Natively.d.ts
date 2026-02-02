@@ -32,6 +32,8 @@ export declare class Natively {
     analyticsTrackEvent(name: string, data?: Map<string, any>): void;
     requestAppReview(): void;
     getInsets(callback: Function): void;
+    getLocales(callback: Function): void;
+    setLocale(locale: string, callback?: Function): void;
     setAppBackgroundColor(color: string): void;
     setAppProgressColor(color: string): void;
     setAppSwipeNavigation(toggle: boolean): void;

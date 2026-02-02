@@ -227,6 +227,14 @@ export class Natively {
         globalContext?.natively.trigger(undefined, 36, callback, "get_insets");
     }
 
+    getLocales(callback: Function): void {
+        globalContext?.natively.trigger(undefined, 40, callback, "get_locales");
+    }
+
+    setLocale(locale: string, callback?: Function): void {
+        globalContext?.natively.trigger(undefined, 40, callback, "set_locale", { locale });
+    }
+
     setAppBackgroundColor(color: string): void {
         globalContext?.natively.trigger(undefined, 1, undefined, "app_background", { color });
     }

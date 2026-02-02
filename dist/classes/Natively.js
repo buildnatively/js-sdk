@@ -197,6 +197,14 @@ export class Natively {
   getInsets(callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 36, callback, "get_insets");
   }
+  getLocales(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 40, callback, "get_locales");
+  }
+  setLocale(locale, callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 40, callback, "set_locale", {
+      locale
+    });
+  }
   setAppBackgroundColor(color) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 1, undefined, "app_background", {
       color
