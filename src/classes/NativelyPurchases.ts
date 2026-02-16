@@ -84,4 +84,10 @@ export class NativelyPurchases {
             packageId,
         });
     }
+
+    invalidateRestoreCache(packageId: string, invalidate_restore_cache_callback: Function): void {
+        globalContext?.natively.trigger(this.id, 40, invalidate_restore_cache_callback, "purchases_invalidate_restore_cache", {
+            packageId,
+        });
+    }
 }
