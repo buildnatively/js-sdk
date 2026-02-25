@@ -219,6 +219,27 @@ export class Natively {
         globalContext?.natively.trigger(undefined, 37, undefined, "analytics_log_event", params);
     }
 
+    analyticsSetUserId(data: { id: string }): void {
+        const params: { id: string } = {
+            id: data.id,
+        };
+        globalContext?.natively.trigger(undefined, 37, undefined, "analytics_set_user_id", params);
+    }
+
+    analyticsSetUserProperty(data: { key: string; value: string }): void {
+        const params: { key: string; value: string } = {
+            key: data.key,
+            value: data.value,
+        };
+        globalContext?.natively.trigger(
+            undefined,
+            37,
+            undefined,
+            "analytics_set_user_property",
+            params,
+        );
+    }
+
     requestAppReview(): void {
         globalContext?.natively.trigger(undefined, 0, undefined, "request_review");
     }
