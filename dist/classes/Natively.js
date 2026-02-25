@@ -191,6 +191,19 @@ export class Natively {
     }
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 37, undefined, "analytics_log_event", params);
   }
+  analyticsSetUserId(data) {
+    var params = {
+      id: data.id
+    };
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 37, undefined, "analytics_set_user_id", params);
+  }
+  analyticsSetUserProperty(data) {
+    var params = {
+      key: data.key,
+      value: data.value
+    };
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 37, undefined, "analytics_set_user_property", params);
+  }
   requestAppReview() {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 0, undefined, "request_review");
   }
