@@ -244,6 +244,14 @@ export class Natively {
         globalContext?.natively.trigger(undefined, 0, undefined, "request_review");
     }
 
+    attShowPopup(callback: Function): void {
+        globalContext?.natively.trigger(undefined, 41, callback, "att_show_popup");
+    }
+
+    attGetStatus(callback: Function): void {
+        globalContext?.natively.trigger(undefined, 41, callback, "att_get_status");
+    }
+
     getInsets(callback: Function): void {
         globalContext?.natively.trigger(undefined, 36, callback, "get_insets");
     }

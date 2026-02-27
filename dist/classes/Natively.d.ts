@@ -38,6 +38,8 @@ export declare class Natively {
         value: string;
     }): void;
     requestAppReview(): void;
+    attShowPopup(callback: Function): void;
+    attGetStatus(callback: Function): void;
     getInsets(callback: Function): void;
     getLocales(callback: Function): void;
     setLocale(locale: string, callback?: Function): void;
