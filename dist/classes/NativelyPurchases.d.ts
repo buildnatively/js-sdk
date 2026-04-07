@@ -8,4 +8,5 @@ export declare class NativelyPurchases {
     showPaywallIfNeeded(entitlementId: string, shouldShowCloseButton?: boolean, offeringId?: string, show_paywall_if_needed_callback?: Function): void;
     purchasePackage(packageId: string, purchase_callback: Function, oldProductId?: string | null, prorationMode?: string | null): void;
     packagePrice(packageId: string, purchase_callback: Function): void;
+    showCustomerCenter(show_customer_center_callback: Function): void;
 }
