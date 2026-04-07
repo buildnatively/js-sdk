@@ -84,4 +84,8 @@ export class NativelyPurchases {
             packageId,
         });
     }
+    
+    showCustomerCenter(show_customer_center_callback: Function): void {
+        globalContext?.natively.trigger(this.id, 42, show_customer_center_callback, "purchases_show_customer_center", {});
+    }    
 }
