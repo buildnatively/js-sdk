@@ -66,5 +66,4 @@ export declare class Natively {
     }, callback?: Function): void;
     hapticImpact(type: string): void;
     hapticNotification(type: string): void;
-    sendPushNotification(appId: string, payload: any, player_ids: string[], isPreview: boolean): Promise<Response>;
 }

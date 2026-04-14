@@ -362,40 +362,5 @@ export class Natively {
         globalContext?.natively.trigger(undefined, 22, undefined, "haptic_notification", { type });
     }
 
-    async sendPushNotification(
-        appId: string,
-        payload: any,
-        player_ids: string[],
-        isPreview: boolean,
-    ): Promise<Response> {
-        const filtered = player_ids.filter((id) => id.length > 0);
-        const include_player_ids = [...new Set(filtered)];
-        const notification: any = {
-            app_id: isPreview
-                ? "be83022a-1d08-45d0-a07a-0c3655666e17" // Preview App ID
-                : appId,
-            include_player_ids,
-        };
 
-        if (payload.template_id) {
-            notification.template_id = payload.template_id;
-        } else {
-            notification.headings = { en: payload.title || "Empty Title" };
-            notification.contents = { en: payload.message || "Empty Message" };
-            if (payload.subtitle) {
-                notification.subtitle = { en: payload.subtitle };
-            }
-            if (payload.redirect_url) {
-                notification.url = payload.redirect_url;
-            }
-        }
-
-        const options = {
-            method: "POST",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify(notification),
-        };
-
-        return await fetch("https://onesignal.com/api/v1/notifications", options);
-    }
 }
