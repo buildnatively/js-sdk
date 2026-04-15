@@ -336,6 +336,10 @@ export class Natively {
         globalContext?.natively.trigger(undefined, 35, undefined, "reset_webview");
     }
 
+     getBatteryInfo(callback: Function): void {
+        globalContext?.natively.trigger(undefined, 43, callback, "battery_info");
+    }
+
     hapticPattern(pattern: string, delay: number): void {
         globalContext?.natively.trigger(undefined, 22, undefined, "haptic_pattern", {
             pattern,

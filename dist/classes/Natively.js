@@ -282,6 +282,9 @@ export class Natively {
   reloadWebview() {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 35, undefined, "reset_webview");
   }
+  getBatteryInfo(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 43, callback, "battery_info");
+  }
   hapticPattern(pattern, delay) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 22, undefined, "haptic_pattern", {
       pattern,

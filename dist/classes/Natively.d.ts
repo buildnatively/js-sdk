@@ -57,6 +57,7 @@ export declare class Natively {
     disableWakelock(): void;
     hideTabBar(): void;
     reloadWebview(): void;
+    getBatteryInfo(callback: Function): void;
     hapticPattern(pattern: string, delay: number): void;
     openPDF(options: {
         url?: string;
