@@ -53,4 +53,7 @@ export class NativelyPurchases {
   showCustomerCenter(show_customer_center_callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 42, show_customer_center_callback, "purchases_show_customer_center", {});
   }
+  getOfferings(get_offerings_callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 44, get_offerings_callback, "purchases_get_offerings", {});
+  }
 }

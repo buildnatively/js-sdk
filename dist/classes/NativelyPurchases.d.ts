@@ -9,4 +9,5 @@ export declare class NativelyPurchases {
     purchasePackage(packageId: string, purchase_callback: Function, oldProductId?: string | null, prorationMode?: string | null): void;
     packagePrice(packageId: string, purchase_callback: Function): void;
     showCustomerCenter(show_customer_center_callback: Function): void;
+    getOfferings(get_offerings_callback: Function): void;
 }
