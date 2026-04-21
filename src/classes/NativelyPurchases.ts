@@ -91,6 +91,6 @@ export class NativelyPurchases {
 
 
     getOfferings(get_offerings_callback: Function): void {
-        globalContext?.natively.trigger(this.id, 43, get_offerings_callback, "purchases_get_offerings", {});
+        globalContext?.natively.trigger(this.id, 44, get_offerings_callback, "purchases_get_offerings", {});
     }
 }
