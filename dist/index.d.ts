@@ -25,6 +25,6 @@ export { NativelyKlaviyoNotifications } from './classes/NativelyKlaviyoNotificat
 export { NativelyCalendar } from "./classes/NativelyCalendar";
 export { useNatively } from './hooks/useNatively';
 export { generateID } from "./utils/generateID";
-import "./types";
-import "./inject";
-import "./events";
+import "./types.js";
+import "./inject.js";
+import "./events.js";

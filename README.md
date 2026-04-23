@@ -18,6 +18,12 @@ function nativelyOnLoad() {
 
 You can specify an SDK version by replacing version number 2.14.0. The latest version number can be found in this repo. Debug mode which enables native alerts with errors. It's can be very useful while you developing a website.
 
+### Flutter Web iframe mode
+
+When a website is embedded in Flutter Web as an iframe, the website page must load this SDK itself, for example from a CDN script tag or bundled application code. The outer Flutter Web app cannot inject `window.$agent` into a cross-origin iframe.
+
+The SDK supports both native WebView injection and Flutter Web iframe messaging. In native WebViews it calls `window.flutter_inappwebview.callHandler(...)`. When the SDK is running inside an iframe and that native handler is unavailable, it sends the same serialized trigger payload to the parent window with `postMessage`.
+
 ### Usage
 
 

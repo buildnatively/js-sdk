@@ -25,10 +25,84 @@ import {NativelyFirebaseNotifications} from "./classes/NativelyFirebaseNotificat
 import {NativelyKlaviyoNotifications} from './classes/NativelyKlaviyoNotifications';
 import {NativelyCalendar} from "./classes/NativelyCalendar";
 
+const HANDLER_NAME = "💙";
+
+const isIframe = (context: any): boolean => {
+    try {
+        return context.self !== context.top;
+    } catch {
+        return true;
+    }
+};
+
+const installAgent = (context: any): boolean => {
+    if (context.$agent?.__nativelyAgent) return true;
+
+    const runningInIframe = isIframe(context);
+    if (!runningInIframe) return false;
+
+    const agent = {
+        __nativelyAgent: true,
+        trigger(eventName: string, eventData?: any): void {
+            const serializedArgs = JSON.stringify({
+                trigger: {
+                    name: eventName,
+                    data: eventData,
+                },
+            });
+
+            if (typeof context.flutter_inappwebview?.callHandler === "function") {
+                context.flutter_inappwebview.callHandler(HANDLER_NAME, serializedArgs);
+                return;
+            }
+
+            if (runningInIframe && typeof context.parent?.postMessage === "function") {
+                context.parent.postMessage(
+                    {
+                        source: "natively-webview",
+                        handlerName: HANDLER_NAME,
+                        args: [serializedArgs],
+                    },
+                    "*",
+                );
+            }
+        },
+        response(): void {},
+        natively_logger(): void {
+            this.trigger("natively_logger");
+        },
+    };
+
+    context.$agent = agent;
+    context.natively = context.natively || agent;
+
+    if (runningInIframe && typeof context.addEventListener === "function") {
+        context.addEventListener("message", (event: MessageEvent) => {
+            const data = event.data || {};
+            if (data.source !== "natively-flutter" || data.type !== "evaluate") return;
+
+            if (typeof data.script === "string") {
+                context.eval(data.script);
+            }
+        });
+    }
+
+    return true;
+};
+
 
 // Assign natively to the global object
 if (globalContext) {
-    globalContext.natively = new Natively();
+    const agentInstalled = installAgent(globalContext);
+
+    if (!globalContext.natively || globalContext.natively.__nativelyAgent) {
+        globalContext.natively = new Natively();
+    }
+    globalContext.natively.injected = agentInstalled;
+    if (agentInstalled && !globalContext.natively.app_version) {
+        globalContext.natively.app_version = Number.MAX_SAFE_INTEGER;
+    }
+
     // All other classes must be global to make a possibility to create any number of their instances
     globalContext.NativelyAdmobBanner = NativelyAdmobBanner;
     globalContext.NativelyAdmobInterstitial = NativelyAdmobInterstitial;

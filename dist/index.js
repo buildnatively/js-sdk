@@ -32,6 +32,6 @@ export { useNatively } from './hooks/useNatively.js';
 export { generateID } from "./utils/generateID.js";
 
 // Global stuff
-import "./types";
-import "./inject";
-import "./events";
+import "./types.js";
+import "./inject.js";
+import "./events.js";

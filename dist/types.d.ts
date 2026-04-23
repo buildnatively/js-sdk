@@ -49,11 +49,17 @@ interface NativelyProps {
     NativelyStorage: NativelyStorage;
     NativelyFirebaseNotifications: NativelyFirebaseNotifications;
     NativelyKlaviyoNotifications: NativelyKlaviyoNotifications;
-    $agent: never;
+    $agent: NativelyAgent;
+}
+interface NativelyAgent {
+    __nativelyAgent: boolean;
+    trigger(eventName: string, eventData?: any): void;
+    response(): void;
+    natively_logger(): void;
 }
 declare global {
     const natively: Natively;
-    const $agent: never;
+    const $agent: NativelyAgent;
     interface Window extends NativelyProps {
     }
 }
