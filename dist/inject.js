@@ -33,21 +33,22 @@ var isIframe = context => {
   }
 };
 var installAgent = context => {
-  var _context$$agent;
-  if ((_context$$agent = context.$agent) !== null && _context$$agent !== void 0 && _context$$agent.__nativelyAgent) return true;
+  var _context$$agent, _context$flutter_inap;
+  if (typeof ((_context$$agent = context.$agent) === null || _context$$agent === void 0 ? void 0 : _context$$agent.trigger) === "function") return true;
   var runningInIframe = isIframe(context);
-  if (!runningInIframe) return false;
+  var hasNativeHandler = typeof ((_context$flutter_inap = context.flutter_inappwebview) === null || _context$flutter_inap === void 0 ? void 0 : _context$flutter_inap.callHandler) === "function";
+  if (!runningInIframe && !hasNativeHandler) return false;
   var agent = {
     __nativelyAgent: true,
     trigger(eventName, eventData) {
-      var _context$flutter_inap, _context$parent;
+      var _context$flutter_inap2, _context$parent;
       var serializedArgs = JSON.stringify({
         trigger: {
           name: eventName,
           data: eventData
         }
       });
-      if (typeof ((_context$flutter_inap = context.flutter_inappwebview) === null || _context$flutter_inap === void 0 ? void 0 : _context$flutter_inap.callHandler) === "function") {
+      if (typeof ((_context$flutter_inap2 = context.flutter_inappwebview) === null || _context$flutter_inap2 === void 0 ? void 0 : _context$flutter_inap2.callHandler) === "function") {
         context.flutter_inappwebview.callHandler(HANDLER_NAME, serializedArgs);
         return;
       }

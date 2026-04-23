@@ -36,10 +36,11 @@ const isIframe = (context: any): boolean => {
 };
 
 const installAgent = (context: any): boolean => {
-    if (context.$agent?.__nativelyAgent) return true;
+    if (typeof context.$agent?.trigger === "function") return true;
 
     const runningInIframe = isIframe(context);
-    if (!runningInIframe) return false;
+    const hasNativeHandler = typeof context.flutter_inappwebview?.callHandler === "function";
+    if (!runningInIframe && !hasNativeHandler) return false;
 
     const agent = {
         __nativelyAgent: true,
