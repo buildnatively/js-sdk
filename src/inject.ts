@@ -26,6 +26,7 @@ import {NativelyKlaviyoNotifications} from './classes/NativelyKlaviyoNotificatio
 import {NativelyCalendar} from "./classes/NativelyCalendar";
 
 const HANDLER_NAME = "💙";
+const WEB_NAVIGATION_PROGRESS_EVENT = "web_navigation_progress";
 
 const isIframe = (context: any): boolean => {
     try {
@@ -91,6 +92,125 @@ const installAgent = (context: any): boolean => {
     return true;
 };
 
+const installNavigationProgressTracking = (context: any): void => {
+    if (context.__nativelyNavigationProgressInstalled) return;
+    context.__nativelyNavigationProgressInstalled = true;
+
+    let completionTimer: ReturnType<typeof setTimeout> | null = null;
+    let maxTimer: ReturnType<typeof setTimeout> | null = null;
+    let observer: MutationObserver | null = null;
+
+    const emit = (phase: "start" | "done", reason: string): void => {
+        context.natively?.trigger(undefined, 0, undefined, WEB_NAVIGATION_PROGRESS_EVENT, {
+            phase,
+            reason,
+            href: context.location?.href,
+        });
+    };
+
+    const cancelTimers = (): void => {
+        if (completionTimer) {
+            clearTimeout(completionTimer);
+            completionTimer = null;
+        }
+        if (maxTimer) {
+            clearTimeout(maxTimer);
+            maxTimer = null;
+        }
+    };
+
+    const disconnectObserver = (): void => {
+        observer?.disconnect();
+        observer = null;
+    };
+
+    const finish = (reason: string): void => {
+        cancelTimers();
+        disconnectObserver();
+        emit("done", reason);
+    };
+
+    const scheduleSettle = (): void => {
+        if (completionTimer) {
+            clearTimeout(completionTimer);
+        }
+        completionTimer = setTimeout(() => finish("settled"), 250);
+    };
+
+    const observeDom = (): void => {
+        disconnectObserver();
+        const root = context.document?.documentElement;
+        if (!root || typeof context.MutationObserver !== "function") {
+            scheduleSettle();
+            return;
+        }
+
+        const mutationObserver = new context.MutationObserver(() => scheduleSettle());
+        mutationObserver.observe(root, {
+            subtree: true,
+            childList: true,
+            attributes: true,
+            characterData: true,
+        });
+        observer = mutationObserver;
+
+        scheduleSettle();
+    };
+
+    const start = (reason: string, maxDuration = 3000): void => {
+        cancelTimers();
+        emit("start", reason);
+        observeDom();
+        maxTimer = setTimeout(() => finish("timeout"), maxDuration);
+    };
+
+    const wrapHistoryMethod = (methodName: "pushState" | "replaceState"): void => {
+        const original = context.history?.[methodName];
+        if (typeof original !== "function") return;
+
+        context.history[methodName] = function (...args: any[]) {
+            start(methodName, 1500);
+            return original.apply(this, args);
+        };
+    };
+
+    wrapHistoryMethod("pushState");
+    wrapHistoryMethod("replaceState");
+
+    context.addEventListener?.("popstate", () => start("popstate", 1500));
+    context.addEventListener?.("hashchange", () => start("hashchange", 800));
+
+    context.document?.addEventListener(
+        "click",
+        (event: MouseEvent) => {
+            const target = event.target as Element | null;
+            if (!target || typeof target.closest !== "function") return;
+
+            const anchor = target.closest("a[href]") as HTMLAnchorElement | null;
+            if (!anchor) return;
+
+            const href = anchor.getAttribute("href") || "";
+            if (!href || href.startsWith("#") || href.startsWith("javascript:")) return;
+
+            const targetAttr = anchor.getAttribute("target");
+            if (targetAttr && targetAttr !== "_self") return;
+
+            start("anchor", 4000);
+        },
+        true,
+    );
+
+    if (context.document?.readyState === "complete") {
+        finish("ready");
+    } else {
+        context.addEventListener?.(
+            "load",
+            () => finish("load"),
+            { once: true },
+        );
+    }
+};
+
 
 // Assign natively to the global object
 if (globalContext) {
@@ -102,6 +222,9 @@ if (globalContext) {
     globalContext.natively.injected = agentInstalled;
     if (agentInstalled && !globalContext.natively.app_version) {
         globalContext.natively.app_version = Number.MAX_SAFE_INTEGER;
+    }
+    if (agentInstalled) {
+        installNavigationProgressTracking(globalContext);
     }
 
     // All other classes must be global to make a possibility to create any number of their instances

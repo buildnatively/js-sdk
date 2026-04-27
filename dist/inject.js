@@ -25,6 +25,7 @@ import { NativelyFirebaseNotifications } from "./classes/NativelyFirebaseNotific
 import { NativelyKlaviyoNotifications } from './classes/NativelyKlaviyoNotifications.js';
 import { NativelyCalendar } from "./classes/NativelyCalendar.js";
 var HANDLER_NAME = "💙";
+var WEB_NAVIGATION_PROGRESS_EVENT = "web_navigation_progress";
 var isIframe = context => {
   try {
     return context.self !== context.top;
@@ -78,6 +79,108 @@ var installAgent = context => {
   }
   return true;
 };
+var installNavigationProgressTracking = context => {
+  var _context$addEventList, _context$addEventList2, _context$document2, _context$document3;
+  if (context.__nativelyNavigationProgressInstalled) return;
+  context.__nativelyNavigationProgressInstalled = true;
+  var completionTimer = null;
+  var maxTimer = null;
+  var observer = null;
+  var emit = (phase, reason) => {
+    var _context$natively, _context$location;
+    (_context$natively = context.natively) === null || _context$natively === void 0 || _context$natively.trigger(undefined, 0, undefined, WEB_NAVIGATION_PROGRESS_EVENT, {
+      phase,
+      reason,
+      href: (_context$location = context.location) === null || _context$location === void 0 ? void 0 : _context$location.href
+    });
+  };
+  var cancelTimers = () => {
+    if (completionTimer) {
+      clearTimeout(completionTimer);
+      completionTimer = null;
+    }
+    if (maxTimer) {
+      clearTimeout(maxTimer);
+      maxTimer = null;
+    }
+  };
+  var disconnectObserver = () => {
+    var _observer;
+    (_observer = observer) === null || _observer === void 0 || _observer.disconnect();
+    observer = null;
+  };
+  var finish = reason => {
+    cancelTimers();
+    disconnectObserver();
+    emit("done", reason);
+  };
+  var scheduleSettle = () => {
+    if (completionTimer) {
+      clearTimeout(completionTimer);
+    }
+    completionTimer = setTimeout(() => finish("settled"), 250);
+  };
+  var observeDom = () => {
+    var _context$document;
+    disconnectObserver();
+    var root = (_context$document = context.document) === null || _context$document === void 0 ? void 0 : _context$document.documentElement;
+    if (!root || typeof context.MutationObserver !== "function") {
+      scheduleSettle();
+      return;
+    }
+    var mutationObserver = new context.MutationObserver(() => scheduleSettle());
+    mutationObserver.observe(root, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      characterData: true
+    });
+    observer = mutationObserver;
+    scheduleSettle();
+  };
+  var start = function start(reason) {
+    var maxDuration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3000;
+    cancelTimers();
+    emit("start", reason);
+    observeDom();
+    maxTimer = setTimeout(() => finish("timeout"), maxDuration);
+  };
+  var wrapHistoryMethod = methodName => {
+    var _context$history;
+    var original = (_context$history = context.history) === null || _context$history === void 0 ? void 0 : _context$history[methodName];
+    if (typeof original !== "function") return;
+    context.history[methodName] = function () {
+      start(methodName, 1500);
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+      return original.apply(this, args);
+    };
+  };
+  wrapHistoryMethod("pushState");
+  wrapHistoryMethod("replaceState");
+  (_context$addEventList = context.addEventListener) === null || _context$addEventList === void 0 || _context$addEventList.call(context, "popstate", () => start("popstate", 1500));
+  (_context$addEventList2 = context.addEventListener) === null || _context$addEventList2 === void 0 || _context$addEventList2.call(context, "hashchange", () => start("hashchange", 800));
+  (_context$document2 = context.document) === null || _context$document2 === void 0 || _context$document2.addEventListener("click", event => {
+    var target = event.target;
+    if (!target || typeof target.closest !== "function") return;
+    var anchor = target.closest("a[href]");
+    if (!anchor) return;
+    var href = anchor.getAttribute("href") || "";
+    if (!href || href.startsWith("#") || href.startsWith("javascript:")) return;
+    var targetAttr = anchor.getAttribute("target");
+    if (targetAttr && targetAttr !== "_self") return;
+    start("anchor", 4000);
+  }, true);
+  if (((_context$document3 = context.document) === null || _context$document3 === void 0 ? void 0 : _context$document3.readyState) === "complete") {
+    finish("ready");
+  } else {
+    var _context$addEventList3;
+    (_context$addEventList3 = context.addEventListener) === null || _context$addEventList3 === void 0 || _context$addEventList3.call(context, "load", () => finish("load"), {
+      once: true
+    });
+  }
+};
 
 // Assign natively to the global object
 if (globalContext) {
@@ -88,6 +191,9 @@ if (globalContext) {
   globalContext.natively.injected = agentInstalled;
   if (agentInstalled && !globalContext.natively.app_version) {
     globalContext.natively.app_version = Number.MAX_SAFE_INTEGER;
+  }
+  if (agentInstalled) {
+    installNavigationProgressTracking(globalContext);
   }
 
   // All other classes must be global to make a possibility to create any number of their instances
