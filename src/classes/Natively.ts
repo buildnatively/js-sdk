@@ -1,9 +1,11 @@
 import globalContext from "../utils/globalThis";
+import {SDK_VERSION} from "../sdkVersion";
 
 export class Natively {
     isDebug: boolean = false;
     min_app_version: number = 0;
     app_version: number = 0;
+    sdkVersion: string = SDK_VERSION;
     injected: boolean = false;
     observers: Function[] = [];
     onNativeError?: Function | null = null;

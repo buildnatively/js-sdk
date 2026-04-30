@@ -2,6 +2,7 @@ export declare class Natively {
     isDebug: boolean;
     min_app_version: number;
     app_version: number;
+    sdkVersion: string;
     injected: boolean;
     observers: Function[];
     onNativeError?: Function | null;

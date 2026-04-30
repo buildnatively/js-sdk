@@ -24,9 +24,11 @@ import {NativelyStorage} from "./classes/NativelyStorage";
 import {NativelyFirebaseNotifications} from "./classes/NativelyFirebaseNotifications";
 import {NativelyKlaviyoNotifications} from './classes/NativelyKlaviyoNotifications';
 import {NativelyCalendar} from "./classes/NativelyCalendar";
+import {SDK_VERSION} from "./sdkVersion";
 
 const HANDLER_NAME = "💙";
 const WEB_NAVIGATION_PROGRESS_EVENT = "web_navigation_progress";
+const WEB_SDK_VERSION_EVENT = "web_sdk_version";
 
 const isIframe = (context: any): boolean => {
     try {
@@ -223,7 +225,15 @@ if (globalContext) {
     if (agentInstalled && !globalContext.natively.app_version) {
         globalContext.natively.app_version = Number.MAX_SAFE_INTEGER;
     }
+    globalContext.natively.sdkVersion = SDK_VERSION;
     if (agentInstalled) {
+        globalContext.natively.trigger(
+            undefined,
+            0,
+            undefined,
+            WEB_SDK_VERSION_EVENT,
+            { version: SDK_VERSION },
+        );
         installNavigationProgressTracking(globalContext);
     }
 
