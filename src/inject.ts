@@ -101,10 +101,22 @@ const installNavigationProgressTracking = (context: any): void => {
     let completionTimer: ReturnType<typeof setTimeout> | null = null;
     let maxTimer: ReturnType<typeof setTimeout> | null = null;
     let observer: MutationObserver | null = null;
+    let didReportSdkVersion = false;
 
     const emit = (phase: "start" | "done", reason: string): void => {
         context.natively?.trigger(undefined, 0, undefined, WEB_NAVIGATION_PROGRESS_EVENT, {
             phase,
+            reason,
+            href: context.location?.href,
+        });
+    };
+
+    const emitSdkVersion = (reason: string): void => {
+        if (didReportSdkVersion) return;
+        didReportSdkVersion = true;
+
+        context.natively?.trigger(undefined, 0, undefined, WEB_SDK_VERSION_EVENT, {
+            version: SDK_VERSION,
             reason,
             href: context.location?.href,
         });
@@ -129,6 +141,7 @@ const installNavigationProgressTracking = (context: any): void => {
     const finish = (reason: string): void => {
         cancelTimers();
         disconnectObserver();
+        emitSdkVersion(reason);
         emit("done", reason);
     };
 
@@ -227,13 +240,6 @@ if (globalContext) {
     }
     globalContext.natively.sdkVersion = SDK_VERSION;
     if (agentInstalled) {
-        globalContext.natively.trigger(
-            undefined,
-            0,
-            undefined,
-            WEB_SDK_VERSION_EVENT,
-            { version: SDK_VERSION },
-        );
         installNavigationProgressTracking(globalContext);
     }
 

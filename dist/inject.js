@@ -88,12 +88,23 @@ var installNavigationProgressTracking = context => {
   var completionTimer = null;
   var maxTimer = null;
   var observer = null;
+  var didReportSdkVersion = false;
   var emit = (phase, reason) => {
     var _context$natively, _context$location;
     (_context$natively = context.natively) === null || _context$natively === void 0 || _context$natively.trigger(undefined, 0, undefined, WEB_NAVIGATION_PROGRESS_EVENT, {
       phase,
       reason,
       href: (_context$location = context.location) === null || _context$location === void 0 ? void 0 : _context$location.href
+    });
+  };
+  var emitSdkVersion = reason => {
+    var _context$natively2, _context$location2;
+    if (didReportSdkVersion) return;
+    didReportSdkVersion = true;
+    (_context$natively2 = context.natively) === null || _context$natively2 === void 0 || _context$natively2.trigger(undefined, 0, undefined, WEB_SDK_VERSION_EVENT, {
+      version: SDK_VERSION,
+      reason,
+      href: (_context$location2 = context.location) === null || _context$location2 === void 0 ? void 0 : _context$location2.href
     });
   };
   var cancelTimers = () => {
@@ -114,6 +125,7 @@ var installNavigationProgressTracking = context => {
   var finish = reason => {
     cancelTimers();
     disconnectObserver();
+    emitSdkVersion(reason);
     emit("done", reason);
   };
   var scheduleSettle = () => {
@@ -196,9 +208,6 @@ if (globalContext) {
   }
   globalContext.natively.sdkVersion = SDK_VERSION;
   if (agentInstalled) {
-    globalContext.natively.trigger(undefined, 0, undefined, WEB_SDK_VERSION_EVENT, {
-      version: SDK_VERSION
-    });
     installNavigationProgressTracking(globalContext);
   }
 
