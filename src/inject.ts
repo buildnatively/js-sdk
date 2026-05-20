@@ -24,6 +24,7 @@ import {NativelyStorage} from "./classes/NativelyStorage";
 import {NativelyFirebaseNotifications} from "./classes/NativelyFirebaseNotifications";
 import {NativelyKlaviyoNotifications} from './classes/NativelyKlaviyoNotifications';
 import {NativelyCalendar} from "./classes/NativelyCalendar";
+import {NativelyLiveUpdates} from "./classes/NativelyLiveUpdates";
 import {SDK_VERSION} from "./sdkVersion";
 
 const HANDLER_NAME = "💙";
@@ -268,4 +269,5 @@ if (globalContext) {
     globalContext.NativelyCalendar = NativelyCalendar;
     globalContext.NativelyFirebaseNotifications = NativelyFirebaseNotifications;
     globalContext.NativelyKlaviyoNotifications = NativelyKlaviyoNotifications;
+    globalContext.NativelyLiveUpdates = NativelyLiveUpdates;
 }

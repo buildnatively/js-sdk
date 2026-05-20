@@ -24,6 +24,7 @@ import { NativelyStorage } from "./classes/NativelyStorage.js";
 import { NativelyFirebaseNotifications } from "./classes/NativelyFirebaseNotifications.js";
 import { NativelyKlaviyoNotifications } from './classes/NativelyKlaviyoNotifications.js';
 import { NativelyCalendar } from "./classes/NativelyCalendar.js";
+import { NativelyLiveUpdates } from "./classes/NativelyLiveUpdates.js";
 import { SDK_VERSION } from "./sdkVersion.js";
 var HANDLER_NAME = "💙";
 var WEB_NAVIGATION_PROGRESS_EVENT = "web_navigation_progress";
@@ -236,4 +237,5 @@ if (globalContext) {
   globalContext.NativelyCalendar = NativelyCalendar;
   globalContext.NativelyFirebaseNotifications = NativelyFirebaseNotifications;
   globalContext.NativelyKlaviyoNotifications = NativelyKlaviyoNotifications;
+  globalContext.NativelyLiveUpdates = NativelyLiveUpdates;
 }

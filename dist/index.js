@@ -24,6 +24,7 @@ export { NativelyNFCService } from "./classes/NativelyNFCService.js";
 export { NativelyFirebaseNotifications } from './classes/NativelyFirebaseNotifications.js';
 export { NativelyKlaviyoNotifications } from './classes/NativelyKlaviyoNotifications.js';
 export { NativelyCalendar } from "./classes/NativelyCalendar.js";
+export { NativelyLiveUpdates } from "./classes/NativelyLiveUpdates.js";
 
 // Hooks
 export { useNatively } from './hooks/useNatively.js';

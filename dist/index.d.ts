@@ -23,6 +23,7 @@ export { NativelyNFCService } from "./classes/NativelyNFCService";
 export { NativelyFirebaseNotifications } from './classes/NativelyFirebaseNotifications';
 export { NativelyKlaviyoNotifications } from './classes/NativelyKlaviyoNotifications';
 export { NativelyCalendar } from "./classes/NativelyCalendar";
+export { NativelyLiveUpdates } from "./classes/NativelyLiveUpdates";
 export { useNatively } from './hooks/useNatively';
 export { generateID } from "./utils/generateID";
 import "./types.js";
