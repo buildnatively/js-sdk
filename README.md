@@ -56,7 +56,7 @@ quickActions.setActions(
             title: 'Docs',
             subtitle: 'Open docs',
             url: 'https://example.com/docs',
-            isEnabled: true,
+            is_enabled: true,
         },
     ],
     (resp) => {
@@ -98,11 +98,10 @@ Action fields:
 - `url: string` is required.
 - `title?: string` is optional. Native defaults it to `type` if omitted.
 - `subtitle?: string` is optional.
-- `isEnabled?: boolean` is optional. This is normalized to `is_enabled` before sending.
-- `is_enabled?: boolean` is also accepted if you prefer snake_case.
+- `is_enabled?: boolean` is optional.
 - `icon?: string` is optional.
-- `iosIcon?: string` or `ios_icon?: string` is optional.
-- `androidIcon?: string` or `android_icon?: string` is optional.
+- `ios_icon?: string` is optional.
+- `android_icon?: string` is optional.
 
 Example payload sent by the SDK:
 

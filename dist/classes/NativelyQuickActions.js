@@ -26,20 +26,17 @@ export class NativelyQuickActions {
     if (typeof action.subtitle !== "undefined") {
       normalizedAction.subtitle = action.subtitle;
     }
-    var isEnabled = typeof action.isEnabled !== "undefined" ? action.isEnabled : action.is_enabled;
-    if (typeof isEnabled !== "undefined") {
-      normalizedAction.is_enabled = isEnabled;
+    if (typeof action.is_enabled !== "undefined") {
+      normalizedAction.is_enabled = action.is_enabled;
     }
     if (typeof action.icon !== "undefined") {
       normalizedAction.icon = action.icon;
     }
-    var iosIcon = typeof action.iosIcon !== "undefined" ? action.iosIcon : action.ios_icon;
-    if (typeof iosIcon !== "undefined") {
-      normalizedAction.ios_icon = iosIcon;
+    if (typeof action.ios_icon !== "undefined") {
+      normalizedAction.ios_icon = action.ios_icon;
     }
-    var androidIcon = typeof action.androidIcon !== "undefined" ? action.androidIcon : action.android_icon;
-    if (typeof androidIcon !== "undefined") {
-      normalizedAction.android_icon = androidIcon;
+    if (typeof action.android_icon !== "undefined") {
+      normalizedAction.android_icon = action.android_icon;
     }
     return normalizedAction;
   }

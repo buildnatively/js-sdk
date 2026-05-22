@@ -3,12 +3,9 @@ export interface NativelyQuickActionPayload {
     url: string;
     title?: string;
     subtitle?: string;
-    isEnabled?: boolean;
     is_enabled?: boolean;
     icon?: string;
-    iosIcon?: string;
     ios_icon?: string;
-    androidIcon?: string;
     android_icon?: string;
 }
 export interface NativelyQuickActionState {
