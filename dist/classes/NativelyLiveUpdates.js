@@ -8,15 +8,15 @@ export class NativelyLiveUpdates {
     _defineProperty(this, "id", generateID());
   }
   requestPermission(callback) {
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, callback, "live_update_permission", {});
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 45, callback, "live_update_permission", {});
   }
   start(payload, callback) {
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, callback, "live_update_setup", payload);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 45, callback, "live_update_setup", payload);
   }
   update(payload, callback) {
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, callback, "live_update_update", payload);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 45, callback, "live_update_update", payload);
   }
   end(payload, callback) {
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, callback, "live_update_end", payload);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 45, callback, "live_update_end", payload);
   }
 }

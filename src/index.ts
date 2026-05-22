@@ -25,6 +25,7 @@ export {NativelyFirebaseNotifications} from './classes/NativelyFirebaseNotificat
 export {NativelyKlaviyoNotifications} from './classes/NativelyKlaviyoNotifications';
 export {NativelyCalendar} from "./classes/NativelyCalendar";
 export {NativelyLiveUpdates} from "./classes/NativelyLiveUpdates";
+export {NativelyQuickActions} from "./classes/NativelyQuickActions";
 
 // Hooks
 export {useNatively} from './hooks/useNatively';
