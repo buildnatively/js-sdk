@@ -220,10 +220,16 @@ export class Natively {
     }
 
     analyticsSetUserId(data: { id: string }): void {
-        const params: { id: string } = {
-            id: data.id,
+        const params: { user_id: string } = {
+            user_id: data.id,
         };
-        globalContext?.natively.trigger(undefined, 37, undefined, "analytics_set_user_id", params);
+        globalContext?.natively.trigger(
+            undefined,
+            37,
+            undefined,
+            "analytics_set_customer_user_id",
+            params,
+        );
     }
 
     analyticsSetUserProperty(data: { key: string; value: string }): void {
@@ -236,6 +242,45 @@ export class Natively {
             37,
             undefined,
             "analytics_set_user_property",
+            params,
+        );
+    }
+
+    analyticsSetCustomerUserId(data: { user_id: string }): void {
+        const params: { user_id: string } = {
+            user_id: data.user_id,
+        };
+        globalContext?.natively.trigger(
+            undefined,
+            37,
+            undefined,
+            "analytics_set_customer_user_id",
+            params,
+        );
+    }
+
+    analyticsSetCustomerIdAndLogSession(data: { user_id: string }): void {
+        const params: { user_id: string } = {
+            user_id: data.user_id,
+        };
+        globalContext?.natively.trigger(
+            undefined,
+            37,
+            undefined,
+            "analytics_set_customer_id_and_log_session",
+            params,
+        );
+    }
+
+    analyticsWaitForCustomerUserId(data: { wait: boolean }): void {
+        const params: { wait: boolean } = {
+            wait: data.wait,
+        };
+        globalContext?.natively.trigger(
+            undefined,
+            37,
+            undefined,
+            "analytics_wait_for_customer_user_id",
             params,
         );
     }
