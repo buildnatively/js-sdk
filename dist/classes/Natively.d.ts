@@ -37,6 +37,15 @@ export declare class Natively {
         key: string;
         value: string;
     }): void;
+    analyticsSetCustomerUserId(data: {
+        user_id: string;
+    }): void;
+    analyticsSetCustomerIdAndLogSession(data: {
+        user_id: string;
+    }): void;
+    analyticsWaitForCustomerUserId(data: {
+        wait: boolean;
+    }): void;
     requestAppReview(): void;
     attShowPopup(callback: Function): void;
     attGetStatus(callback: Function): void;

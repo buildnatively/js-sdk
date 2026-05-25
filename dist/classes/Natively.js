@@ -191,9 +191,9 @@ export class Natively {
   }
   analyticsSetUserId(data) {
     var params = {
-      id: data.id
+      user_id: data.id
     };
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 37, undefined, "analytics_set_user_id", params);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 37, undefined, "analytics_set_customer_user_id", params);
   }
   analyticsSetUserProperty(data) {
     var params = {
@@ -201,6 +201,24 @@ export class Natively {
       value: data.value
     };
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 37, undefined, "analytics_set_user_property", params);
+  }
+  analyticsSetCustomerUserId(data) {
+    var params = {
+      user_id: data.user_id
+    };
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 37, undefined, "analytics_set_customer_user_id", params);
+  }
+  analyticsSetCustomerIdAndLogSession(data) {
+    var params = {
+      user_id: data.user_id
+    };
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 37, undefined, "analytics_set_customer_id_and_log_session", params);
+  }
+  analyticsWaitForCustomerUserId(data) {
+    var params = {
+      wait: data.wait
+    };
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 37, undefined, "analytics_wait_for_customer_user_id", params);
   }
   requestAppReview() {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 0, undefined, "request_review");
