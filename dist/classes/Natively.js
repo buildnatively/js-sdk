@@ -71,16 +71,16 @@ export class Natively {
         fullMethodName = method + "_response";
       }
       if (globalContext) {
-        globalContext[fullMethodName] = function (resp, err) {
+        globalContext[fullMethodName] = function (resp, meta) {
           globalContext === null || globalContext === void 0 || globalContext.$agent.response();
-          if (err.message && isTestVersion) {
-            alert("[ERROR] Error message: ".concat(err.message));
+          if (meta !== null && meta !== void 0 && meta.message && isTestVersion) {
+            alert("[ERROR] Error message: ".concat(meta.message));
             return;
           }
           if (isTestVersion) {
             console.log("[DEBUG] Callback method: ".concat(fullMethodName, ", body: ").concat(JSON.stringify(resp), ", respId: ").concat(respId));
           }
-          callback(resp);
+          callback(resp, meta);
         };
       }
       if (body) {

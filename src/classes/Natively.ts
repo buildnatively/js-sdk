@@ -81,10 +81,13 @@ export class Natively {
                 fullMethodName = method + "_response";
             }
             if (globalContext) {
-                globalContext[fullMethodName] = function (resp: any, err: { message: string }) {
+                globalContext[fullMethodName] = function (
+                    resp: any,
+                    meta: { message?: string } | undefined,
+                ) {
                     globalContext?.$agent.response();
-                    if (err.message && isTestVersion) {
-                        alert(`[ERROR] Error message: ${err.message}`);
+                    if (meta?.message && isTestVersion) {
+                        alert(`[ERROR] Error message: ${meta.message}`);
                         return;
                     }
                     if (isTestVersion) {
@@ -94,7 +97,7 @@ export class Natively {
                             )}, respId: ${respId}`,
                         );
                     }
-                    callback(resp);
+                    callback(resp, meta);
                 };
             }
             if (body) {

@@ -4,6 +4,15 @@ export {NativelyAppleSignInService} from "./classes/NativelyAppleSignInService";
 export {NativelyClipboard} from "./classes/NativelyClipboard";
 export {NativelyInfo} from "./classes/NativelyInfo";
 export {NativelyNotifications} from "./classes/NativelyNotifications";
+export type {
+    NativelyCallback,
+    NativelyLiveUpdateLifecycleResponse,
+    NativelyLiveUpdatePayload,
+    NativelyLiveUpdatePermissionResponse,
+    NativelyLiveUpdatePoint,
+    NativelyLiveUpdateSegment,
+    NativelyLiveUpdateTemplate,
+} from "./classes/NativelyNotifications";
 export {NativelyGeolocation} from "./classes/NativelyGeolocation";
 export {NativelyLocation} from "./classes/NativelyLocation";
 export {NativelyMessage} from "./classes/NativelyMessage";

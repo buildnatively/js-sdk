@@ -27,4 +27,19 @@ export class NativelyNotifications {
   removeExternalId(callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, callback, "onesignal_removeexternalid");
   }
+  requestLiveUpdatePermission(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, callback, "live_update_permission");
+  }
+  setupLiveUpdate(data, callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, callback, "live_update_setup", data);
+  }
+  startLiveUpdate(data, callback) {
+    this.setupLiveUpdate(data, callback);
+  }
+  updateLiveUpdate(data, callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, callback, "live_update_update", data);
+  }
+  endLiveUpdate(data, callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, callback, "live_update_end", data);
+  }
 }
