@@ -155,10 +155,11 @@ export class Natively {
       url: file_url
     });
   }
-  openExternalURL(url, external) {
+  openExternalURL(url, external, showControls) {
     var params = {
       url: typeof url === "undefined" ? "https://buildnatively.com" : url,
-      view: typeof external !== "undefined" && external ? "external" : "web"
+      view: typeof external !== "undefined" && external ? "external" : "web",
+      showControls: typeof showControls !== "undefined" && showControls
     };
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 18, undefined, "open_link", params);
   }
