@@ -25,7 +25,7 @@ export declare class Natively {
     shareText(text: string): void;
     shareTextAndImage(text: string, image_url: string): void;
     shareFile(file_url: string): void;
-    openExternalURL(url?: string, external?: boolean): void;
+    openExternalURL(url?: string, external?: boolean, showControls?: boolean): void;
     openExternalApp(url: string): void;
     showAppToast(type: string, text?: string): void;
     showAppBanner(type: string, title?: string, description?: string): void;
