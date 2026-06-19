@@ -261,6 +261,11 @@ export class Natively {
       toggle
     });
   }
+  setAppSafeAreaTop(toggle) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 22, undefined, "app_safearea_top", {
+      toggle
+    });
+  }
   setAppOrientation(orientation) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 3, undefined, "app_orientation", {
       orientation

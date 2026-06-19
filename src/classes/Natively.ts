@@ -329,6 +329,10 @@ export class Natively {
         globalContext?.natively.trigger(undefined, 1, undefined, "app_pull", { toggle });
     }
 
+    setAppSafeAreaTop(toggle: boolean): void {
+        globalContext?.natively.trigger(undefined, 22, undefined, "app_safearea_top", { toggle });
+    }
+
     setAppOrientation(orientation: string): void {
         globalContext?.natively.trigger(undefined, 3, undefined, "app_orientation", { orientation });
     }

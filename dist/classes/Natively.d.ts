@@ -56,6 +56,7 @@ export declare class Natively {
     setAppProgressColor(color: string): void;
     setAppSwipeNavigation(toggle: boolean): void;
     setAppPullToRefresh(toggle: boolean): void;
+    setAppSafeAreaTop(toggle: boolean): void;
     setAppOrientation(orientation: string): void;
     setAppStatusBarStyle(style: string): void;
     hideLoadingScreen(): void;
