@@ -27,6 +27,16 @@ type AudioQueueAddOptions = AudioMetadata & {
     headers?: Record<string, string>;
 };
 
+type AudioSampleMode = "duck" | "stop" | "mix";
+
+type AudioSampleOptions = {
+    headers?: Record<string, string>;
+    start_position?: number;
+    sample_duration?: number;
+    volume?: number;
+    speed?: number;
+};
+
 export class NativelyAudioPlayer {
     private readonly id: string = generateID();
 
@@ -60,6 +70,32 @@ export class NativelyAudioPlayer {
         if (options?.speed != null) params.speed = options.speed;
 
         globalContext?.natively.trigger(this.id, 39, play_callback, "audio_play", params);
+    }
+
+    playSample(
+        url: string,
+        mode: AudioSampleMode,
+        play_sample_callback?: Function,
+        options?: AudioSampleOptions,
+    ): void {
+        const params: Record<string, any> = {
+            url,
+            mode,
+        };
+
+        if (options?.headers !== undefined) params.headers = options.headers;
+        if (options?.start_position != null) params.start_position = options.start_position;
+        if (options?.sample_duration != null) params.sample_duration = options.sample_duration;
+        if (options?.volume != null) params.volume = options.volume;
+        if (options?.speed != null) params.speed = options.speed;
+
+        globalContext?.natively.trigger(
+            this.id,
+            39,
+            play_sample_callback,
+            "audio_play_sample",
+            params,
+        );
     }
 
     pause(pause_callback?: Function): void {

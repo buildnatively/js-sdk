@@ -37,6 +37,18 @@ export class NativelyAudioPlayer {
     if ((options === null || options === void 0 ? void 0 : options.speed) != null) params.speed = options.speed;
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 39, play_callback, "audio_play", params);
   }
+  playSample(url, mode, play_sample_callback, options) {
+    var params = {
+      url,
+      mode
+    };
+    if ((options === null || options === void 0 ? void 0 : options.headers) !== undefined) params.headers = options.headers;
+    if ((options === null || options === void 0 ? void 0 : options.start_position) != null) params.start_position = options.start_position;
+    if ((options === null || options === void 0 ? void 0 : options.sample_duration) != null) params.sample_duration = options.sample_duration;
+    if ((options === null || options === void 0 ? void 0 : options.volume) != null) params.volume = options.volume;
+    if ((options === null || options === void 0 ? void 0 : options.speed) != null) params.speed = options.speed;
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 39, play_sample_callback, "audio_play_sample", params);
+  }
   pause(pause_callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 39, pause_callback, "audio_pause", {});
   }

@@ -21,10 +21,19 @@ type AudioQueueAddOptions = AudioMetadata & {
     is_stream?: boolean;
     headers?: Record<string, string>;
 };
+type AudioSampleMode = "duck" | "stop" | "mix";
+type AudioSampleOptions = {
+    headers?: Record<string, string>;
+    start_position?: number;
+    sample_duration?: number;
+    volume?: number;
+    speed?: number;
+};
 export declare class NativelyAudioPlayer {
     private readonly id;
     private buildMetadata;
     play(source: string, options?: AudioPlayOptions, play_callback?: Function): void;
+    playSample(url: string, mode: AudioSampleMode, play_sample_callback?: Function, options?: AudioSampleOptions): void;
     pause(pause_callback?: Function): void;
     stop(stop_callback?: Function): void;
     seek(position: number, seek_callback?: Function): void;
