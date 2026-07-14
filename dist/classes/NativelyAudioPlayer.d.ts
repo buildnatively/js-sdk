@@ -8,7 +8,11 @@ type AudioMetadata = {
     duration?: number;
     extras?: Record<string, any>;
 };
-type AudioPlayOptions = AudioMetadata & {
+type AudioAVAudioSessionCategoryOptionsInput = number | string | Array<number | string>;
+type AudioIOSSessionOptions = {
+    avAudioSessionCategoryOptions?: AudioAVAudioSessionCategoryOptionsInput;
+};
+type AudioPlayOptions = AudioMetadata & AudioIOSSessionOptions & {
     is_stream?: boolean;
     headers?: Record<string, string>;
     autoplay?: boolean;
@@ -16,7 +20,7 @@ type AudioPlayOptions = AudioMetadata & {
     volume?: number;
     speed?: number;
 };
-type AudioQueueAddOptions = AudioMetadata & {
+type AudioQueueAddOptions = AudioMetadata & AudioIOSSessionOptions & {
     play_now?: boolean;
     is_stream?: boolean;
     headers?: Record<string, string>;
@@ -28,7 +32,7 @@ type AudioSampleOptions = {
     sample_duration?: number;
     volume?: number;
     speed?: number;
-};
+} & AudioIOSSessionOptions;
 export declare class NativelyAudioPlayer {
     private readonly id;
     private buildMetadata;

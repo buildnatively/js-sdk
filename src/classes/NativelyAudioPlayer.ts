@@ -12,7 +12,16 @@ type AudioMetadata = {
     extras?: Record<string, any>;
 };
 
-type AudioPlayOptions = AudioMetadata & {
+type AudioAVAudioSessionCategoryOptionsInput =
+    | number
+    | string
+    | Array<number | string>;
+
+type AudioIOSSessionOptions = {
+    avAudioSessionCategoryOptions?: AudioAVAudioSessionCategoryOptionsInput;
+};
+
+type AudioPlayOptions = AudioMetadata & AudioIOSSessionOptions & {
     is_stream?: boolean;
     headers?: Record<string, string>;
     autoplay?: boolean;
@@ -21,7 +30,7 @@ type AudioPlayOptions = AudioMetadata & {
     speed?: number;
 };
 
-type AudioQueueAddOptions = AudioMetadata & {
+type AudioQueueAddOptions = AudioMetadata & AudioIOSSessionOptions & {
     play_now?: boolean;
     is_stream?: boolean;
     headers?: Record<string, string>;
@@ -35,7 +44,7 @@ type AudioSampleOptions = {
     sample_duration?: number;
     volume?: number;
     speed?: number;
-};
+} & AudioIOSSessionOptions;
 
 export class NativelyAudioPlayer {
     private readonly id: string = generateID();
@@ -68,6 +77,9 @@ export class NativelyAudioPlayer {
         if (options?.start_position != null) params.start_position = options.start_position;
         if (options?.volume != null) params.volume = options.volume;
         if (options?.speed != null) params.speed = options.speed;
+        if (options?.avAudioSessionCategoryOptions !== undefined) {
+            params.avAudioSessionCategoryOptions = options.avAudioSessionCategoryOptions;
+        }
 
         globalContext?.natively.trigger(this.id, 39, play_callback, "audio_play", params);
     }
@@ -88,6 +100,9 @@ export class NativelyAudioPlayer {
         if (options?.sample_duration != null) params.sample_duration = options.sample_duration;
         if (options?.volume != null) params.volume = options.volume;
         if (options?.speed != null) params.speed = options.speed;
+        if (options?.avAudioSessionCategoryOptions !== undefined) {
+            params.avAudioSessionCategoryOptions = options.avAudioSessionCategoryOptions;
+        }
 
         globalContext?.natively.trigger(
             this.id,
@@ -125,6 +140,9 @@ export class NativelyAudioPlayer {
         };
 
         if (options?.headers !== undefined) params.headers = options.headers;
+        if (options?.avAudioSessionCategoryOptions !== undefined) {
+            params.avAudioSessionCategoryOptions = options.avAudioSessionCategoryOptions;
+        }
 
         globalContext?.natively.trigger(
             this.id,

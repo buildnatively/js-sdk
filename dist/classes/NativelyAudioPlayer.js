@@ -35,6 +35,9 @@ export class NativelyAudioPlayer {
     if ((options === null || options === void 0 ? void 0 : options.start_position) != null) params.start_position = options.start_position;
     if ((options === null || options === void 0 ? void 0 : options.volume) != null) params.volume = options.volume;
     if ((options === null || options === void 0 ? void 0 : options.speed) != null) params.speed = options.speed;
+    if ((options === null || options === void 0 ? void 0 : options.avAudioSessionCategoryOptions) !== undefined) {
+      params.avAudioSessionCategoryOptions = options.avAudioSessionCategoryOptions;
+    }
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 39, play_callback, "audio_play", params);
   }
   playSample(url, mode, play_sample_callback, options) {
@@ -47,6 +50,9 @@ export class NativelyAudioPlayer {
     if ((options === null || options === void 0 ? void 0 : options.sample_duration) != null) params.sample_duration = options.sample_duration;
     if ((options === null || options === void 0 ? void 0 : options.volume) != null) params.volume = options.volume;
     if ((options === null || options === void 0 ? void 0 : options.speed) != null) params.speed = options.speed;
+    if ((options === null || options === void 0 ? void 0 : options.avAudioSessionCategoryOptions) !== undefined) {
+      params.avAudioSessionCategoryOptions = options.avAudioSessionCategoryOptions;
+    }
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 39, play_sample_callback, "audio_play_sample", params);
   }
   pause(pause_callback) {
@@ -68,6 +74,9 @@ export class NativelyAudioPlayer {
       is_stream: (_options$is_stream2 = options === null || options === void 0 ? void 0 : options.is_stream) !== null && _options$is_stream2 !== void 0 ? _options$is_stream2 : false
     }, this.buildMetadata(options));
     if ((options === null || options === void 0 ? void 0 : options.headers) !== undefined) params.headers = options.headers;
+    if ((options === null || options === void 0 ? void 0 : options.avAudioSessionCategoryOptions) !== undefined) {
+      params.avAudioSessionCategoryOptions = options.avAudioSessionCategoryOptions;
+    }
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 39, queue_add_callback, "audio_queue_add", params);
   }
   queueGet(queue_get_callback) {
