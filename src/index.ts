@@ -24,6 +24,10 @@ export {NativelyHealth} from "./classes/NativelyHealth";
 export {NativelyScanner} from "./classes/NativelyScanner";
 export {NativelyPurchases} from "./classes/NativelyPurchases";
 export {NativelyContacts} from "./classes/NativelyContacts";
+export type {
+  ContactAddress,
+  ContactAddressLabel,
+} from "./classes/NativelyContacts";
 export {NativelyMediaPicker} from "./classes/NativelyMediaPicker";
 export {NativelyAudioRecorder} from "./classes/NativelyAudioRecorder";
 export {NativelyAudioPlayer} from "./classes/NativelyAudioPlayer";
