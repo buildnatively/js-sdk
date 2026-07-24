@@ -10,12 +10,13 @@ export class NativelyContacts {
   getAllContacts(contacts_all_callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, contacts_all_callback, "contacts_all", {});
   }
-  createContact(firstName, lastName, email, phone, contacts_save_callback) {
+  createContact(firstName, lastName, email, phone, addresses, contacts_save_callback) {
     var params = {
       firstName,
       lastName: lastName !== null && lastName !== void 0 ? lastName : "",
       email: email !== null && email !== void 0 ? email : "",
-      phone: phone !== null && phone !== void 0 ? phone : ""
+      phone: phone !== null && phone !== void 0 ? phone : "",
+      addresses: addresses !== null && addresses !== void 0 ? addresses : []
     };
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, contacts_save_callback, "contacts_save", params);
   }
