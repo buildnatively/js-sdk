@@ -71,17 +71,37 @@ export class NativelyPurchases {
         );
     }
 
-    purchasePackage(packageId: string, purchase_callback: Function, oldProductId?: string | null, prorationMode?: string | null ): void {
-        globalContext?.natively.trigger(this.id, 3, purchase_callback, "purchases_package", {
-            packageId,
-            oldProductId: oldProductId ?? null,
-            prorationMode: prorationMode ?? null,
-        });
+    purchasePackage(
+        packageId: string,
+        purchase_callback: Function,
+        oldProductId?: string | null,
+        prorationMode?: string | null,
+        offeringId?: string | null,
+        subscriptionOptionId?: string | null,
+    ): void {
+        globalContext?.natively.trigger(
+            this.id,
+            3,
+            purchase_callback,
+            "purchases_package",
+            {
+                packageId,
+                oldProductId: oldProductId ?? null,
+                prorationMode: prorationMode ?? null,
+                offeringId: offeringId ?? null,
+                subscriptionOptionId: subscriptionOptionId ?? null,
+            },
+        );
     }
 
-    packagePrice(packageId: string, purchase_callback: Function): void {
+    packagePrice(
+        packageId: string,
+        purchase_callback: Function,
+        offeringId?: string | null,
+    ): void {
         globalContext?.natively.trigger(this.id, 8, purchase_callback, "purchases_price", {
             packageId,
+            offeringId: offeringId ?? null,
         });
     }
     

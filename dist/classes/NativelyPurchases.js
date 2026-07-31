@@ -38,16 +38,19 @@ export class NativelyPurchases {
     };
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 38, show_paywall_if_needed_callback, "purchases_show_paywall_if_needed", params);
   }
-  purchasePackage(packageId, purchase_callback, oldProductId, prorationMode) {
+  purchasePackage(packageId, purchase_callback, oldProductId, prorationMode, offeringId, subscriptionOptionId) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, purchase_callback, "purchases_package", {
       packageId,
       oldProductId: oldProductId !== null && oldProductId !== void 0 ? oldProductId : null,
-      prorationMode: prorationMode !== null && prorationMode !== void 0 ? prorationMode : null
+      prorationMode: prorationMode !== null && prorationMode !== void 0 ? prorationMode : null,
+      offeringId: offeringId !== null && offeringId !== void 0 ? offeringId : null,
+      subscriptionOptionId: subscriptionOptionId !== null && subscriptionOptionId !== void 0 ? subscriptionOptionId : null
     });
   }
-  packagePrice(packageId, purchase_callback) {
+  packagePrice(packageId, purchase_callback, offeringId) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 8, purchase_callback, "purchases_price", {
-      packageId
+      packageId,
+      offeringId: offeringId !== null && offeringId !== void 0 ? offeringId : null
     });
   }
   showCustomerCenter(show_customer_center_callback) {
