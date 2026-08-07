@@ -85,6 +85,7 @@ export class Natively {
                     resp: any,
                     meta: { message?: string } | undefined,
                 ) {
+                    delete globalContext[fullMethodName];
                     globalContext?.$agent.response();
                     if (meta?.message && isTestVersion) {
                         alert(`[ERROR] Error message: ${meta.message}`);

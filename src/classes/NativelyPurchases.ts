@@ -113,4 +113,14 @@ export class NativelyPurchases {
     getOfferings(get_offerings_callback: Function): void {
         globalContext?.natively.trigger(this.id, 44, get_offerings_callback, "purchases_get_offerings", {});
     }
+
+    presentOfferCodeRedemptionSheet(callback: Function): void {
+        globalContext?.natively.trigger(
+            this.id,
+            45,
+            callback,
+            "purchases_present_code_redemption_sheet",
+            {},
+        );
+    }
 }

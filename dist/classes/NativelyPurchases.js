@@ -59,4 +59,7 @@ export class NativelyPurchases {
   getOfferings(get_offerings_callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 44, get_offerings_callback, "purchases_get_offerings", {});
   }
+  presentOfferCodeRedemptionSheet(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 45, callback, "purchases_present_code_redemption_sheet", {});
+  }
 }

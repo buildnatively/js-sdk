@@ -72,6 +72,7 @@ export class Natively {
       }
       if (globalContext) {
         globalContext[fullMethodName] = function (resp, meta) {
+          delete globalContext[fullMethodName];
           globalContext === null || globalContext === void 0 || globalContext.$agent.response();
           if (meta !== null && meta !== void 0 && meta.message && isTestVersion) {
             alert("[ERROR] Error message: ".concat(meta.message));

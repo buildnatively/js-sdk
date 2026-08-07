@@ -10,4 +10,5 @@ export declare class NativelyPurchases {
     packagePrice(packageId: string, purchase_callback: Function, offeringId?: string | null): void;
     showCustomerCenter(show_customer_center_callback: Function): void;
     getOfferings(get_offerings_callback: Function): void;
+    presentOfferCodeRedemptionSheet(callback: Function): void;
 }

@@ -19,7 +19,8 @@
     "build:types": "tsc --emitDeclarationOnly",
     "build:webpack": "webpack build",
     "build:module": "babel src --extensions \".ts\" --config-file ./babel.config.module.cjs --out-dir ./dist/",
-    "build:post": "node postbuild.cjs"
+    "build:post": "node postbuild.cjs",
+    "test": "npm run build && node --test tests/*.test.js"
   },
   "repository": {
     "type": "git",
