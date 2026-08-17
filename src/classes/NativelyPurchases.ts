@@ -57,7 +57,7 @@ export class NativelyPurchases {
 
         showPaywallIfNeeded(entitlementId: string, shouldShowCloseButton?: boolean, offeringId?: string, show_paywall_if_needed_callback?: Function): void {
             const params = {
-                offeringName: offeringId,
+                offeringId: offeringId,
                 entitlementId: entitlementId,
                 shouldShowCloseButton: shouldShowCloseButton,
             };
