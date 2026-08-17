@@ -32,7 +32,7 @@ export class NativelyPurchases {
   }
   showPaywallIfNeeded(entitlementId, shouldShowCloseButton, offeringId, show_paywall_if_needed_callback) {
     var params = {
-      offeringName: offeringId,
+      offeringId: offeringId,
       entitlementId: entitlementId,
       shouldShowCloseButton: shouldShowCloseButton
     };
