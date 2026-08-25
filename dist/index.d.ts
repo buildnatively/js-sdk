@@ -14,6 +14,7 @@ export { NativelyCamera } from "./classes/NativelyCamera";
 export { NativelyHealth } from "./classes/NativelyHealth";
 export { NativelyScanner } from "./classes/NativelyScanner";
 export { NativelyPurchases } from "./classes/NativelyPurchases";
+export type { PaywallCustomVariable, PaywallCustomVariables, } from "./classes/NativelyPurchases";
 export { NativelyContacts } from "./classes/NativelyContacts";
 export type { ContactAddress, ContactAddressLabel, } from "./classes/NativelyContacts";
 export { NativelyMediaPicker } from "./classes/NativelyMediaPicker";

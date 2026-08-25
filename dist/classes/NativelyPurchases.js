@@ -23,20 +23,26 @@ export class NativelyPurchases {
   restore(restore_callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 10, restore_callback, "purchases_restore", {});
   }
-  showPaywall(shouldShowCloseButton, offeringId, show_paywall_callback) {
+  showPaywall(shouldShowCloseButton, offeringId, customVariablesOrCallback, show_paywall_callback) {
+    var customVariables = typeof customVariablesOrCallback === "function" ? undefined : customVariablesOrCallback;
+    var callback = typeof customVariablesOrCallback === "function" ? customVariablesOrCallback : show_paywall_callback;
     var params = {
-      offeringId: offeringId,
-      shouldShowCloseButton: shouldShowCloseButton
+      offeringId,
+      shouldShowCloseButton,
+      customVariables
     };
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 38, show_paywall_callback, "purchases_show_paywall", params);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 38, callback, "purchases_show_paywall", params);
   }
-  showPaywallIfNeeded(entitlementId, shouldShowCloseButton, offeringId, show_paywall_if_needed_callback) {
+  showPaywallIfNeeded(entitlementId, shouldShowCloseButton, offeringId, customVariablesOrCallback, show_paywall_if_needed_callback) {
+    var customVariables = typeof customVariablesOrCallback === "function" ? undefined : customVariablesOrCallback;
+    var callback = typeof customVariablesOrCallback === "function" ? customVariablesOrCallback : show_paywall_if_needed_callback;
     var params = {
-      offeringId: offeringId,
-      entitlementId: entitlementId,
-      shouldShowCloseButton: shouldShowCloseButton
+      offeringId,
+      entitlementId,
+      shouldShowCloseButton,
+      customVariables
     };
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 38, show_paywall_if_needed_callback, "purchases_show_paywall_if_needed", params);
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 38, callback, "purchases_show_paywall_if_needed", params);
   }
   purchasePackage(packageId, purchase_callback, oldProductId, prorationMode, offeringId, subscriptionOptionId) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 3, purchase_callback, "purchases_package", {

@@ -1,6 +1,9 @@
 import {generateID} from "../utils/generateID";
 import globalContext from "../utils/globalThis";
 
+export type PaywallCustomVariable = string | number | boolean;
+export type PaywallCustomVariables = Record<string, PaywallCustomVariable>;
+
 export class NativelyPurchases {
     private readonly id: string = generateID();
 
@@ -40,32 +43,82 @@ export class NativelyPurchases {
         );
     }
 
-    showPaywall(shouldShowCloseButton?: boolean, offeringId?: string, show_paywall_callback?: Function): void {
-            const params = {
-                offeringId: offeringId,
-                shouldShowCloseButton: shouldShowCloseButton,
-            };
+    showPaywall(
+        shouldShowCloseButton?: boolean,
+        offeringId?: string,
+        show_paywall_callback?: Function,
+    ): void;
+    showPaywall(
+        shouldShowCloseButton?: boolean,
+        offeringId?: string,
+        customVariables?: PaywallCustomVariables,
+        show_paywall_callback?: Function,
+    ): void;
+    
+    showPaywall(
+        shouldShowCloseButton?: boolean,
+        offeringId?: string,
+        customVariablesOrCallback?: PaywallCustomVariables | Function,
+        show_paywall_callback?: Function,
+    ): void {
+        const customVariables = typeof customVariablesOrCallback === "function"
+            ? undefined
+            : customVariablesOrCallback;
+        const callback = typeof customVariablesOrCallback === "function"
+            ? customVariablesOrCallback
+            : show_paywall_callback;
+        const params = {
+            offeringId,
+            shouldShowCloseButton,
+            customVariables,
+        };
 
-            globalContext?.natively.trigger(
+        globalContext?.natively.trigger(
             this.id,
             38,
-            show_paywall_callback,
+            callback,
             "purchases_show_paywall",
-            params
+            params,
         );
     }
 
-        showPaywallIfNeeded(entitlementId: string, shouldShowCloseButton?: boolean, offeringId?: string, show_paywall_if_needed_callback?: Function): void {
-            const params = {
-                offeringId: offeringId,
-                entitlementId: entitlementId,
-                shouldShowCloseButton: shouldShowCloseButton,
-            };
+    showPaywallIfNeeded(
+        entitlementId: string,
+        shouldShowCloseButton?: boolean,
+        offeringId?: string,
+        show_paywall_if_needed_callback?: Function,
+    ): void;
+    showPaywallIfNeeded(
+        entitlementId: string,
+        shouldShowCloseButton?: boolean,
+        offeringId?: string,
+        customVariables?: PaywallCustomVariables,
+        show_paywall_if_needed_callback?: Function,
+    ): void;
+    showPaywallIfNeeded(
+        entitlementId: string,
+        shouldShowCloseButton?: boolean,
+        offeringId?: string,
+        customVariablesOrCallback?: PaywallCustomVariables | Function,
+        show_paywall_if_needed_callback?: Function,
+    ): void {
+        const customVariables = typeof customVariablesOrCallback === "function"
+            ? undefined
+            : customVariablesOrCallback;
+        const callback = typeof customVariablesOrCallback === "function"
+            ? customVariablesOrCallback
+            : show_paywall_if_needed_callback;
+        const params = {
+            offeringId,
+            entitlementId,
+            shouldShowCloseButton,
+            customVariables,
+        };
 
-            globalContext?.natively.trigger(
+        globalContext?.natively.trigger(
             this.id,
             38,
-            show_paywall_if_needed_callback,
+            callback,
             "purchases_show_paywall_if_needed",
             params,
         );
