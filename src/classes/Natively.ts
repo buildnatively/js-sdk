@@ -224,6 +224,10 @@ export class Natively {
         globalContext?.natively.trigger(undefined, 37, undefined, "analytics_log_event", params);
     }
 
+    analyticsGetAnonymousId(callback: Function): void {
+        globalContext?.natively.trigger(undefined, 45, callback, "analytics_get_anonymous_id");
+    }
+
     analyticsSetUserId(data: { id: string }): void {
         const params: { user_id: string } = {
             user_id: data.id,

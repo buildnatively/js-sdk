@@ -30,6 +30,7 @@ export declare class Natively {
     showAppToast(type: string, text?: string): void;
     showAppBanner(type: string, title?: string, description?: string): void;
     analyticsTrackEvent(name: string, data?: Map<string, any>): void;
+    analyticsGetAnonymousId(callback: Function): void;
     analyticsSetUserId(data: {
         id: string;
     }): void;
