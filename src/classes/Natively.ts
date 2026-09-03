@@ -306,6 +306,23 @@ export class Natively {
         globalContext?.natively.trigger(undefined, 41, callback, "att_get_status");
     }
 
+    umpShowPopup(callback: Function): void {
+        globalContext?.natively.trigger(undefined, 46, callback, "ump_show_popup");
+    }
+
+    umpGetStatus(callback: Function): void {
+        globalContext?.natively.trigger(undefined, 46, callback, "ump_get_status");
+    }
+
+    umpShowPrivacyOptions(callback: Function): void {
+        globalContext?.natively.trigger(
+            undefined,
+            46,
+            callback,
+            "ump_show_privacy_options",
+        );
+    }
+
     getInsets(callback: Function): void {
         globalContext?.natively.trigger(undefined, 36, callback, "get_insets");
     }

@@ -234,6 +234,15 @@ export class Natively {
   attGetStatus(callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 41, callback, "att_get_status");
   }
+  umpShowPopup(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 46, callback, "ump_show_popup");
+  }
+  umpGetStatus(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 46, callback, "ump_get_status");
+  }
+  umpShowPrivacyOptions(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 46, callback, "ump_show_privacy_options");
+  }
   getInsets(callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 36, callback, "get_insets");
   }

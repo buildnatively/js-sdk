@@ -50,6 +50,9 @@ export declare class Natively {
     requestAppReview(): void;
     attShowPopup(callback: Function): void;
     attGetStatus(callback: Function): void;
+    umpShowPopup(callback: Function): void;
+    umpGetStatus(callback: Function): void;
+    umpShowPrivacyOptions(callback: Function): void;
     getInsets(callback: Function): void;
     getLocales(callback: Function): void;
     setLocale(locale: string, callback?: Function): void;
