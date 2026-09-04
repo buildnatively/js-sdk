@@ -20,6 +20,7 @@ export { NativelyAudioRecorder } from "./classes/NativelyAudioRecorder.js";
 export { NativelyAudioPlayer } from "./classes/NativelyAudioPlayer.js";
 export { NativelyAdmobBanner } from "./classes/NativelyAdmobBanner.js";
 export { NativelyAdmobInterstitial } from "./classes/NativelyAdmobInterstitial.js";
+export { NativelyAdmobRewarded } from "./classes/NativelyAdmobRewarded.js";
 export { NativelyNFCService } from "./classes/NativelyNFCService.js";
 export { NativelyFirebaseNotifications } from './classes/NativelyFirebaseNotifications.js';
 export { NativelyKlaviyoNotifications } from './classes/NativelyKlaviyoNotifications.js';

@@ -22,6 +22,8 @@ export { NativelyAudioRecorder } from "./classes/NativelyAudioRecorder";
 export { NativelyAudioPlayer } from "./classes/NativelyAudioPlayer";
 export { NativelyAdmobBanner } from "./classes/NativelyAdmobBanner";
 export { NativelyAdmobInterstitial } from "./classes/NativelyAdmobInterstitial";
+export { NativelyAdmobRewarded } from "./classes/NativelyAdmobRewarded";
+export type { RewardedAdSsvOptions } from "./classes/NativelyAdmobRewarded";
 export { NativelyNFCService } from "./classes/NativelyNFCService";
 export { NativelyFirebaseNotifications } from './classes/NativelyFirebaseNotifications';
 export { NativelyKlaviyoNotifications } from './classes/NativelyKlaviyoNotifications';

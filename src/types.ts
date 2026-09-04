@@ -1,6 +1,7 @@
 import {Natively} from "./classes/Natively";
 import {NativelyAdmobBanner} from "./classes/NativelyAdmobBanner";
 import {NativelyAdmobInterstitial} from "./classes/NativelyAdmobInterstitial";
+import {NativelyAdmobRewarded} from "./classes/NativelyAdmobRewarded";
 import {NativelyAppleSignInService} from "./classes/NativelyAppleSignInService";
 import {NativelyAudioRecorder} from "./classes/NativelyAudioRecorder";
 import {NativelyAudioPlayer} from "./classes/NativelyAudioPlayer";
@@ -28,6 +29,7 @@ interface NativelyProps {
     natively: Natively;
     NativelyAdmobBanner: NativelyAdmobBanner;
     NativelyAdmobInterstitial: NativelyAdmobInterstitial;
+    NativelyAdmobRewarded: NativelyAdmobRewarded;
     NativelyAppleSignInService: NativelyAppleSignInService;
     NativelyAudioRecorder: NativelyAudioRecorder;
     NativelyAudioPlayer: NativelyAudioPlayer;
