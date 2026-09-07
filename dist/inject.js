@@ -2,6 +2,7 @@ import globalContext from "./utils/globalThis.js";
 import { Natively } from "./classes/Natively.js";
 import { NativelyAdmobBanner } from "./classes/NativelyAdmobBanner.js";
 import { NativelyAdmobInterstitial } from "./classes/NativelyAdmobInterstitial.js";
+import { NativelyAdmobRewarded } from "./classes/NativelyAdmobRewarded.js";
 import { NativelyAppleSignInService } from "./classes/NativelyAppleSignInService.js";
 import { NativelyAudioRecorder } from "./classes/NativelyAudioRecorder.js";
 import { NativelyAudioPlayer } from "./classes/NativelyAudioPlayer.js";
@@ -31,6 +32,7 @@ if (globalContext) {
   // All other classes must be global to make a possibility to create any number of their instances
   globalContext.NativelyAdmobBanner = NativelyAdmobBanner;
   globalContext.NativelyAdmobInterstitial = NativelyAdmobInterstitial;
+  globalContext.NativelyAdmobRewarded = NativelyAdmobRewarded;
   globalContext.NativelyAppleSignInService = NativelyAppleSignInService;
   globalContext.NativelyAudioRecorder = NativelyAudioRecorder;
   globalContext.NativelyAudioPlayer = NativelyAudioPlayer;

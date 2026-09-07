@@ -2,6 +2,7 @@ import globalContext from "./utils/globalThis";
 import {Natively} from "./classes/Natively";
 import {NativelyAdmobBanner} from "./classes/NativelyAdmobBanner";
 import {NativelyAdmobInterstitial} from "./classes/NativelyAdmobInterstitial";
+import {NativelyAdmobRewarded} from "./classes/NativelyAdmobRewarded";
 import {NativelyAppleSignInService} from "./classes/NativelyAppleSignInService";
 import {NativelyAudioRecorder} from "./classes/NativelyAudioRecorder";
 import {NativelyAudioPlayer} from "./classes/NativelyAudioPlayer";
@@ -32,6 +33,7 @@ if (globalContext) {
     // All other classes must be global to make a possibility to create any number of their instances
     globalContext.NativelyAdmobBanner = NativelyAdmobBanner;
     globalContext.NativelyAdmobInterstitial = NativelyAdmobInterstitial;
+    globalContext.NativelyAdmobRewarded = NativelyAdmobRewarded;
     globalContext.NativelyAppleSignInService = NativelyAppleSignInService;
     globalContext.NativelyAudioRecorder = NativelyAudioRecorder;
     globalContext.NativelyAudioPlayer = NativelyAudioPlayer;
