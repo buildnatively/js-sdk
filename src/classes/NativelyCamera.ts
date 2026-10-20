@@ -4,6 +4,15 @@ import globalContext from "../utils/globalThis";
 export class NativelyCamera {
     private readonly id: string = generateID();
 
+    requestPermission(callback: Function): void {
+        globalContext?.natively.trigger(
+            this.id,
+            2,
+            callback,
+            "camera_permission",
+        );
+    }
+
     showCamera(
         type?: string,
         quality?: string,
