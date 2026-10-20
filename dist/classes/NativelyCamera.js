@@ -7,6 +7,9 @@ export class NativelyCamera {
   constructor() {
     _defineProperty(this, "id", generateID());
   }
+  requestPermission(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 2, callback, "camera_permission");
+  }
   showCamera(type, quality, camera, open_camera_callback) {
     var params = {
       type: type !== null && type !== void 0 ? type : "photo",
