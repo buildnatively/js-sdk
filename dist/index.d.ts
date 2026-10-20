@@ -1,4 +1,5 @@
 export { Natively } from "./classes/Natively";
+export { NativelyQuickActions } from "./classes/NativelyQuickActions";
 export { NativelyAppleSignInService } from "./classes/NativelyAppleSignInService";
 export { NativelyClipboard } from "./classes/NativelyClipboard";
 export { NativelyInfo } from "./classes/NativelyInfo";
