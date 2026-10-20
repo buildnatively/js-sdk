@@ -1,5 +1,6 @@
 // Classes
 export { Natively } from "./classes/Natively.js";
+export { NativelyQuickActions } from "./classes/NativelyQuickActions.js";
 export { NativelyAppleSignInService } from "./classes/NativelyAppleSignInService.js";
 export { NativelyClipboard } from "./classes/NativelyClipboard.js";
 export { NativelyInfo } from "./classes/NativelyInfo.js";
