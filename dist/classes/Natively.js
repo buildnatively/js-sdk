@@ -191,8 +191,8 @@ export class Natively {
     }
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 37, undefined, "analytics_log_event", params);
   }
-  analyticsGetAnonymousId(callback) {
-    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 45, callback, "analytics_get_anonymous_id");
+  analyticsGetAnonymousUserId(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 45, callback, "analytics_get_anonymous_user_id");
   }
   analyticsSetUserId(data) {
     var params = {
