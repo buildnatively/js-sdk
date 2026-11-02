@@ -72,6 +72,26 @@ export interface NativelyLiveUpdatePermissionResponse {
 }
 export declare class NativelyNotifications {
     private readonly id;
+    addInAppMessageTrigger(key: string, value: string, callback: NativelyCallback<{
+        status: "SUCCESS" | "FAILED";
+        message?: string;
+    }>): void;
+    addInAppMessageTriggers(triggers: Record<string, string>, callback: NativelyCallback<{
+        status: "SUCCESS" | "FAILED";
+        message?: string;
+    }>): void;
+    removeInAppMessageTrigger(key: string, callback: NativelyCallback<{
+        status: "SUCCESS" | "FAILED";
+        message?: string;
+    }>): void;
+    removeInAppMessageTriggers(keys: string[], callback: NativelyCallback<{
+        status: "SUCCESS" | "FAILED";
+        message?: string;
+    }>): void;
+    clearInAppMessageTriggers(callback: NativelyCallback<{
+        status: "SUCCESS" | "FAILED";
+        message?: string;
+    }>): void;
     getOneSignalId(onesignal_playerid_callback: NativelyCallback): void;
     requestPermission(fallbackToSettings: boolean, push_register_callback: NativelyCallback): void;
     getPermissionStatus(push_permission_callback: NativelyCallback): void;

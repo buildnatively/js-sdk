@@ -7,6 +7,30 @@ export class NativelyNotifications {
   constructor() {
     _defineProperty(this, "id", generateID());
   }
+  addInAppMessageTrigger(key, value, callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 46, callback, "onesignal_iam_add_trigger", {
+      key,
+      value
+    });
+  }
+  addInAppMessageTriggers(triggers, callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 46, callback, "onesignal_iam_add_triggers", {
+      triggers
+    });
+  }
+  removeInAppMessageTrigger(key, callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 46, callback, "onesignal_iam_remove_trigger", {
+      key
+    });
+  }
+  removeInAppMessageTriggers(keys, callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 46, callback, "onesignal_iam_remove_triggers", {
+      keys
+    });
+  }
+  clearInAppMessageTriggers(callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 46, callback, "onesignal_iam_clear_triggers", {});
+  }
   getOneSignalId(onesignal_playerid_callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 0, onesignal_playerid_callback, "onesignal_playerid");
   }

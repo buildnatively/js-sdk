@@ -91,6 +91,26 @@ export interface NativelyLiveUpdatePermissionResponse {
 export class NativelyNotifications {
     private readonly id: string = generateID();
 
+    addInAppMessageTrigger(key: string, value: string, callback: NativelyCallback<{status: "SUCCESS" | "FAILED"; message?: string}>): void {
+        globalContext?.natively.trigger(this.id, 46, callback, "onesignal_iam_add_trigger", {key, value});
+    }
+
+    addInAppMessageTriggers(triggers: Record<string, string>, callback: NativelyCallback<{status: "SUCCESS" | "FAILED"; message?: string}>): void {
+        globalContext?.natively.trigger(this.id, 46, callback, "onesignal_iam_add_triggers", {triggers});
+    }
+
+    removeInAppMessageTrigger(key: string, callback: NativelyCallback<{status: "SUCCESS" | "FAILED"; message?: string}>): void {
+        globalContext?.natively.trigger(this.id, 46, callback, "onesignal_iam_remove_trigger", {key});
+    }
+
+    removeInAppMessageTriggers(keys: string[], callback: NativelyCallback<{status: "SUCCESS" | "FAILED"; message?: string}>): void {
+        globalContext?.natively.trigger(this.id, 46, callback, "onesignal_iam_remove_triggers", {keys});
+    }
+
+    clearInAppMessageTriggers(callback: NativelyCallback<{status: "SUCCESS" | "FAILED"; message?: string}>): void {
+        globalContext?.natively.trigger(this.id, 46, callback, "onesignal_iam_clear_triggers", {});
+    }
+
     getOneSignalId(onesignal_playerid_callback: NativelyCallback): void {
         globalContext?.natively.trigger(
             this.id,
