@@ -7,6 +7,11 @@ export class NativelyNotifications {
   constructor() {
     _defineProperty(this, "id", generateID());
   }
+  setConsentGiven(granted, callback) {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 47, callback, "onesignal_consent", {
+      granted
+    });
+  }
   addInAppMessageTrigger(key, value, callback) {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(this.id, 46, callback, "onesignal_iam_add_trigger", {
       key,

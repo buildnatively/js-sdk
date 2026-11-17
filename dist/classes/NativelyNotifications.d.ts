@@ -72,6 +72,10 @@ export interface NativelyLiveUpdatePermissionResponse {
 }
 export declare class NativelyNotifications {
     private readonly id;
+    setConsentGiven(granted: boolean, callback: NativelyCallback<{
+        status: "SUCCESS" | "FAILED";
+        granted?: boolean;
+    }>): void;
     addInAppMessageTrigger(key: string, value: string, callback: NativelyCallback<{
         status: "SUCCESS" | "FAILED";
         message?: string;

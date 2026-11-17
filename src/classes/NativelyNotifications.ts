@@ -91,6 +91,19 @@ export interface NativelyLiveUpdatePermissionResponse {
 export class NativelyNotifications {
     private readonly id: string = generateID();
 
+    setConsentGiven(
+        granted: boolean,
+        callback: NativelyCallback<{status: "SUCCESS" | "FAILED"; granted?: boolean}>,
+    ): void {
+        globalContext?.natively.trigger(
+            this.id,
+            47,
+            callback,
+            "onesignal_consent",
+            {granted},
+        );
+    }
+
     addInAppMessageTrigger(key: string, value: string, callback: NativelyCallback<{status: "SUCCESS" | "FAILED"; message?: string}>): void {
         globalContext?.natively.trigger(this.id, 46, callback, "onesignal_iam_add_trigger", {key, value});
     }
