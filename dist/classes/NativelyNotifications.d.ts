@@ -72,6 +72,24 @@ export interface NativelyLiveUpdatePermissionResponse {
 }
 export declare class NativelyNotifications {
     private readonly id;
+    /**
+     * Unsubscribes this device from OneSignal push without changing OS permission.
+     * SUCCESS acknowledges the SDK call; server sync and in-flight delivery may follow.
+     * Requires native SDK version 48 or later and an active OneSignal SDK.
+     */
+    disablePush(callback: NativelyCallback<{
+        status: "SUCCESS" | "FAILED";
+        message?: string;
+    }>): void;
+    /**
+     * Resubscribes this device to OneSignal push. May request OS permission.
+     * SUCCESS acknowledges the SDK call, not permission approval or server sync.
+     * Requires native SDK version 48 or later and an active OneSignal SDK.
+     */
+    enablePush(callback: NativelyCallback<{
+        status: "SUCCESS" | "FAILED";
+        message?: string;
+    }>): void;
     setConsentGiven(granted: boolean, callback: NativelyCallback<{
         status: "SUCCESS" | "FAILED";
         granted?: boolean;
