@@ -23,12 +23,28 @@ export class NativelyPurchases {
         globalContext?.natively.trigger(this.id, 3, logout_callback, "purchases_logout", {});
     }
 
+    /**
+     * @deprecated Use appUserId() instead.
+     * Kept as-is so existing integrations don't break. Despite the name, it returns
+     * RevenueCat's originalAppUserId, which stays the anonymous ID after login().
+     */
     customerId(customer_id_callback: Function): void {
         globalContext?.natively.trigger(
             this.id,
             3,
             customer_id_callback,
             "purchases_customerid",
+            {},
+        );
+    }
+
+    // Current RevenueCat App User ID (reflects login()); customerId() returns originalAppUserId.
+    appUserId(app_user_id_callback: Function): void {
+        globalContext?.natively.trigger(
+            this.id,
+            46,
+            app_user_id_callback,
+            "purchases_appuserid",
             {},
         );
     }

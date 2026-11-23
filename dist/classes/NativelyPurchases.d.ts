@@ -4,7 +4,13 @@ export declare class NativelyPurchases {
     private readonly id;
     login(login: string, customerEmail?: string, login_callback?: Function): void;
     logout(logout_callback: Function): void;
+    /**
+     * @deprecated Use appUserId() instead.
+     * Kept as-is so existing integrations don't break. Despite the name, it returns
+     * RevenueCat's originalAppUserId, which stays the anonymous ID after login().
+     */
     customerId(customer_id_callback: Function): void;
+    appUserId(app_user_id_callback: Function): void;
     restore(restore_callback: Function): void;
     showPaywall(shouldShowCloseButton?: boolean, offeringId?: string, show_paywall_callback?: Function): void;
     showPaywall(shouldShowCloseButton?: boolean, offeringId?: string, customVariables?: PaywallCustomVariables, show_paywall_callback?: Function): void;
