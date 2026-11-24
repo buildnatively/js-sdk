@@ -398,6 +398,14 @@ export class Natively {
         globalContext?.natively.trigger(undefined, 34, undefined, "wakelock_disable");
     }
 
+    enableScreenshotProtection(): void {
+        globalContext?.natively.trigger(undefined, 48, undefined, "screenshot_protection_enable");
+    }
+
+    disableScreenshotProtection(): void {
+        globalContext?.natively.trigger(undefined, 48, undefined, "screenshot_protection_disable");
+    }
+
     hideTabBar(): void {
         globalContext?.natively.trigger(
           undefined,

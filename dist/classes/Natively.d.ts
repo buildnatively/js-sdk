@@ -69,6 +69,8 @@ export declare class Natively {
     showTabBar(): void;
     enableWakelock(): void;
     disableWakelock(): void;
+    enableScreenshotProtection(): void;
+    disableScreenshotProtection(): void;
     hideTabBar(): void;
     reloadWebview(): void;
     getBatteryInfo(callback: Function): void;

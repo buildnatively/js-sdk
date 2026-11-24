@@ -313,6 +313,12 @@ export class Natively {
   disableWakelock() {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 34, undefined, "wakelock_disable");
   }
+  enableScreenshotProtection() {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 48, undefined, "screenshot_protection_enable");
+  }
+  disableScreenshotProtection() {
+    globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 48, undefined, "screenshot_protection_disable");
+  }
   hideTabBar() {
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 33, undefined, "hide_tab_bar");
   }
