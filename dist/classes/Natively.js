@@ -183,12 +183,16 @@ export class Natively {
     });
   }
   analyticsTrackEvent(name, data) {
-    var params = {
-      name
-    };
-    if (data) {
-      params.data = data;
+    if (typeof name !== "string" || name.trim().length === 0) {
+      throw new TypeError("analyticsTrackEvent: name must be a non-empty string.");
     }
+    if (data == null || Object.prototype.toString.call(data) !== "[object Object]") {
+      throw new TypeError("analyticsTrackEvent: data is required and must be an object. Use {} for events without parameters.");
+    }
+    var params = {
+      name,
+      data
+    };
     globalContext === null || globalContext === void 0 || globalContext.natively.trigger(undefined, 37, undefined, "analytics_log_event", params);
   }
   analyticsGetAnonymousUserId(callback) {

@@ -214,13 +214,17 @@ export class Natively {
         });
     }
 
-    analyticsTrackEvent(name: string, data?: Map<string, any>): void {
-        const params: { name: string; data?: Map<string, any> } = {
-            name,
-        };
-        if (data) {
-            params.data = data;
+    analyticsTrackEvent(name: string, data: Record<string, any>): void {
+        if (typeof name !== "string" || name.trim().length === 0) {
+            throw new TypeError("analyticsTrackEvent: name must be a non-empty string.");
         }
+        if (data == null || Object.prototype.toString.call(data) !== "[object Object]") {
+            throw new TypeError("analyticsTrackEvent: data is required and must be an object. Use {} for events without parameters.");
+        }
+        const params = {
+            name,
+            data,
+        };
         globalContext?.natively.trigger(undefined, 37, undefined, "analytics_log_event", params);
     }
 
